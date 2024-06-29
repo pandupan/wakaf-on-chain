@@ -23,18 +23,17 @@ const Facilities = () => {
           <h3 className="text-foreground font-bold text-sm">
             Pondok Pesantren Mahasiswa Al-Ihsan Tasikmalaya
           </h3>
-          <h1 className="text-secondary text-3xl lg:text-6xl font-bold">
-            Fasilitas Kami
+          <h1 className="text-secondary text-3xl sm:text-5xl xl:text-6xl font-bold">
+            Fasilitas Terbaik
           </h1>
         </div>
         <p className="text-center max-w-3xl place-self-center sm:text-base text-sm">
-          Selamat datang di galeri Pondok Pesantren Mahasiswa Al-Ihsan
-          Tasikmalaya. Pesantren kami berdiri di atas lahan seluas 1773m2 dengan
-          luas bangunan 1232m2, dan menyediakan berbagai fasilitas untuk
+          Pesantren kami berdiri di atas lahan seluas <b>1773m<sup>2</sup></b> dengan
+          luas bangunan <b>1232m<sup>2</sup></b>, dan menyediakan berbagai fasilitas untuk
           menunjang kegiatan para santri.
         </p>
-        <div className="w-full grid grid-cols-12 gap-4 mt-12">
-          <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden col-span-7 row-span-2">
+        <div className="w-full grid grid-cols-12 gap-2 sm:gap-4 mt-12">
+          <div className="relative w-full aspect-video sm:aspect-[4/3] rounded-lg overflow-hidden col-span-12 sm:col-span-7 sm:row-span-2">
             <Image
               src="/images/Gallery1.png"
               alt="Gallery image 1"
@@ -42,7 +41,7 @@ const Facilities = () => {
               className="object-cover"
             />
           </div>
-          <div className="relative w-full h-full col-span-5 rounded-lg overflow-hidden">
+          <div className="relative w-full aspect-video sm:aspect-auto h-full col-span-12 sm:col-span-5 rounded-lg overflow-hidden">
             <Image
               src="/images/Gallery2.png"
               alt="Gallery image 2"
@@ -50,7 +49,7 @@ const Facilities = () => {
               className="object-cover"
             />
           </div>
-          <div className="relative w-full h-full col-span-5 rounded-lg overflow-hidden">
+          <div className="relative w-full aspect-video sm:aspect-auto h-full col-span-12 sm:col-span-5 rounded-lg overflow-hidden">
             <Image
               src="/images/Gallery3.png"
               alt="Gallery image 3"
@@ -62,7 +61,7 @@ const Facilities = () => {
 
         <div className="mt-12 py-10">
           <div className="mb-8 space-y-3">
-            <h2 className="text-secondary text-3xl lg:text-6xl font-bold text-center">
+            <h2 className="text-secondary text-3xl sm:text-5xl xl:text-6xl font-bold text-center">
               Fasilitas Tersedia
             </h2>
             <p className="text-gray-500 max-w-3xl mx-auto text-center">

@@ -32,7 +32,7 @@ const AboutUs = () => {
             <h3 className="text-sm font-bold text-black">
               Pondok Pesantren Mahasiswa
             </h3>
-            <h1 className="text-3xl sm:text-6xl xl:text-6xl font-bold text-secondary">
+            <h1 className="text-3xl sm:text-5xl xl:text-6xl font-bold text-secondary">
               Al-Ihsan Tasikmalaya
             </h1>
           </div>

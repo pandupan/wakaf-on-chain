@@ -3,14 +3,14 @@ import React from "react";
 
 const WhatIsWakaf = () => {
   return (
-    <section id="penjelasan-wakaf" className="py-20 relative">
-      <div className="container">
+    <section id="what-is-wakaf" className="py-10 sm:py-20 relative">
+      <div className="container relative z-[1]">
         {/* Header */}
         <div className="text-center mb-12 max-w-5xl mx-auto">
-          <h1 className="text-secondary text-4xl md:text-6xl xl:text-7xl font-bold">
+          <h1 className="text-3xl sm:text-5xl xl:text-6xl font-bold text-secondary">
             Apa Itu Wakaf?
           </h1>
-          <p className="mt-4 text-lg text-gray-600 sm:mx-10">
+          <p className="mt-4 sm:text-lg text-gray-600 sm:mx-10">
             Wakaf adalah amal jariyah yang pahalanya terus mengalir tanpa henti.
             Melalui wakaf, Anda dapat memberikan manfaat yang berkelanjutan bagi
             umat dan lingkungan sekitar.
@@ -20,18 +20,18 @@ const WhatIsWakaf = () => {
         {/* Pengertian Wakaf */}
         <div className="relative flex flex-col-reverse lg:flex-row-reverse sm:gap-20 items-center justify-center">
           <div className="my-auto">
-            <h2 className="text-4xl font-semibold mb-4 text-secondary">
+            <h2 className="text-2xl sm:text-4xl font-semibold mb-2 sm:mb-4 mt-10 sm:mt-0 text-secondary">
               Q.S Ali Imran ayat 92
             </h2>
-            <div className="flex bg-white border-2 p-10 flex-col gap-6 sm:gap-4 z-[1]">
-              <p className="text-2xl text-right">
+            <div className="w-full flex border-2 p-4 sm:p-10 flex-col gap-6 sm:gap-4 z-[1]">
+              <p className="text-xl sm:text-2xl text-right">
                 لَنْ تَنَالُوا الْبِرَّ حَتّٰى تُنْفِقُوْا مِمَّا تُحِبُّوْنَ
                 ۗوَمَا تُنْفِقُوْا مِنْ شَيْءٍ فَاِنَّ اللّٰهَ بِهٖ عَلِيْمٌ
               </p>
-              <p className="text-gray-700 mb-6 text-sm xl:text-lg text-justify">
-                Kamu tidak akan memperoleh kebajikan, sebelum kamu
+              <p className="text-gray-700 mb-6 text-sm xl:text-lg text-justify italic">
+                "Kamu tidak akan memperoleh kebajikan, sebelum kamu
                 menginfakkan sebagian harta yang kamu cintai. Dan apapun yang
-                kamu infakkan, tentang hal itu sungguh, Allah Maha Mengetahui.
+                kamu infakkan, tentang hal itu sungguh, Allah Maha Mengetahui.""
               </p>
             </div>
           </div>

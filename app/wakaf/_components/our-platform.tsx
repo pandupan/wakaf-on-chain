@@ -8,16 +8,16 @@ import {
 
 const OurPlatform = () => {
   return (
-    <section id="about" className="relative">
-      <div className="relative flex container flex-col-reverse lg:flex-row justify-center items-center gap-20 pt-6 pb-24">
+    <section id="about" className="relative overflow-hidden mt-10 sm:mt-16">
+      <div className="relative flex container flex-col-reverse lg:flex-row justify-center items-center gap-10 sm:gap-20 pt-6 pb-16 sm:pb-24 z-[1]">
         <div>
-          <h1 className="text-secondary text-4xl md:text-6xl xl:text-6xl font-bold mb-4">
-            Website Kami
+          <h1 className="text-3xl sm:text-5xl xl:text-6xl font-bold text-secondary mb-4">
+            Keunggulan Kami
           </h1>
-          <div className="flex bg-white border-2 p-10 flex-col gap-6 sm:gap-4 z-[1]">
+          <div className="flex border-2 p-4 sm:p-10 flex-col sm:gap-4 z-[1]">
             <p className=" text-sm xl:text-lg text-justify">
               Website kami telah menggunakan teknologi blockchain untuk
-              memastikan pengelolaan wakaf yang <span className="text-[#18839a]">transparan dan akuntabel. </span>
+              memastikan pengelolaan wakaf yang <span className="text-secondary font-bold">transparan dan akuntabel. </span>
               Berikut adalah keunggulan yang kami tawarkan:
             </p>
 
@@ -66,7 +66,6 @@ const OurPlatform = () => {
             </div>
           </div>
         </div>
-
       </div>
       <div className="absolute -bottom-20 -left-12 z-0">
         <div className="relative aspect-square w-[608px] h-[656px]">
