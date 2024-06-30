@@ -5,7 +5,7 @@ import { Poppins } from 'next/font/google'
 const popinsPoppins = Poppins({ subsets: ['latin'], weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'] })
 
 export const metadata: Metadata = {
-  title: 'Wakaf On Chain | Ponpes Al-Ihsan Tasikmalaya',
+  title: 'Pondok Pesantren Mahasiswa Al-Ihsan Tasikmalaya',
   description: 'Memberikana layanan kemudahan dalam pendistribusikan wakaf secara transparan dan aman pada Pondok Pesantren Al-Ihsan Tasikmalya dengan melakukan difusi teknologi informasi berbasis blockchain. ',
 }
 

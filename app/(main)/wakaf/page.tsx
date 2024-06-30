@@ -5,6 +5,7 @@ import ContactUs from '@/components/contact-us'
 import CallToAction from './_components/call-to-action'
 import TopWakif from './_components/top-wakif'
 import Statistic from './_components/statistic'
+import HistoryLanding from './_components/history-landing'
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <WhatIsWakaf />
       <OurPlatform />
       <TopWakif />
+      <HistoryLanding/>
       <Statistic />
       <CallToAction />
       <ContactUs />
