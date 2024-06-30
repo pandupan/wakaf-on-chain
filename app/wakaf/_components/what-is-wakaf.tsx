@@ -29,9 +29,9 @@ const WhatIsWakaf = () => {
                 ۗوَمَا تُنْفِقُوْا مِنْ شَيْءٍ فَاِنَّ اللّٰهَ بِهٖ عَلِيْمٌ
               </p>
               <p className="text-gray-700 mb-6 text-sm xl:text-lg text-justify italic">
-                "Kamu tidak akan memperoleh kebajikan, sebelum kamu
+                &ldquo;Kamu tidak akan memperoleh kebajikan, sebelum kamu
                 menginfakkan sebagian harta yang kamu cintai. Dan apapun yang
-                kamu infakkan, tentang hal itu sungguh, Allah Maha Mengetahui.""
+                kamu infakkan, tentang hal itu sungguh, Allah Maha Mengetahui.&rdquo;
               </p>
             </div>
           </div>
