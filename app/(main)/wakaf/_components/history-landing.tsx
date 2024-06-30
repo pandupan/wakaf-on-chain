@@ -65,11 +65,14 @@ const HistoryLanding = () => {
   };
 
   return (
-    <div className="container mx-auto my-8 p-4">
+    <div className="container mx-auto my-8 p-4 flex flex-col justify-center ">
       <h1 className="text-3xl sm:text-5xl xl:text-6xl font-bold text-secondary text-center mb-8">
         Penyaluran Wakaf Terbaru
       </h1>
-      <div className="mb-8 flex flex-col md:flex-row md:justify-center md:space-x-4">
+      <p className="text-center max-w-4xl place-self-center sm:text-base text-sm py-6">
+          Memberikan gambaran penyaluran wakf dalam 30 hari terakhir serta transparansi dalam penyaluran dana dan anggaran wakaf di lingkungan Pondok Pesantren Mahasiswa Al-Ihsan tasikmalaya.
+      </p>
+      {/* <div className="mb-8 flex flex-col md:flex-row md:justify-center md:space-x-4">
         <div className="flex items-center mb-4 md:mb-0">
           <input
             type="text"
@@ -91,7 +94,7 @@ const HistoryLanding = () => {
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
       <div className="bg-white overflow-hidden">
         <table className="min-w-full bg-transparent table-auto border-separate border-spacing-y-2">
           <thead className="bg-gradient-to-r from-secondary to-blue-500 text-white">
@@ -103,7 +106,7 @@ const HistoryLanding = () => {
             </tr>
           </thead>
           <tbody className="text-gray-700">
-            {filteredDistribusi.map((disbursement, index) => (
+            {filteredDistribusi.slice(0, 30).map((disbursement, index) => (
               <tr
                 key={index}
                 className="transform transition duration-500 hover:scale-105 bg-gray-50 hover:bg-gray-100 rounded-lg"

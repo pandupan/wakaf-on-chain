@@ -167,7 +167,7 @@ const Statistic = () => {
           pembaharuan data secara realtime dan transparansi dalam pengelolaan wakaf. Setiap transaksi
           dan alokasi dana dapat dilacak, serta memberikan kepercayaan dan keamanan bagi
           para donatur dan penerima manfaat.
-        </p>
+        </p> 
 
         <div className="py-10">
           {/* <div className="flex justify-end mb-6">
