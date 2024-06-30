@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaCrown, FaMedal } from 'react-icons/fa';
 
 const wakifList = [
   { name: 'Ahmad Abdullah', date: '2024-06-01', amount: 1000000 },
@@ -21,28 +22,44 @@ const TopWakifGrid = () => {
       <h1 className="text-3xl sm:text-5xl xl:text-6xl font-bold text-secondary text-center mb-8">
         Top 10 Terbaru Wakif
       </h1>
-      <p className="md:text-center mb-8 xl:text-lg text-sm text-justify ">
+      <p className="md:text-center mb-8 xl:text-lg text-sm text-justify lg:mx-40">
         Ini dibuat untuk memberikan apresiasi kepada para wakif yang telah berkontribusi dalam periode terbaru. 
         Kami menghargai setiap sumbangan yang diberikan dan berharap dapat terus mendorong lebih banyak orang untuk berpartisipasi 
         dalam kegiatan wakaf yang berkelanjutan.
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-        {sortedWakifList.map((wakif, index) => (
-          <div 
-            key={index} 
-            className="relative bg-gradient-to-r from-blue-50 to-blue-100 shadow-md rounded-lg overflow-hidden transform transition duration-500 hover:scale-105 sm:aspect-square text-black"
-          >
-            <div className={`absolute top-0 left-0 p-2 rounded-br-lg xl:text-lg sm:text-base text-xs font-bold text-white 
-            ${index === 0 ? 'bg-[#ffd700]' : index === 1 ? 'bg-[#c0c0c0]' : index === 2 ? 'bg-[#cd7f32]' : 'bg-primary'}`}>
-              {`Top ${index + 1}`}
-            </div>
-            <div className="flex flex-col items-center justify-center h-full p-4">
-              <h3 className="text-2xl font-semibold sm:mb-2">{wakif.name}</h3>
-              <p className="absolute bottom-1 sm:bottom-2 right-2 text-sm text-gray-600">{wakif.date}</p>
-              <p className="text-gray-600">{`Jumlah Wakaf: Rp ${wakif.amount.toLocaleString()}`}</p>
-            </div>
-          </div>
-        ))}
+      <div className="bg-white overflow-hidden">
+        <table className="min-w-full bg-transparent table-auto border-separate border-spacing-y-2">
+          <thead className="bg-gradient-to-r from-secondary to-indigo-500 text-white">
+            <tr>
+              <th className="py-3 px-4 text-center text-sm sm:text-base">Top</th>
+              <th className="py-3 px-4 text-center text-sm sm:text-base">Nama</th>
+              <th className="py-3 px-4 text-center text-sm sm:text-base">Jumlah Wakaf</th>
+            </tr>
+          </thead>
+          <tbody className="text-gray-700">
+            {sortedWakifList.map((wakif, index) => (
+              <tr 
+                key={index} 
+                className={`transform transition duration-500 hover:scale-105 ${index === 0 ? "bg-yellow-100 hover:bg-yellow-200" : index === 1 ? "bg-gray-100 hover:bg-gray-200" : index === 2 ? "bg-orange-100 hover:bg-orange-200" : "bg-transparent hover:bg-gray-50"} rounded-lg`}
+              >
+                <td className="py-3 px-4 text-center sm:text-base text-sm">
+                  <div className="flex items-center justify-center">
+                    {index === 0 ? <FaCrown className="text-yellow-500 text-lg sm:text-2xl" /> : <FaMedal className={index === 1 ? "text-gray-400 text-lg sm:text-2xl" : index === 2 ? "text-orange-500 text-lg sm:text-2xl" : "text-gray-300 text-lg sm:text-2xl"} />}
+                    <span className={`text-lg font-bold ml-2 ${index === 0 ? "text-yellow-500" : index === 1 ? "text-gray-400" : index === 2 ? "text-orange-500" : ""}`}>
+                      {`${index + 1}`}
+                    </span>
+                  </div>
+                </td>
+                <td className="py-3 px-4 text-center sm:text-base text-sm">
+                  <div className="flex items-center justify-center space-x-2">
+                    <span>{wakif.name}</span>
+                  </div>
+                </td>
+                <td className="py-3 px-4 text-center sm:text-base text-sm">{`Rp ${wakif.amount.toLocaleString()}`}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

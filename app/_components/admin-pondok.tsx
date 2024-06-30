@@ -46,14 +46,14 @@ const PengurusPondok = () => {
               key={index}
               className="bg-gradient-to-r from-blue-50 to-blue-100 shadow-md rounded-lg overflow-hidden transform transition duration-500 hover:scale-105"
             >
-              <div className="relative w-full h-64">
-                <Image
+              <div className="relative w-full h-64 bg-blue-200">
+                {/* <Image
                   src={pengurus.imageSrc}
                   alt={`Foto ${pengurus.nama}`}
                   layout="fill"
                   objectFit="cover"
                   className="object-cover"
-                />
+                /> */}
               </div>
               <div className="p-6 text-center">
                 <h3 className="text-xl font-semibold text-gray-800">{pengurus.nama}</h3>
