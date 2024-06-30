@@ -3,8 +3,8 @@ import WhatIsWakaf from '@/app/(main)/wakaf/_components/what-is-wakaf'
 import OurPlatform from './_components/our-platform'
 import ContactUs from '@/components/contact-us'
 import CallToAction from './_components/call-to-action'
-import PengurusPondok from '../_components/admin-pondok'
 import TopWakif from './_components/top-wakif'
+import Statistic from './_components/statistic'
 
 export default function Home() {
   return (
@@ -13,6 +13,7 @@ export default function Home() {
       <WhatIsWakaf />
       <OurPlatform />
       <TopWakif />
+      <Statistic />
       <CallToAction />
       <ContactUs />
     </>
