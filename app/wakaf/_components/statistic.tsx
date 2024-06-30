@@ -159,7 +159,7 @@ const Statistic = () => {
       <div className="relative container flex flex-col py-8 overflow-hidden">
         <div className="text-center mt-10 pb-4">
           <h1 className="text-secondary text-3xl sm:text-5xl xl:text-6xl font-bold">
-            Statistik Realtime
+            Data Pengeluaran dan Pemasukan
           </h1>
         </div>
         <p className="text-center max-w-4xl place-self-center sm:text-base text-sm">
