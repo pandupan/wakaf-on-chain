@@ -31,18 +31,18 @@ const TopWakifGrid = () => {
         <table className="min-w-full bg-transparent table-auto border-separate border-spacing-y-2">
           <thead className="bg-gradient-to-r from-secondary to-indigo-500 text-white">
             <tr>
-              <th className="py-3 px-4 text-center text-sm sm:text-base">Top</th>
+              <th className="py-3 px-4 text-center text-sm sm:text-base rounded-l-lg">Top</th>
               <th className="py-3 px-4 text-center text-sm sm:text-base">Nama</th>
-              <th className="py-3 px-4 text-center text-sm sm:text-base">Jumlah Wakaf</th>
+              <th className="py-3 px-4 text-center text-sm sm:text-base rounded-r-lg">Jumlah Wakaf</th>
             </tr>
           </thead>
           <tbody className="text-gray-700">
             {sortedWakifList.map((wakif, index) => (
               <tr 
                 key={index} 
-                className={`transform transition duration-500 hover:scale-105 ${index === 0 ? "bg-yellow-100 hover:bg-yellow-200" : index === 1 ? "bg-gray-100 hover:bg-gray-200" : index === 2 ? "bg-orange-100 hover:bg-orange-200" : "bg-transparent hover:bg-gray-50"} rounded-lg`}
+                className={`transform transition duration-500 hover:scale-105 ${index === 0 ? "bg-yellow-100 hover:bg-yellow-200" : index === 1 ? "bg-gray-200 hover:bg-gray-300" : index === 2 ? "bg-orange-100 hover:bg-orange-200" : "bg-gray-50 hover:bg-gray-100"} rounded-lg`}
               >
-                <td className="py-3 px-4 text-center sm:text-base text-sm">
+                <td className="py-3 px-4 rounded-l-lg text-center sm:text-base text-sm">
                   <div className="flex items-center justify-center">
                     {index === 0 ? <FaCrown className="text-yellow-500 text-lg sm:text-2xl" /> : <FaMedal className={index === 1 ? "text-gray-400 text-lg sm:text-2xl" : index === 2 ? "text-orange-500 text-lg sm:text-2xl" : "text-gray-300 text-lg sm:text-2xl"} />}
                     <span className={`text-lg font-bold ml-2 ${index === 0 ? "text-yellow-500" : index === 1 ? "text-gray-400" : index === 2 ? "text-orange-500" : ""}`}>
@@ -55,7 +55,7 @@ const TopWakifGrid = () => {
                     <span>{wakif.name}</span>
                   </div>
                 </td>
-                <td className="py-3 px-4 text-center sm:text-base text-sm">{`Rp ${wakif.amount.toLocaleString()}`}</td>
+                <td className="py-3 px-4 rounded-r-lg text-center sm:text-base text-sm">{`Rp ${wakif.amount.toLocaleString()}`}</td>
               </tr>
             ))}
           </tbody>
