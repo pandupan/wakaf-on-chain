@@ -12,7 +12,7 @@ function Sidebar({ children }: IProps) {
   const [displaySidebar, setDisplaySidebar] = useState(false)
 
   return (
-    <div className="flex bg-gray-100">
+    <div className="flex bg-slate-100">
       <SidebarMain display={displaySidebar} />
       <div className="flex-auto px-4 py-2 min-h-screen lg:min-h-0">
         <Header

@@ -1,12 +1,18 @@
-import { AiOutlineHome } from 'react-icons/ai';
-import { TbMoneybag } from "react-icons/tb";
-import { LuTrophy, LuUser2 } from "react-icons/lu";
+import { AiOutlineHome } from 'react-icons/ai'
+import { TbMoneybag } from "react-icons/tb"
+import { LuTrophy, LuUser2 } from "react-icons/lu"
+import { LiaDonateSolid } from "react-icons/lia"
 
 export const sidebarNavItems = [
   {
     href: "/dashboard",
     icon: AiOutlineHome,
     text: "Beranda",
+  },
+  {
+    href: "/dashboard/berwakaf",
+    icon: LiaDonateSolid,
+    text: "Berwakaf",
   },
   {
     href: "/dashboard/history",

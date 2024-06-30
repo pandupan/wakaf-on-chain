@@ -29,7 +29,7 @@ function Header({ onClickSidebarMenu, sidebarDisplay }: IProps) {
             </button>
           </div>
           <div className="flex gap-2 items-center">
-            <span className="text-sm">Halo, <b>Aam</b>!</span>
+            <span className="text-sm">Halo, <b>User</b>!</span>
             <Avatar className="w-9 h-9">
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
