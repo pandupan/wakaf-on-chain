@@ -20,6 +20,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Image from "next/image";
 
 // Data Dummy
 const waqfData: any = {
@@ -152,7 +153,7 @@ const Statistic = () => {
   };
 
   return (
-    <div id="statistic">
+    <div id="statistic" className="relative">
       <div className="absolute -left-10 z-0">
       </div>
       <div className="relative container flex flex-col py-8 overflow-hidden">
@@ -169,7 +170,7 @@ const Statistic = () => {
         </p>
 
         <div className="py-10">
-          <div className="flex justify-end mb-6">
+          {/* <div className="flex justify-end mb-6">
             <DropdownMenu>
               <DropdownMenuTrigger className="px-4 py-2 mx-2 rounded border border-gray-700">
                 Pilih tahun untuk ditampilkan
@@ -184,7 +185,7 @@ const Statistic = () => {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
+          </div> */}
 
           <GridItem title={`Pemasukan dan Pengeluaran Wakaf (${year})`}>
             <ResponsiveContainer width="100%" height="100%">
@@ -229,6 +230,15 @@ const Statistic = () => {
               </LineChart>
             </ResponsiveContainer>
           </GridItem>
+        </div>
+      </div>
+      <div className="absolute -bottom-20 -left-12 -z-[1]">
+        <div className="relative aspect-square w-[608px] h-[656px]">
+          <Image
+            src="/images/bg-vector-3-2.png"
+            alt="bg-vector"
+            fill={true}
+          />
         </div>
       </div>
     </div>

@@ -67,15 +67,6 @@ const OurPlatform = () => {
           </div>
         </div>
       </div>
-      <div className="absolute -bottom-20 -left-12 z-0">
-        <div className="relative aspect-square w-[608px] h-[656px]">
-          <Image
-            src="/images/bg-vector-3-2.png"
-            alt="bg-vector"
-            fill={true}
-          />
-        </div>
-      </div>
     </section>
   );
 };
