@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { FaArrowRightLong } from "react-icons/fa6";
+import Image from "next/image";
 
 const Footer = () => {
 
@@ -26,7 +27,14 @@ const Footer = () => {
     <footer className="pt-10">
       <div className="container text-gray-600">
         <div className="space-y-6 sm:max-w-xl sm:mx-auto sm:text-center">
-          <img src="/images/logo.png" className="w-32 sm:mx-auto" />
+          <div className="relative w-32 aspect-square sm:mx-auto rounded-md overflow-hidden">
+            <Image
+              src="/logo.jpeg"
+              alt="logo"
+              className="object-cover"
+              fill={true}
+            />
+          </div>
           <p>
             Pondok Pesantren Al-Ihsan Tasikmalaya dengan fokus pada kajian kitab, tahfidz Quran, dan pengembangan softskill serta hardskill.
           </p>

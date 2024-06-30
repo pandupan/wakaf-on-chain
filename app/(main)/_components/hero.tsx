@@ -8,7 +8,7 @@ const HeroSectionHP = () => {
         <h1 className="text-gray-800 font-bold text-3xl sm:text-5xl xl:text-6xl">
           PP Mahasiswa
           <br />
-          <span className="text-indigo-600"><i>Al-Ihsan</i> Tasikmalaya</span>
+          <span className="text-secondary"><i>Al-Ihsan</i> Tasikmalaya</span>
         </h1>
         <p className="text-gray-500 max-w-xl leading-relaxed">
           Pondok Pesantren Al-Ihsan Tasikmalaya, di Kecamatan Cipedes, memberikan pendidikan Islam gratis kepada santri putra dan putri. Fokus kami adalah kajian kitab, tahfidz Quran, dan pengembangan softskill serta hardskill.

@@ -17,15 +17,13 @@ const Navbar = () => {
       {/* Navbar Desktop*/}
       <header className="fixed w-full left-0 top-0 z-10 bg-background shadow">
         <div className="flex container py-2 justify-between items-center w-full">
-          <div className="relative w-[50px] sm:w-[60px] aspect-square">
-            <Link href="/">
-              <Image
-                src="/images/logo.png"
-                alt="logo"
-                fill={true}
-              />
-            </Link>
-          </div>
+          <Link href="/" className="relative block w-[50px] sm:w-[60px] aspect-square rounded-md overflow-hidden">
+            <Image
+              src="/logo.jpeg"
+              alt="logo"
+              fill={true}
+            />
+          </Link>
           <div className="hidden lg:flex items-center gap-12">
             <nav className="flex gap-6">
               <Link href="/">Beranda</Link>

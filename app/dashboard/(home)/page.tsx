@@ -4,10 +4,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100 items-center justify-center">
-      <WakafTable />
-      <WakafForm />
-    </div>
+    <div>Hello dashboard</div>
   )
 }
 

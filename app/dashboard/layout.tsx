@@ -1,4 +1,4 @@
-import './globals.css'
+import Sidebar from "./_components/sidebar"
 
 export default function RootLayout({
   children,
@@ -6,8 +6,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
+    <Sidebar>
       {children}
-    </>
+    </Sidebar>
   )
 }

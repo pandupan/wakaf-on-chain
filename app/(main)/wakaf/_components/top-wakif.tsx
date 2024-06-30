@@ -23,13 +23,13 @@ const TopWakifGrid = () => {
         Top 10 Terbaru Wakif
       </h1>
       <p className="md:text-center mb-8 xl:text-lg text-sm text-justify lg:mx-40">
-        Ini dibuat untuk memberikan apresiasi kepada para wakif yang telah berkontribusi dalam periode terbaru. 
-        Kami menghargai setiap sumbangan yang diberikan dan berharap dapat terus mendorong lebih banyak orang untuk berpartisipasi 
+        Ini dibuat untuk memberikan apresiasi kepada para wakif yang telah berkontribusi dalam periode terbaru.
+        Kami menghargai setiap sumbangan yang diberikan dan berharap dapat terus mendorong lebih banyak orang untuk berpartisipasi
         dalam kegiatan wakaf yang berkelanjutan.
       </p>
       <div className="bg-white overflow-hidden">
         <table className="min-w-full bg-transparent table-auto border-separate border-spacing-y-2">
-          <thead className="bg-gradient-to-r from-secondary to-indigo-500 text-white">
+          <thead className="bg-gradient-to-r from-secondary to-blue-500 text-white">
             <tr>
               <th className="py-3 px-4 text-center text-sm sm:text-base rounded-l-lg">Top</th>
               <th className="py-3 px-4 text-center text-sm sm:text-base">Nama</th>
@@ -38,8 +38,8 @@ const TopWakifGrid = () => {
           </thead>
           <tbody className="text-gray-700">
             {sortedWakifList.map((wakif, index) => (
-              <tr 
-                key={index} 
+              <tr
+                key={index}
                 className={`transform transition duration-500 hover:scale-105 ${index === 0 ? "bg-yellow-100 hover:bg-yellow-200" : index === 1 ? "bg-gray-200 hover:bg-gray-300" : index === 2 ? "bg-orange-100 hover:bg-orange-200" : "bg-gray-50 hover:bg-gray-100"} rounded-lg`}
               >
                 <td className="py-3 px-4 rounded-l-lg text-center sm:text-base text-sm">
