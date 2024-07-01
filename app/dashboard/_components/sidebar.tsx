@@ -1,6 +1,4 @@
-'use client'
-
-import React, { useState } from 'react'
+import React from 'react'
 import Header from './header'
 import SidebarMain from './sidebar-main';
 
@@ -9,19 +7,16 @@ interface IProps {
 }
 
 function Sidebar({ children }: IProps) {
-  const [displaySidebar, setDisplaySidebar] = useState(false)
-
   return (
-    <div className="flex bg-slate-100">
-      <SidebarMain display={displaySidebar} />
-      <div className="flex-auto px-4 py-2 min-h-screen lg:min-h-0">
-        <Header
-          sidebarDisplay={displaySidebar}
-          onClickSidebarMenu={() => setDisplaySidebar((prev) => !prev)}
-        />
-        {children}
+    <>
+      <div className="w-full lg:flex">
+        <SidebarMain />
+        <div className="w-full min-h-screen px-4 pt-2 pb-4 bg-slate-100">
+          <Header />
+          {children}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

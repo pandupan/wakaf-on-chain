@@ -2,6 +2,7 @@ import { AiOutlineHome } from 'react-icons/ai'
 import { TbMoneybag } from "react-icons/tb"
 import { LuTrophy, LuUser2 } from "react-icons/lu"
 import { LiaDonateSolid } from "react-icons/lia"
+import { HiOutlineSpeakerphone } from "react-icons/hi"
 
 export const sidebarNavItems = [
   {
@@ -13,6 +14,11 @@ export const sidebarNavItems = [
     href: "/dashboard/berwakaf",
     icon: LiaDonateSolid,
     text: "Berwakaf",
+  },
+  {
+    href: "/dashboard/campaign",
+    icon: HiOutlineSpeakerphone,
+    text: "Kampanye",
   },
   {
     href: "/dashboard/history",

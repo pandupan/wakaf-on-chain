@@ -22,12 +22,12 @@ const LeaderboardWakif = () => {
       <h1 className="text-3xl sm:text-5xl xl:text-6xl font-bold text-secondary text-center mb-8">
         Papan Peringkat Wakif
       </h1>
-      <p className="md:text-center mb-8 xl:text-lg text-sm text-justify lg:mx-40">
-        Halaman ini menampilkan daftar wakif dengan total kontribusi terbesar. Informasi ini membantu kami dalam memonitor 
-        dan mengapresiasi kontribusi para wakif. Pastikan data ini selalu diperbarui dan digunakan untuk mengidentifikasi 
+      <p className="md:text-center mb-8 xl:text-lg text-justify max-w-4xl mx-auto">
+        Halaman ini menampilkan daftar wakif dengan total kontribusi terbesar. Informasi ini membantu kami dalam memonitor
+        dan mengapresiasi kontribusi para wakif. Pastikan data ini selalu diperbarui dan digunakan untuk mengidentifikasi
         peluang pengembangan lebih lanjut dalam program wakaf.
       </p>
-      <div className="bg-[#f3f4f6] overflow-hidden">
+      <div>
         <table className="min-w-full bg-transparent table-auto border-separate border-spacing-y-2">
           <thead className="bg-gradient-to-r from-secondary to-indigo-500 text-white">
             <tr>
@@ -40,9 +40,9 @@ const LeaderboardWakif = () => {
           </thead>
           <tbody className="text-gray-700">
             {sortedWakifList.map((wakif, index) => (
-              <tr 
-                key={index} 
-                className={`transform transition duration-500 hover:scale-105 ${index === 0 ? "bg-yellow-100 hover:bg-yellow-200" : index === 1 ? "bg-gray-200 hover:bg-gray-300" : index === 2 ? "bg-orange-100 hover:bg-orange-200" : "bg-gray-50 hover:bg-gray-100"} rounded-lg`}
+              <tr
+                key={index}
+                className={`transform transition duration-500 hover:scale-[1.02] ${index === 0 ? "bg-yellow-100 hover:bg-yellow-200" : index === 1 ? "bg-gray-200 hover:bg-gray-300" : index === 2 ? "bg-orange-100 hover:bg-orange-200" : "bg-gray-50 hover:bg-gray-100"} rounded-lg`}
               >
                 <td className="py-3 px-4 rounded-l-lg text-center sm:text-base text-sm">
                   <div className="flex items-center justify-center">

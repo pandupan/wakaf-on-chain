@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { HeaderBreadcrumb } from './header-breadcrumb'
 import {
@@ -8,17 +10,15 @@ import {
 import { IoMdNotificationsOutline } from "react-icons/io"
 import { MdOutlineHelpOutline } from 'react-icons/md'
 import { IoClose, IoMenu } from "react-icons/io5"
+import useSidebarStore from '../_stores/useSidebarStore'
 
-interface IProps {
-  sidebarDisplay: boolean;
-  onClickSidebarMenu: () => void;
-}
+function Header() {
+  const { toggleSidebar, isOpen } = useSidebarStore()
 
-function Header({ onClickSidebarMenu, sidebarDisplay }: IProps) {
   return (
-    <div className="flex items-center gap-2 justify-between pb-4">
+    <div className="flex flex-col-reverse sm:flex-row sm:items-end gap-x-2 gap-y-4 justify-between pb-4">
       <HeaderBreadcrumb />
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 self-end sm:self-auto">
         <div className="flex gap-2 items-center p-1.5 rounded-full bg-background shadow-xl shadow-foreground/5">
           <div className="space-x-0.5">
             <button className="p-1 rounded-full text-lg hover:bg-muted transition">
@@ -38,9 +38,9 @@ function Header({ onClickSidebarMenu, sidebarDisplay }: IProps) {
         </div>
         <button
           className="lg:hidden h-full aspect-square p-2 rounded-full bg-background shadow-xl shadow-foreground/5"
-          onClick={onClickSidebarMenu}
+          onClick={toggleSidebar}
         >
-          {sidebarDisplay ? <IoClose className="text-xl" /> : <IoMenu className="text-xl" />}
+          {isOpen ? <IoClose className="text-xl" /> : <IoMenu className="text-xl" />}
         </button>
       </div>
     </div>
