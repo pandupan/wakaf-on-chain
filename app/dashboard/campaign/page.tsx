@@ -4,11 +4,11 @@ import React from 'react'
 function CampaignPage() {
   return (
     <>
-      <div className="w-full rounded-lg bg-secondary p-4 sm:p-10 space-y-2 sm:space-y-4">
+      <div className="w-full rounded-lg bg-gradient-to-tr from-secondary to-blue-500 p-4 sm:p-10 space-y-2 sm:space-y-4">
         <h1 className="text-2xl sm:text-4xl font-bold text-background max-w-5xl leading-snug">
           Yukk, mari kita berbagi dan tunjukan kepedulian terhadap sesama manusia.
         </h1>
-        <h2 className="text-xl sm:text-3xl font-bold text-gray-800 max-w-5xl tracking-wider">
+        <h2 className="text-xl sm:text-3xl font-extrabold text-gray-800 max-w-5xl tracking-wider">
           #BantuSesama
         </h2>
         <div className="p-4 rounded-md bg-muted">

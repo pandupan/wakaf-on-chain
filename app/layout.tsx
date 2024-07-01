@@ -2,7 +2,10 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
 
-const nunito = Nunito({ subsets: ['latin'], weight: ['200', '300', '400', '500', '600', '700', '800', '900'] })
+const nunito = Nunito({
+  subsets: ['latin'],
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900']
+})
 
 export const metadata: Metadata = {
   title: 'Pondok Pesantren Mahasiswa Al-Ihsan Tasikmalaya',
