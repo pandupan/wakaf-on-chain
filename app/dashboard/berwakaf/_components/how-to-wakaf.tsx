@@ -14,19 +14,22 @@ function HowToWakaf({ className }: IProps) {
           Masukkan jumlah uang yang ingin Anda wakafkan.
         </li>
         <li>
-          Lengkapi form dengan data diri Anda, seperti nama, alamat email, dan nomor telepon.
+          Lengkapi form dengan data diri.
         </li>
         <li>
-          Pilih metode pembayaran yang tersedia melalui Midtrans, seperti transfer bank, kartu kredit, atau e-wallet.
+          Pilih metode pembayaran yang tersedia.
         </li>
         <li>
-          Ikuti instruksi pembayaran yang diberikan oleh Midtrans sesuai dengan metode pembayaran yang dipilih.
+          Pastikan data sudah benar dan klik tombol serah terima.
         </li>
         <li>
-          Setelah melakukan pembayaran, konfirmasi transaksi melalui halaman konfirmasi atau tunggu notifikasi dari Midtrans.
+          Ikuti instruksi serah terima wakaf sesuai dengan metode pembayaran yang dipilih.
         </li>
         <li>
-          Anda akan menerima notifikasi dan terima kasih dari kami setelah pembayaran berhasil. Wakaf Anda telah tersalurkan.
+          Setelah melakukan serah terima, admin akan melakukan konfirmasi serah terima wakaf.
+        </li>
+        <li>
+          Anda akan menerima sertifikat. Wakaf Anda telah tersalurkan.
         </li>
       </ol>
     </div>

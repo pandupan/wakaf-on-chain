@@ -15,7 +15,7 @@ function CardOverview({ Icon, title, value }: IProps) {
       </div>
       <div>
         <h4 className="text-xs sm:text-sm text-muted-foreground">{title}</h4>
-        <span className="text-lg xl:text-2xl font-semibold tracking-wide">{value}</span>
+        <span className="text-lg xl:text-2xl font-bold tracking-wide">{value}</span>
       </div>
     </div>
   )

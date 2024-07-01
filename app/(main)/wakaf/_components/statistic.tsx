@@ -153,40 +153,19 @@ const Statistic = () => {
   };
 
   return (
-    <div id="statistic" className="relative">
-      <div className="absolute -left-10 z-0">
-      </div>
-      <div className="relative container flex flex-col py-8 overflow-hidden">
-        <div className="text-center mt-10 pb-4">
-          <h1 className="text-secondary text-3xl sm:text-5xl xl:text-6xl font-bold">
-            Data Pengeluaran dan Pemasukan
-          </h1>
-        </div>
-        <p className="text-center max-w-4xl place-self-center sm:text-base text-sm">
+    <div id="statistic" className="relative mt-10">
+      <div className="relative container overflow-hidden space-y-4 sm:space-y-8">
+        <h1 className="text-center text-3xl sm:text-5xl xl:text-6xl font-bold text-secondary">
+          Data Pengeluaran dan Pemasukan
+        </h1>
+        <p className="md:text-center xl:text-lg text-justify max-w-5xl mx-auto">
           Melalui penerapan teknologi blockchain, dapat memberikan
           pembaharuan data secara realtime dan transparansi dalam pengelolaan wakaf. Setiap transaksi
           dan alokasi dana dapat dilacak, serta memberikan kepercayaan dan keamanan bagi
           para donatur dan penerima manfaat.
-        </p> 
+        </p>
 
-        <div className="py-10">
-          {/* <div className="flex justify-end mb-6">
-            <DropdownMenu>
-              <DropdownMenuTrigger className="px-4 py-2 mx-2 rounded border border-gray-700">
-                Pilih tahun untuk ditampilkan
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>Menyediakan 5 tahun</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {Object.keys(waqfData).map((year) => (
-                  <DropdownMenuItem key={year} onSelect={() => handleYearSelect(year)}>
-                    {year}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div> */}
-
+        <div>
           <GridItem title={`Pemasukan dan Pengeluaran Wakaf (${year})`}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
