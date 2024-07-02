@@ -39,7 +39,7 @@ type FormData = z.infer<typeof formSchema>
 
 
 const ProfileSection = () => {
-    const [image, setImage] = useState<string | null>(null)
+  const [image, setImage] = useState<string | null>(null)
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -69,118 +69,113 @@ const ProfileSection = () => {
   }
 
   return (
-    <div className="flex flex-col w-full lg:w-1/2 p-4">
-        <div>
-          <CardTitle className="text-blue-500">Profil Pengguna</CardTitle>
-        </div>
-        <div>
-          <div className="flex flex-col items-center mb-6">
-            <Avatar className="w-24 h-24 mb-4">
-              {image ? (
-                <AvatarImage src={image} />
-              ) : (
-                <>
-                  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </>
-              )}
-            </Avatar>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="hidden"
-              id="image-upload"
-            />
-            <Button size="sm" variant="secondary" onClick={() => document.getElementById('image-upload')?.click()}>
-              Update Gambar
+    <div className="bg-background px-4 py-10 rounded-xl shadow-sm">
+      <label className="block w-max mx-auto cursor-pointer rounded-full border mb-4">
+        <Avatar className="w-20 sm:w-24 h-20 sm:h-24">
+          {image ? (
+            <AvatarImage src={image} />
+          ) : (
+            <>
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback>CN</AvatarFallback>
+            </>
+          )}
+        </Avatar>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="hidden"
+          id="image-upload"
+        />
+      </label>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid grid-cols-2 gap-2"
+        >
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem className="col-span-2 sm:col-span-1">
+                <FormLabel>Nama Pengguna</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nama anda..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="col-span-2 sm:col-span-1">
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Email anda..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="nomorHP"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormLabel>Nomor HP</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nomor HP anda..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="affiliation"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormLabel>Asal Intansi</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Intansi yang terafiliasi" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="masyarakat">Masyarakat</SelectItem>
+                    <SelectItem value="mahasiswa">Mahasiswa</SelectItem>
+                    <SelectItem value="pengurus">Pengurus Pondok Pesantren</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormLabel>Alamat</FormLabel>
+                <FormControl>
+                  <Input placeholder="Alamat Anda..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="col-span-2 pt-2">
+            <Button size="sm" variant="secondary" type="submit">
+              Update Profil
             </Button>
           </div>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nama Pengguna</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Nama anda..." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Email anda..." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="nomorHP"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nomor HP</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Nomor HP anda..." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="affiliation"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Asal Intansi</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Intansi yang terafiliasi" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="masyarakat">Masyarakat</SelectItem>
-                          <SelectItem value="mahasiswa">Mahasiswa</SelectItem>
-                          <SelectItem value="pengurus">Pengurus Pondok Pesantren</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem className="col-span-1 md:col-span-2">
-                      <FormLabel>Alamat</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Alamat Anda..." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <Button size="sm" variant="secondary" type="submit">
-                Update Profil
-              </Button>
-            </form>
-          </Form>
-        </div>
-      </div>
+        </form>
+      </Form>
+    </div>
   )
 }
 
