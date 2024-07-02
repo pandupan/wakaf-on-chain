@@ -4,13 +4,13 @@ import React from 'react';
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Card } from '@/components/ui/card';
 
 const distribusi = [
   { name: 'Renovasi Sekolah', amount: 1000000, category: 'Pendidikan', date: '2024-06-01' },
@@ -32,9 +32,8 @@ const HistoryLanding = () => {
       <p className="md:text-center xl:text-lg text-justify max-w-5xl mx-auto">
         Memberikan gambaran penyaluran wakaf dalam 30 hari terakhir serta transparansi dalam penyaluran dana dan anggaran wakaf di lingkungan Pondok Pesantren Mahasiswa Al-Ihsan tasikmalaya.
       </p>
-      <div className="bg-white">
+      <Card className="bg-white p-2">
         <Table>
-          <TableCaption>Penyaluran Wakaf dalam 30 Hari Terakhir</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[150px]">Tanggal</TableHead>
@@ -60,7 +59,7 @@ const HistoryLanding = () => {
             </TableRow>
           </TableFooter>
         </Table>
-      </div>
+      </Card>
     </div>
   );
 };
