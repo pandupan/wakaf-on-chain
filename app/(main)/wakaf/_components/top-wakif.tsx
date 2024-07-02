@@ -19,7 +19,7 @@ const sortedWakifList = wakifList.sort((a, b) => b.amount - a.amount);
 
 const TopWakifGrid = () => {
   return (
-    <div className="container mx-auto p-4 space-y-4 sm:space-y-8">
+    <div className="p-4 sm:container mx-auto space-y-4 sm:space-y-8">
       <h1 className="text-center text-3xl sm:text-5xl xl:text-6xl font-bold text-secondary">
         Top 10 Terbaru Wakif
       </h1>

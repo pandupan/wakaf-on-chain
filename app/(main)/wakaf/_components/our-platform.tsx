@@ -32,11 +32,9 @@ const OurPlatform = () => {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
-                <AccordionTrigger>Open Source Funding</AccordionTrigger>
+                <AccordionTrigger>Menggunakan Payment Gateway</AccordionTrigger>
                 <AccordionContent>
-                  Memanfaatkan pendanaan open source melalui teknologi
-                  blockchain untuk meningkatkan dana operasional pesantren
-                  secara berkelanjutan.
+                  Memanfaatkan payment gateway untuk memudahkan dalam melakukan serah terima wakaf secara real-time.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
@@ -47,10 +45,9 @@ const OurPlatform = () => {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-4">
-                <AccordionTrigger>Pemantauan Dana Wakaf</AccordionTrigger>
+                <AccordionTrigger>Mendapatkan Sertifikat</AccordionTrigger>
                 <AccordionContent>
-                  Teknologi blockchain memungkinkan pemantauan dana wakaf secara
-                  real-time, memastikan dana digunakan tepat sasaran.
+                  Setelah menyelesaikan serah terima wakaf. Pengguna akan mendapatkan sertifikat dengan teknologi blockchain untuk keamanan dan transparansi data.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

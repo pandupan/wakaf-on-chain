@@ -22,7 +22,7 @@ const HistoryLanding = () => {
       <p className="md:text-center xl:text-lg text-justify max-w-5xl mx-auto">
         Memberikan gambaran penyaluran wakf dalam 30 hari terakhir serta transparansi dalam penyaluran dana dan anggaran wakaf di lingkungan Pondok Pesantren Mahasiswa Al-Ihsan tasikmalaya.
       </p>
-      <div className="bg-white overflow-hidden">
+      <div className="bg-white">
         <table className="min-w-full bg-transparent table-auto border-separate border-spacing-y-2">
           <thead className="bg-gradient-to-r from-secondary to-blue-500 text-white">
             <tr>
@@ -36,9 +36,9 @@ const HistoryLanding = () => {
             {distribusi.map((disbursement, index) => (
               <tr
                 key={index}
-                className="transform transition duration-500 hover:scale-105 bg-gray-50 hover:bg-gray-100 rounded-lg"
+                className="transform transition duration-500 hover:scale-[1.02] bg-gray-50 hover:bg-gray-100"
               >
-                <td className="py-2 sm:py-3 px-2 sm:px-4 sm:text-base text-xs">{disbursement.date}</td>
+                <td className="py-2 sm:py-3 px-2 sm:px-4 sm:text-base text-xs rounded-l-lg">{disbursement.date}</td>
                 <td className="py-2 sm:py-3 px-2 sm:px-4 sm:text-base text-xs">{disbursement.name}</td>
                 <td className="py-2 sm:py-3 px-2 sm:px-4 text-right sm:text-base text-xs">{`Rp ${disbursement.amount.toLocaleString()}`}</td>
                 <td className="py-2 sm:py-3 px-2 sm:px-4 sm:text-base text-xs rounded-r-lg">{disbursement.category}</td>
