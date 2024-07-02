@@ -1,6 +1,16 @@
 'use client'
 
 import React from 'react';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const distribusi = [
   { name: 'Renovasi Sekolah', amount: 1000000, category: 'Pendidikan', date: '2024-06-01' },
@@ -20,32 +30,36 @@ const HistoryLanding = () => {
         Penyaluran Wakaf Terbaru
       </h1>
       <p className="md:text-center xl:text-lg text-justify max-w-5xl mx-auto">
-        Memberikan gambaran penyaluran wakf dalam 30 hari terakhir serta transparansi dalam penyaluran dana dan anggaran wakaf di lingkungan Pondok Pesantren Mahasiswa Al-Ihsan tasikmalaya.
+        Memberikan gambaran penyaluran wakaf dalam 30 hari terakhir serta transparansi dalam penyaluran dana dan anggaran wakaf di lingkungan Pondok Pesantren Mahasiswa Al-Ihsan tasikmalaya.
       </p>
       <div className="bg-white">
-        <table className="min-w-full bg-transparent table-auto border-separate border-spacing-y-2">
-          <thead className="bg-gradient-to-r from-secondary to-blue-500 text-white">
-            <tr>
-              <th className="py-2 sm:py-3 px-2 sm:px-4 text-left text-xs sm:text-base rounded-l-lg">Tanggal</th>
-              <th className="py-2 sm:py-3 px-2 sm:px-4 text-left text-xs sm:text-base">Nama Benda</th>
-              <th className="py-2 sm:py-3 px-2 sm:px-4 text-right text-xs sm:text-base">Jumlah Nominal</th>
-              <th className="py-2 sm:py-3 px-2 sm:px-4 text-left text-xs sm:text-base rounded-r-lg">Kategori</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-700">
-            {distribusi.map((disbursement, index) => (
-              <tr
-                key={index}
-                className="transform transition duration-500 hover:scale-[1.02] bg-gray-50 hover:bg-gray-100"
-              >
-                <td className="py-2 sm:py-3 px-2 sm:px-4 sm:text-base text-xs rounded-l-lg">{disbursement.date}</td>
-                <td className="py-2 sm:py-3 px-2 sm:px-4 sm:text-base text-xs">{disbursement.name}</td>
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right sm:text-base text-xs">{`Rp ${disbursement.amount.toLocaleString()}`}</td>
-                <td className="py-2 sm:py-3 px-2 sm:px-4 sm:text-base text-xs rounded-r-lg">{disbursement.category}</td>
-              </tr>
+        <Table>
+          <TableCaption>Penyaluran Wakaf dalam 30 Hari Terakhir</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[150px]">Tanggal</TableHead>
+              <TableHead>Nama Benda</TableHead>
+              <TableHead>Kategori</TableHead>
+              <TableHead className="text-right">Jumlah Nominal</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {distribusi.map((disbursement) => (
+              <TableRow key={disbursement.date}>
+                <TableCell className="font-medium">{disbursement.date}</TableCell>
+                <TableCell>{disbursement.name}</TableCell>
+                <TableCell>{disbursement.category}</TableCell>
+                <TableCell className="text-right">{`Rp ${disbursement.amount.toLocaleString()}`}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3}>Total</TableCell>
+              <TableCell className="text-right">{`Rp ${distribusi.reduce((sum, { amount }) => sum + amount, 0).toLocaleString()}`}</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
       </div>
     </div>
   );
