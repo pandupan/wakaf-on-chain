@@ -6,6 +6,7 @@ import ReactApexcharts from "@/components/react-apex-charts";
 import { ApexOptions } from "apexcharts";
 import { statisticOptions } from "@/lib/types";
 import { BiLoaderAlt } from "react-icons/bi";
+import Graphic from "../../../../components/shared/graphic";
 
 const categories: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const series = [
@@ -37,21 +38,7 @@ const Statistic = () => {
           dan alokasi dana dapat dilacak, serta memberikan kepercayaan dan keamanan bagi
           para donatur dan penerima manfaat.
         </p>
-
-        <div id="chartOne" className="relative -ml-5">
-          {loading && (
-            <div className="absolute inset-0 flex justify-center items-center bg-background/50 backdrop-blur z-[1]">
-              <BiLoaderAlt className="w-4 h-4 animate-spin" />
-            </div>
-          )}
-          <ReactApexcharts
-            options={dynamicOptions}
-            series={series}
-            type="area"
-            height={450}
-            width={"100%"}
-          />
-        </div>
+      <Graphic/>
       </div>
       <div className="absolute -bottom-20 -left-12 -z-[1]">
         <div className="relative aspect-square w-[608px] h-[656px]">

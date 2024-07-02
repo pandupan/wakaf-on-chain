@@ -3,6 +3,7 @@ import { TbMoneybag } from "react-icons/tb"
 import { LuTrophy, LuUser2 } from "react-icons/lu"
 import { LiaDonateSolid } from "react-icons/lia"
 import { HiOutlineSpeakerphone } from "react-icons/hi"
+import { AiOutlineFundView } from "react-icons/ai"
 
 export const sidebarNavItems = [
   {
@@ -37,5 +38,10 @@ export const sidebarNavItems = [
     href: "/dashboard/profile",
     icon: LuUser2,
     text: "Profil",
+  },
+  {
+    href: "/dashboard/overview",
+    icon: AiOutlineFundView,
+    text: "Overview",
   },
 ];

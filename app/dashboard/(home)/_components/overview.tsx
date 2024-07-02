@@ -1,5 +1,5 @@
 import React from 'react'
-import CardOverview from './overview-card'
+import CardOverview from '../../../../components/shared/overview-card'
 import { BsCurrencyDollar } from "react-icons/bs"
 import { FaHandHoldingUsd } from 'react-icons/fa'
 import { HiOutlineTrophy } from "react-icons/hi2"

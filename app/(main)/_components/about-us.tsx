@@ -21,7 +21,7 @@ const AboutUs = () => {
       <div className="relative container flex flex-col lg:flex-row items-center gap-10 sm:gap-16">
         <div className="relative flex-1 w-full aspect-[4/3] rounded-md overflow-hidden">
           <img
-            src="https://cdn.discordapp.com/attachments/1005701738109620237/1256980404133695488/606172.png?ex=6682bdb9&is=66816c39&hm=f9b337b1a5b34e9d26ff846693c40ed1b9a41cfd01ac1818f285aa430fe34725&"
+            src="https://picsum.photos/id/83/1600/900"
             alt="Mosque Image"
             className="object-cover h-full"
           />
