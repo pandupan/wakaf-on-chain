@@ -38,7 +38,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>
 
 
-const ProfileSection = () => {
+const Profile = () => {
   const [image, setImage] = useState<string | null>(null)
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -170,7 +170,7 @@ const ProfileSection = () => {
           />
           <div className="col-span-2 pt-2">
             <Button size="sm" variant="secondary" type="submit">
-              Update Profil
+              Edit Profil
             </Button>
           </div>
         </form>
@@ -179,4 +179,4 @@ const ProfileSection = () => {
   )
 }
 
-export default ProfileSection
+export default Profile

@@ -32,7 +32,7 @@ const HistoryLanding = () => {
       <p className="md:text-center xl:text-lg text-justify max-w-5xl mx-auto">
         Memberikan gambaran penyaluran wakaf dalam 30 hari terakhir serta transparansi dalam penyaluran dana dan anggaran wakaf di lingkungan Pondok Pesantren Mahasiswa Al-Ihsan tasikmalaya.
       </p>
-      <Card className="bg-white p-2">
+      <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -59,7 +59,7 @@ const HistoryLanding = () => {
             </TableRow>
           </TableFooter>
         </Table>
-      </Card>
+      </div>
     </div>
   );
 };

@@ -38,10 +38,6 @@ function CampaignOverview({ className }: IProps) {
                 <h4 className="text-xs sm:text-base leading-3 text-gray-500">Donatur</h4>
                 <span className="block font-semibold text-sm sm:text-lg">89</span>
               </div>
-              <div>
-                <h4 className="text-xs sm:text-base leading-3 text-gray-500">Sisa Hari</h4>
-                <span className="block font-semibold text-sm sm:text-lg text-right">1</span>
-              </div>
             </div>
           </div>
           <div className="hidden sm:flex gap-2 sm:mt-6">
@@ -59,13 +55,13 @@ function CampaignOverview({ className }: IProps) {
         <div className="col-span-2">
           <div className="flex flex-row justify-between">
             <div>
-              <h4 className="text-xs sm:text-base leading-3">Terkumpul</h4>
+              <h4 className="text-xs sm:text-sm">Terkumpul</h4>
               <span className="block font-bold text-sm sm:text-lg text-green-500">
                 Rp9.835.000
               </span>
             </div>
             <div className="text-right">
-              <h4 className="text-xs sm:text-base leading-3">Kekurangan</h4>
+              <h4 className="text-xs sm:text-sm">Kekurangan</h4>
               <span className="block font-bold text-sm sm:text-lg text-red-500">
                 Rp805.000
               </span>

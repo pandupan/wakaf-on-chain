@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import ReactApexcharts from "@/components/react-apex-charts";
 import { ApexOptions } from "apexcharts";
-import { statisticOptions } from "@/lib/types";
+import { chartOptions } from "@/lib/types";
 import { BiLoaderAlt } from "react-icons/bi";
 
 const categories: string[] = [
@@ -30,32 +29,32 @@ const series = [
   },
 ];
 
-const Graphic = () => {
+const IncomeChart = () => {
   const [loading, setLoading] = useState(false);
 
   const dynamicOptions: ApexOptions = {
-    ...statisticOptions,
+    ...chartOptions,
     xaxis: {
-      ...statisticOptions.xaxis,
+      ...chartOptions.xaxis,
       categories: categories,
     },
   };
   return (
-      <div id="chartOne" className="relative -ml-5">
-        {loading && (
-          <div className="absolute inset-0 flex justify-center items-center bg-background/50 backdrop-blur z-[1]">
-            <BiLoaderAlt className="w-4 h-4 animate-spin" />
-          </div>
-        )}
-        <ReactApexcharts
-          options={dynamicOptions}
-          series={series}
-          type="area"
-          height={450}
-          width={"100%"}
-        />
-      </div>
+    <div id="chartOne" className="relative -ml-5">
+      {loading && (
+        <div className="absolute inset-0 flex justify-center items-center bg-background/50 backdrop-blur z-[1]">
+          <BiLoaderAlt className="w-4 h-4 animate-spin" />
+        </div>
+      )}
+      <ReactApexcharts
+        options={dynamicOptions}
+        series={series}
+        type="area"
+        height={450}
+        width={"100%"}
+      />
+    </div>
   );
 };
 
-export default Graphic;
+export default IncomeChart;

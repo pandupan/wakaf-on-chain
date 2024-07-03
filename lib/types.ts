@@ -1,7 +1,7 @@
 import { ApexOptions } from "apexcharts";
 import { formatCategoryChartLabel, formatRupiah } from "./utils";
 
-export const statisticOptions: ApexOptions = {
+export const chartOptions: ApexOptions = {
   legend: {
     show: false,
     position: "top",
@@ -48,6 +48,7 @@ export const statisticOptions: ApexOptions = {
   },
   dataLabels: {
     enabled: true,
+    formatter: (value) => formatCategoryChartLabel(Number(value)),
   },
   markers: {
     size: 4,

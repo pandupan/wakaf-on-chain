@@ -1,32 +1,10 @@
 'use client'
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import ReactApexcharts from "@/components/react-apex-charts";
-import { ApexOptions } from "apexcharts";
-import { statisticOptions } from "@/lib/types";
-import { BiLoaderAlt } from "react-icons/bi";
-import Graphic from "../../../../components/shared/graphic";
-
-const categories: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const series = [
-  {
-    name: "Pemasukan",
-    data: [1000, 1200, 900, 1400, 1500, 1300, 1700, 1600, 1800, 2000, 2100, 2200]
-  }
-];
+import IncomeChart from "../../../../components/shared/income-chart";
 
 const Statistic = () => {
-  const [loading, setLoading] = useState(false)
-
-  const dynamicOptions: ApexOptions = {
-    ...statisticOptions,
-    xaxis: {
-      ...statisticOptions.xaxis,
-      categories: categories,
-    },
-  }
-
   return (
     <div id="statistic" className="relative py-20">
       <div className="relative px-4 sm:container overflow-hidden space-y-4 sm:space-y-8">
@@ -38,7 +16,7 @@ const Statistic = () => {
           dan alokasi dana dapat dilacak, serta memberikan kepercayaan dan keamanan bagi
           para donatur dan penerima manfaat.
         </p>
-      <Graphic/>
+        <IncomeChart />
       </div>
       <div className="absolute -bottom-20 -left-12 -z-[1]">
         <div className="relative aspect-square w-[608px] h-[656px]">

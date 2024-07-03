@@ -1,11 +1,36 @@
-import { AiOutlineHome } from 'react-icons/ai'
+import { AiOutlineHome, AiOutlineTrophy } from 'react-icons/ai'
 import { TbMoneybag } from "react-icons/tb"
-import { LuTrophy, LuUser2 } from "react-icons/lu"
+import { LuUser2 } from "react-icons/lu"
 import { LiaDonateSolid } from "react-icons/lia"
-import { HiOutlineSpeakerphone } from "react-icons/hi"
-import { AiOutlineFundView } from "react-icons/ai"
+import { MdInsertChartOutlined, MdOutlineCampaign } from 'react-icons/md'
+import { RiHeartAddLine } from "react-icons/ri"
+import { PiHandCoins } from "react-icons/pi"
+import { BiNotepad } from 'react-icons/bi'
 
 export const sidebarNavItems = [
+  {
+    href: "/dashboard/overview",
+    icon: MdInsertChartOutlined,
+    text: "Overview",
+  },
+  {
+    href: "/dashboard/campaign-management",
+    icon: BiNotepad,
+    text: "Kelola Kampanye",
+  },
+  {
+    href: "/dashboard/wakif-history",
+    icon: PiHandCoins,
+    text: "Daftar Wakif",
+  },
+  {
+    href: "/dashboard/add",
+    icon: RiHeartAddLine,
+    text: "Buat Kampanye",
+  },
+  {
+    type: "divider",
+  },
   {
     href: "/dashboard",
     icon: AiOutlineHome,
@@ -18,7 +43,7 @@ export const sidebarNavItems = [
   },
   {
     href: "/dashboard/campaign",
-    icon: HiOutlineSpeakerphone,
+    icon: MdOutlineCampaign,
     text: "Kampanye",
   },
   {
@@ -28,7 +53,7 @@ export const sidebarNavItems = [
   },
   {
     href: "/dashboard/leaderboard",
-    icon: LuTrophy,
+    icon: AiOutlineTrophy,
     text: "Papan Peringkat",
   },
   {
@@ -38,10 +63,5 @@ export const sidebarNavItems = [
     href: "/dashboard/profile",
     icon: LuUser2,
     text: "Profil",
-  },
-  {
-    href: "/dashboard/overview",
-    icon: AiOutlineFundView,
-    text: "Overview",
   },
 ];
