@@ -6,6 +6,7 @@ import { MdInsertChartOutlined, MdOutlineCampaign } from 'react-icons/md'
 import { RiHeartAddLine } from "react-icons/ri"
 import { PiHandCoins } from "react-icons/pi"
 import { BiNotepad } from 'react-icons/bi'
+import { IoWalletOutline } from 'react-icons/io5'
 
 export const sidebarNavItems = [
   {
@@ -27,6 +28,11 @@ export const sidebarNavItems = [
     href: "/dashboard/add",
     icon: RiHeartAddLine,
     text: "Buat Kampanye",
+  },
+  {
+    href: "/dashboard/withdraw",
+    icon: IoWalletOutline,
+    text: "Saldo Wakaf",
   },
   {
     type: "divider",
