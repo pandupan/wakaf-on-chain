@@ -6,7 +6,7 @@ const WhatIsWakaf = () => {
     <section id="what-is-wakaf" className="py-10 sm:py-20 relative">
       <div className="container relative z-[1]">
         {/* Header */}
-        <div className="text-center mb-12 max-w-5xl mx-auto">
+        <div className="sm:text-center mb-12 max-w-5xl mx-auto">
           <h1 className="text-3xl sm:text-5xl xl:text-6xl font-bold text-secondary">
             Apa Itu Wakaf?
           </h1>

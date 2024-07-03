@@ -18,7 +18,7 @@ function CampaignOverview({ className }: IProps) {
           className
         )}
       >
-        <div className="w-full aspect-video rounded-md overflow-hidden">
+        <div className="w-full aspect-[4/3] rounded-md overflow-hidden">
           <img
             src="https://picsum.photos/id/83/1600/900"
             className="w-full h-full object-cover"
@@ -28,7 +28,7 @@ function CampaignOverview({ className }: IProps) {
         <div className="sm:space-y-2 flex flex-col justify-between">
           <div>
             <h2 className="text-sm sm:text-lg font-semibold leading-tight">
-              Wakaf untuk Kebutuhan Mesjid
+              Mari berwakaf untuk membantu santri PPM Al Ihsan Tasikmalaya
             </h2>
             <span className="text-sm sm:text-xl text-secondary font-bold tracking-wide">
               Rp12.000.000
@@ -67,15 +67,15 @@ function CampaignOverview({ className }: IProps) {
               </span>
             </div>
           </div>
-          <div className="mt-2">
+          <div className="sm:mt-2">
             <span className="text-xs">Total: Rp12.000.000</span>
             <Progress value={82} className="h-1.5 sm:h-2" />
           </div>
           <div className="flex sm:hidden gap-2 mt-4">
-            <Button variant="outline">
-              <IoMdShare className="text-base" />
+            <Button size="sm" variant="outline">
+              <IoMdShare className="text-xs" />
             </Button>
-            <Button variant="secondary" className="relative flex-1">
+            <Button size="sm" variant="secondary" className="relative flex-1 text-xs">
               Donasi sekarang
               <span className="absolute -top-2 -right-2 bg-sky-200 text-secondary rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
                 💰
@@ -90,7 +90,7 @@ function CampaignOverview({ className }: IProps) {
         </div>
       </div>
       <div className="bg-background rounded-md shadow-sm p-4 space-y-2 mt-4">
-        <h2 className="text-xl font-bold">Detail</h2>
+        <h2 className="text-lg sm:text-xl font-bold">Detail</h2>
         <p className="leading-relaxed text-justify text-sm sm:text-base">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
           eius praesentium atque modi consequatur dolor quod. Tenetur

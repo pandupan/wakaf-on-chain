@@ -19,16 +19,18 @@ const Hero = () => {
               Wakaf adalah amalan yang tidak akan terputus pahalanya. Melalui wakaf, Anda bisa memberikan manfaat yang terus mengalir bagi umat dan lingkungan sekitar.
             </p>
           </div>
-          <Link href="/dashboard/berwakaf">
-            <Button variant="secondary" className="p-4 mt-4 gap-2">
-              Berwakaf sekarang
-            </Button>
-          </Link>
-          <Link href="#what-is-wakaf">
-            <Button variant="outline" className="p-4 mt-4 gap-2">
-              Pelajari lebih lanjut <FaArrowRightLong />
-            </Button>
-          </Link>
+          <div className="w-full sm:flex sm:items-center sm:gap-3 pt-4">
+            <Link href="/dashboard/berwakaf">
+              <Button variant="secondary" className="w-full p-4 gap-2">
+                Berwakaf sekarang
+              </Button>
+            </Link>
+            <Link href="#what-is-wakaf">
+              <Button variant="outline" className="w-full p-4 gap-2 mt-3 sm:mt-0">
+                Pelajari lebih lanjut <FaArrowRightLong />
+              </Button>
+            </Link>
+          </div>
         </div>
         <div className="relative md:flex-1 w-full aspect-[4/3]">
           <img

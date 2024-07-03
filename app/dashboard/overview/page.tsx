@@ -7,7 +7,7 @@ const page = () => {
     <div>
       <Overview />
       <div className='rounded-xl p-4 bg-background mt-4 shadow-sm'>
-        <h2 className='font-bold text-secondary'>Pemasukan Wakaf 1 Tahun Terakhir</h2>
+        <h1 className="text-xl font-semibold">Pemasukan Wakaf 1 Tahun Terakhir</h1>
         <IncomeChart />
       </div>
     </div>

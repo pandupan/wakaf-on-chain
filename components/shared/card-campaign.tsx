@@ -14,16 +14,16 @@ function CardCampaign({ className }: IProps) {
         'bg-background rounded-md shadow-sm grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2 p-4',
         className
       )}>
-        <div className="w-full aspect-video rounded-md overflow-hidden">
+        <div className="w-full aspect-[4/3] rounded-md overflow-hidden">
           <img
             src="https://picsum.photos/id/83/1600/900"
             className="w-full h-full"
             alt="campaign 1"
           />
         </div>
-        <div className="sm:space-y-1">
+        <div className="space-y-1">
           <h2 className="text-sm font-bold">
-            Wakaf untuk kebutuhan mesjid
+            Kebutuhan untuk perbaikan mesjid al ihsan tasikmalaya 2024
           </h2>
           <h5 className="text-xs sm:text-sm text-secondary font-semibold tracking-wide -mt-1">
             Rp12.000.000

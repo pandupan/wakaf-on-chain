@@ -1,3 +1,4 @@
+import InputSearch from '@/components/input-search'
 import CardCampaign from '@/components/shared/card-campaign'
 import React from 'react'
 
@@ -16,6 +17,9 @@ function CampaignPage() {
             <b>Disclaimer:</b> Kampanye ini diadakan secara resmi oleh pengurus dari Pondok Pesantren Mahasiswa Al-Ihsan dan menjadi tanggung jawabnya. Jika ada masalah atau kecurigaan silahkan <a href="#" className="text-secondary underline">laporkan kepada kami.</a>
           </p>
         </div>
+      </div>
+      <div className="mt-4 max-w-sm">
+        <InputSearch placeholder="Cari kampanye" />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-4">
         <CardCampaign />

@@ -8,7 +8,7 @@ import mosqueIcon from "/public/images/icons/mosque.png";
 
 const Facilities = () => {
   return (
-    <div id="fasilitas">
+    <section id="facilities">
       <div className="absolute -left-10 z-0">
         <div className="relative aspect-square w-[270px] h-[610px] z-0">
           <Image
@@ -163,7 +163,7 @@ const Facilities = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

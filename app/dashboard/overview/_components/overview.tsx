@@ -16,7 +16,7 @@ function Overview() {
       />
       <CardOverview
         Icon={FaHandHoldingUsd}
-        title="Jumlah Donatur"
+        title="Jumlah Wakif"
         value="170"
       />
       <CardOverview
@@ -26,7 +26,7 @@ function Overview() {
       />
       <CardOverview
         Icon={BsCurrencyDollar}
-        title="Donasi Rata-rata"
+        title="Uang Wakaf Tersisa"
         value="Rp200.000"
       />
       <CardOverview

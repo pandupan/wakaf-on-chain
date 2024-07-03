@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import { FaArrowRightLong } from "react-icons/fa6"
 
-const HeroSectionHP = () => {
+const Hero = () => {
   return (
     <section className="relative container mt-24 lg:mt-0 lg:h-screen max-h-[800px] pb-10 items-center flex flex-col-reverse lg:flex-row md:px-8 gap-10 z-[1]">
       <div className="space-y-4 flex-1 sm:text-center lg:text-left">
@@ -13,13 +14,17 @@ const HeroSectionHP = () => {
         <p className="text-gray-500 max-w-xl leading-relaxed">
           Pondok Pesantren Al-Ihsan Tasikmalaya, di Kecamatan Cipedes, memberikan pendidikan Islam gratis kepada santri putra dan putri. Fokus kami adalah kajian kitab, tahfidz Quran, dan pengembangan softskill serta hardskill.
         </p>
-        <div className="items-center gap-x-3 flex">
-          <Button variant="secondary">
-            Mari berwakaf
-          </Button>
-          <Button variant="outline" className="gap-2">
-            Tentang Kami <FaArrowRightLong />
-          </Button>
+        <div className="w-full sm:flex sm:items-center sm:gap-3">
+          <Link href="/wakaf">
+            <Button variant="secondary" className="w-full sm:w-auto">
+              Mari berwakaf
+            </Button>
+          </Link>
+          <Link href="/#about">
+            <Button variant="outline" className="gap-2 w-full sm:w-auto mt-3 sm:mt-0">
+              Tentang Kami <FaArrowRightLong />
+            </Button>
+          </Link>
         </div>
       </div>
       <div className="flex-1 text-center mt-4 rounded-lg overflow-hidden">
@@ -29,4 +34,4 @@ const HeroSectionHP = () => {
   )
 }
 
-export default HeroSectionHP
+export default Hero
