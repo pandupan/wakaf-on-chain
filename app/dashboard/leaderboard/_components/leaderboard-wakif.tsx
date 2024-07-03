@@ -1,6 +1,13 @@
-import { abbreviateName, cn } from '@/lib/utils';
-import React from 'react';
-import { FaCrown, FaMedal } from 'react-icons/fa';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCol,
+  TableRow
+} from '@/components/table'
+import { FaCrown, FaMedal } from 'react-icons/fa'
+import { abbreviateName, cn } from '@/lib/utils'
 
 const wakifList = [
   { name: 'Ahmad Abdullah', totalAmount: '1jt', donationFrequency: 2, largestDonation: '5jt' },
@@ -19,57 +26,57 @@ const sortedWakifList = wakifList.sort((a, b) => b.donationFrequency - a.donatio
 
 const LeaderboardWakif = () => {
   return (
-    <div>
-      <table className="min-w-full bg-transparent table-auto border-separate border-spacing-y-2">
-        <thead className="bg-gradient-to-r from-secondary to-indigo-500 text-white">
-          <tr>
-            <th className="py-2 sm:py-3 px-2 sm:px-4 text-left text-xs sm:text-base rounded-l-lg">Top</th>
-            <th className="py-2 sm:py-3 px-2 sm:px-4 text-left text-xs sm:text-base">Nama</th>
-            <th className="py-2 sm:py-3 px-2 sm:px-4 text-right text-xs sm:text-base">Total</th>
-            <th className="py-2 sm:py-3 px-2 sm:px-4 text-right text-xs sm:text-base">Wakaf Terbesar</th>
-            <th className="py-2 sm:py-3 px-2 sm:px-4 text-right text-xs sm:text-base rounded-r-lg">Total Wakaf</th>
-          </tr>
-        </thead>
-        <tbody className="text-gray-700">
-          {sortedWakifList.map((wakif, index) => (
-            <tr
-              key={index}
-              className={`transform transition duration-500 hover:scale-[1.02] ${index === 0 ? "bg-yellow-100 hover:bg-yellow-200" : index === 1 ? "bg-gray-200 hover:bg-gray-300" : index === 2 ? "bg-orange-100 hover:bg-orange-200" : "bg-gray-50 hover:bg-gray-100"} rounded-lg`}
-            >
-              <td className="py-2 sm:py-3 px-2 sm:px-4 rounded-l-lg">
-                <div className="flex items-center">
-                  {index === 0 ? (
-                    <FaCrown className="text-yellow-500 text-xs sm:text-2xl" />
-                  ) : (
-                    <FaMedal className={index === 1 ? "text-gray-400 text-xs sm:text-2xl" : index === 2 ? "text-orange-500 text-xs sm:text-2xl" : "text-gray-300 text-xs sm:text-2xl"} />
-                  )}
-                  <span className={cn(
-                    'text-xs font-bold ml-2',
-                    index === 0 ? 'text-yellow-500' : index === 1
-                      ? 'text-gray-400' : index === 2
-                        ? 'text-orange-500' : ''
-                  )}>
-                    {`${index + 1}`}
-                  </span>
-                </div>
-              </td>
-              <td className="py-2 sm:py-3 px-2 sm:px-4 sm:text-base text-xs">
-                {abbreviateName(wakif.name)}
-              </td>
-              <td className="py-2 sm:py-3 px-2 sm:px-4 text-right sm:text-base text-xs">
-                {wakif.donationFrequency}x
-              </td>
-              <td className="py-2 sm:py-3 px-2 sm:px-4 text-right sm:text-base text-xs">
-                {wakif.largestDonation}
-              </td>
-              <td className="py-2 sm:py-3 px-2 sm:px-4 rounded-r-lg text-right sm:text-base text-xs">
-                {wakif.totalAmount}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Table>
+      <TableHead>
+        <TableHeadCol className="rounded-l-lg">Top</TableHeadCol>
+        <TableHeadCol>Nama</TableHeadCol>
+        <TableHeadCol align="right">Total</TableHeadCol>
+        <TableHeadCol align="right">Wakaf Terbesar</TableHeadCol>
+        <TableHeadCol align="right" className="rounded-r-lg">Total Wakaf</TableHeadCol>
+      </TableHead>
+      <TableBody className="text-gray-700">
+        {sortedWakifList.map((wakif, index) => (
+          <TableRow
+            key={index}
+            isEven={index % 2 === 0}
+            className={`
+              ${index === 0 ?
+                "bg-yellow-100 hover:bg-yellow-200" : index === 1 ?
+                  "bg-orange-100 hover:bg-orange-200" : index === 2 ?
+                    "bg-gray-200 hover:bg-gray-300" : "bg-gray-50 hover:bg-gray-100"}
+            `}
+          >
+            <TableCell className="rounded-l-lg">
+              <div className="flex items-center">
+                {index === 0 ? (
+                  <FaCrown className="text-yellow-500 text-xs sm:text-2xl" />
+                ) : (
+                  <FaMedal className={cn(
+                    'text-xs sm:text-2xl',
+                    index === 1 ?
+                      "text-orange-500" : index === 2 ?
+                        "text-gray-400" : "text-gray-300"
+                  )} />
+                )}
+                <span className={cn(
+                  'text-xs font-bold ml-2',
+                  index === 0 ?
+                    'text-yellow-500' : index === 1 ?
+                      'text-orange-500' : index === 2 ?
+                        'text-gray-500' : ''
+                )}>
+                  {`${index + 1}`}
+                </span>
+              </div>
+            </TableCell>
+            <TableCell>{abbreviateName(wakif.name)}</TableCell>
+            <TableCell align="right">{wakif.donationFrequency}x</TableCell>
+            <TableCell align="right">{wakif.largestDonation}</TableCell>
+            <TableCell align="right" className="rounded-r-lg">{wakif.totalAmount}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 
