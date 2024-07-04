@@ -39,28 +39,30 @@ function SidebarMain() {
       <aside
         id="sidebar"
         className={cn(
-          'fixed w-64 left-0 h-screen p-4 space-y-6 bg-background border-r z-[1] shadow-xl lg:shadow-none transition-all duration-500 ease-in-out',
+          'fixed w-64 left-0 h-screen space-y-6 bg-background border-r z-[1] shadow-xl lg:shadow-none transition-all duration-500 ease-in-out',
           isOpen ? '' : '-translate-x-[120%] lg:translate-x-0'
         )}
       >
-        <div className="w-full h-full flex flex-col">
-          <div className="flex items-center gap-2">
-            <Link href="/" className="relative block w-[50px] sm:w-[60px] aspect-square rounded-md overflow-hidden">
-              <Image
-                src="/logo.jpeg"
-                alt="logo"
-                fill={true}
-              />
-            </Link>
-            <div className="flex flex-col">
-              <h1 className="text-sm leading-4 font-semibold text-secondary">PPM Al Ihsan</h1>
-              <span className="inline-block text-xs">Tasikmalaya</span>
+        <div className="w-full h-full p-4 flex flex-col justify-between gap-4 overflow-y-auto">
+          <div>
+            <div className="flex items-center gap-2">
+              <Link href="/" className="relative block w-[50px] sm:w-[60px] aspect-square rounded-md overflow-hidden">
+                <Image
+                  src="/logo.jpeg"
+                  alt="logo"
+                  fill={true}
+                />
+              </Link>
+              <div className="flex flex-col">
+                <h1 className="text-sm leading-4 font-semibold text-secondary">PPM Al Ihsan</h1>
+                <span className="inline-block text-xs">Tasikmalaya</span>
+              </div>
+            </div>
+            <div className="flex flex-col justify-between flex-1 mt-6">
+              <SidebarNav />
             </div>
           </div>
-          <div className="flex flex-col justify-between flex-1 mt-6">
-            <SidebarNav />
-          </div>
-          <div className="w-full self-end">
+          <div className="w-full">
             <Button size="sm" variant="destructive" className="w-full text-xs font-normal gap-2">
               Logout
               <IoIosLogOut className="text-sm" />

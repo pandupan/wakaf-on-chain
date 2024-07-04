@@ -33,9 +33,12 @@ function BerwakafPage() {
 
   return (
     <div className="w-full grid items-start grid-cols-12 gap-4">
-      <OverviewCampaign />
+      <div className="col-span-12 md:col-span-5">
+        <OverviewCampaign />
+      </div>
       <div className="col-span-12 md:col-span-7">
-        <div className="w-full bg-background p-4 sm:p-6 rounded-xl shadow-sm space-y-8">
+        <div className="w-full bg-background p-4 sm:p-6 rounded-xl shadow-sm space-y-2">
+          <h2 className="text-lg font-bold text-secondary">Mari Berwakaf</h2>
           <StepHeader data={steps} />
           {steps.currentStep === 1 && (
             <Step1 />
@@ -49,7 +52,7 @@ function BerwakafPage() {
           {steps.currentStep === 4 && (
             <Step4 />
           )}
-          <div className="space-y-4 sm:space-y-6">
+          <div className="space-y-4">
             <Separator />
             <div className="flex gap-4">
               {steps.currentStep > 1 && (

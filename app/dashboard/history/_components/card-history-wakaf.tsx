@@ -39,13 +39,13 @@ function CardHistoryWakaf() {
           </div>
         </div>
       </div>
-      <div className="sm:col-span-2">
+      <div className="sm:col-span-2 pt-2">
         <div className="flex items-center gap-2 sm:gap-4">
           <Button size="sm" variant="outline" className="w-full text-xs flex-1">
             Detail Kampanye
           </Button>
           <Button size="sm" variant="secondary" className="w-full text-xs flex-1">
-            Sertikat
+            Lihat Sertikat
           </Button>
         </div>
       </div>

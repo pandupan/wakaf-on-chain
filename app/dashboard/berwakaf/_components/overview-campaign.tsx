@@ -4,7 +4,7 @@ import HowToWakaf from './how-to-wakaf'
 
 function OverviewCampaign() {
   return (
-    <div className="col-span-12 md:col-span-5 bg-background p-4 sm:p-6 lg:p-4 xl:p-6 rounded-xl shadow-sm space-y-6">
+    <div className="bg-background p-4 sm:p-6 lg:p-4 xl:p-6 rounded-xl shadow-sm space-y-6">
       <div className="space-y-1">
         <h1 className="font-extrabold tracking-wide">Kampanye terpilih:</h1>
         <CardCampaign className="border shadow-none" />

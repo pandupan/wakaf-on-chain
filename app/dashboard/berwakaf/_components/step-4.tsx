@@ -12,7 +12,7 @@ function Step4() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <span className="block px-4 py-1 rounded-full text-sm font-semibold bg-secondary/20 text-secondary">3</span>
+        <span className="block px-4 py-1 rounded-full text-sm font-semibold bg-secondary/20 text-secondary">4</span>
         <h1 className="text-lg font-bold">Ringkasan</h1>
       </div>
       <Alert variant="info">
@@ -29,7 +29,7 @@ function Step4() {
               <div className="w-[80px] aspect-[4/3] text-lg rounded-md bg-muted"></div>
               DANA
             </div>
-            <Button size="sm" variant="primary" className="py-1.5 h-auto text-xs border border-secondary rounded-full gap-2">
+            <Button size="sm" variant="primary" className="py-1 px-2 h-auto text-[10px] border border-secondary rounded-full gap-1">
               Ganti
               <HiOutlineChevronDown />
             </Button>
