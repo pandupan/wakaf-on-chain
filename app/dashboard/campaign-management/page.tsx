@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-import { FiMoreVertical, FiEdit, FiRefreshCw, FiEye } from "react-icons/fi"; 
+import { FiMoreVertical, FiEdit, FiRefreshCw, FiEye } from "react-icons/fi"; // Importing icons
 
 const page = () => {
   return (
@@ -55,9 +55,9 @@ const page = () => {
             <TableCell className="rounded-r-lg">
               <Popover>
                 <PopoverTrigger>
-                  <button className="px-3 py-2 border rounded-lg hover:bg-gray-100 transition duration-150 ease-in-out">
+                  <div className="px-3 py-2 border rounded-lg hover:bg-gray-100 transition duration-150 ease-in-out cursor-pointer">
                     Aksi
-                  </button>
+                  </div>
                 </PopoverTrigger>
                 <PopoverContent>
                   <div className="space-y-1">
