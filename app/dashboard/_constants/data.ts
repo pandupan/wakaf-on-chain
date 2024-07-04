@@ -20,7 +20,7 @@ export const sidebarNavItems = [
     text: "Kelola Kampanye",
   },
   {
-    href: "/dashboard/wakif-history",
+    href: "/dashboard/wakif",
     icon: PiHandCoins,
     text: "Daftar Wakif",
   },
