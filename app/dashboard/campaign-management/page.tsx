@@ -12,46 +12,69 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-import { FiMoreVertical, FiEdit, FiRefreshCw, FiEye } from "react-icons/fi"; // Importing icons
+import { FiMoreVertical, FiEdit, FiRefreshCw, FiEye } from "react-icons/fi"; 
 
 const page = () => {
   return (
     <div>
       <Table>
         <TableHead>
-          <TableHeadCol className="rounded-l-lg">Gambar</TableHeadCol>
-          <TableHeadCol>Judul Kampanye</TableHeadCol>
+          <TableHeadCol className="rounded-l-lg">Kampanye</TableHeadCol>
           <TableHeadCol>Status</TableHeadCol>
           <TableHeadCol>Target</TableHeadCol>
-          <TableHeadCol>Terkumpul</TableHeadCol>
-          <TableHeadCol>Kekurangan</TableHeadCol>
+          <TableHeadCol>Nama Pembuat</TableHeadCol> 
           <TableHeadCol className="rounded-r-lg">Aksi</TableHeadCol>
         </TableHead>
         <TableBody className="text-gray-700">
           <TableRow>
             <TableCell className="rounded-l-lg">
-              <div className="w-32 aspect-w-16 aspect-h-9">
-                <img
-                  src="https://picsum.photos/id/83/1600/900"
-                  alt="Campaign"
-                  className="object-cover rounded"
-                />
+              <div className="flex items-center space-x-4">
+                <div className="w-32 aspect-w-16 aspect-h-9">
+                  <img
+                    src="https://picsum.photos/id/83/1600/900"
+                    alt="Campaign"
+                    className="object-cover rounded"
+                  />
+                </div>
+                <div>
+                  <div className="font-bold max-w-xs">
+                    Mari berwakaf untuk membantu santri PPM Al Ihsan Tasikmalaya
+                  </div>
+                  <div className="border border-b my-2" />
+                  <div className="flex flex-row justify-between">
+                    <div>
+                      <h4 className="text-xs">Terkumpul</h4>
+                      <span className="block font-bold text-xs text-green-500">
+                        Rp9.835.000
+                      </span>
+                    </div>
+                    <div className="text-right">
+                      <h4 className="text-xs">Kekurangan</h4>
+                      <span className="block font-bold text-xs text-red-500">
+                        Rp805.000
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </TableCell>
             <TableCell>
-              Mari berwakaf untuk membantu santri PPM Al Ihsan Tasikmalaya
-            </TableCell>
-            <TableCell>
-              <span className="bg-green-200 text-green-800 px-2 py-1 rounded-full">
-                Selesai
+              {/* <span className="bg-green-200 text-green-800 px-2 py-1 rounded-full">
+                Tercapai
+              </span> */}
+              <span className="bg-red-200 text-red-800 px-2 py-1 rounded-full">
+                Berjalan
               </span>
-              {/* <span className="bg-red-200 text-red-800 px-2 py-1 rounded-full">
-                Pending
+              {/* <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-full">
+                Ditutup
               </span> */}
             </TableCell>
-            <TableCell>Rp. 12.000.000</TableCell>
-            <TableCell>Rp. 9.835.000</TableCell>
-            <TableCell>Rp. 805.000</TableCell>
+            <TableCell>
+              Rp12.000.000
+            </TableCell>
+            <TableCell>
+              DEZA ADYTIAR NUR ARIEF
+            </TableCell>
             <TableCell className="rounded-r-lg">
               <Popover>
                 <PopoverTrigger>
@@ -68,7 +91,8 @@ const page = () => {
                       <FiEdit className="mr-2" aria-hidden="true" /> Edit
                     </button>
                     <button className="flex rounded-lg items-center py-2 px-4 text-left w-full hover:bg-gray-100 transition duration-150 ease-in-out">
-                      <FiRefreshCw className="mr-2" aria-hidden="true" /> Ubah Status
+                      <FiRefreshCw className="mr-2" aria-hidden="true" /> Ubah
+                      Status
                     </button>
                   </div>
                 </PopoverContent>
