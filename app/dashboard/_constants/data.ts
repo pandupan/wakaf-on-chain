@@ -25,7 +25,7 @@ export const sidebarNavItems = [
     text: "Daftar Wakif",
   },
   {
-    href: "/dashboard/add",
+    href: "/dashboard/add-campaign",
     icon: RiHeartAddLine,
     text: "Buat Kampanye",
   },

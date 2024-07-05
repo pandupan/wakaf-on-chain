@@ -10,13 +10,13 @@ function WithdrawPage() {
             <h4 className="text-xs sm:text-sm">Wakaf Tersedia</h4>
             <h3 className="text-xl sm:text-2xl font-bold">Rp150.000.000</h3>
           </div>
-          <div className="p-6 rounded-xl shadow-sm bg-background">
-            <h4 className="text-xs sm:text-sm">Bisa Dicairkan Dari</h4>
-            <h3 className="text-xl sm:text-2xl font-bold text-secondary">6 Kampanye</h3>
-          </div>
           <div className="p-6 rounded-xl bg-gradient-to-r from-violet-400 to-sky-400 text-secondary-foreground">
             <h4 className="text-xs sm:text-sm">Berhasil Tercairkan</h4>
             <h3 className="text-xl sm:text-2xl font-bold">Rp50.000.000</h3>
+          </div>
+          <div className="p-6 rounded-xl shadow-sm bg-background">
+            <h4 className="text-xs sm:text-sm">Bisa Dicairkan Dari</h4>
+            <h3 className="text-xl sm:text-2xl font-bold text-secondary">6 Kampanye</h3>
           </div>
           <div className="p-6 rounded-xl shadow-sm bg-background">
             <h4 className="text-xs sm:text-sm">Total Pemasukan</h4>
