@@ -22,6 +22,7 @@ import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { MdDelete } from 'react-icons/md'
 import Image from 'next/image'
 import { campaignSchema } from '@/schemas'
+import { addThousandSeparatorNumber } from '@/lib/utils'
 
 function FormAddCampaign() {
   const [adding, setAdding] = useState(false);
@@ -64,7 +65,7 @@ function FormAddCampaign() {
               name="image"
               render={({ field }) => (
                 <FormItem className="sm:col-span-2">
-                  <FormLabel htmlFor="image" className="font-semibold">Gambar Kampanye</FormLabel>
+                  <FormLabel htmlFor="image" className="font-semibold">Banner Kampanye</FormLabel>
                   <FormControl>
                     <div className="relative flex justify-center items-center flex-col border-2 border-dotted border-gray-300 p-3 w-full rounded-md">
                       {!field.value ? (
@@ -122,12 +123,38 @@ function FormAddCampaign() {
             />
             <FormField
               control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem className="sm:col-span-2">
+                  <FormLabel className="font-semibold">Kategori</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Masukan kategori" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="target"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-semibold">Target Wakaf</FormLabel>
                   <FormControl>
-                    <Input placeholder="Misal: 12.000.000" {...field} />
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        placeholder="Misal: 12.000.000"
+                        className="pl-12"
+                        onChange={(e) => {
+                          e.target.value = addThousandSeparatorNumber(+e.target.value.replace(/[^0-9]/g, ''));
+                          form.setValue('target', e.target.value);
+                        }}
+                      />
+                      <span className="absolute top-[50%] -translate-y-[50%] h-full px-2 bg-gray-100 text-sm flex items-center justify-center rounded-l-lg border">
+                        Rp
+                      </span>
+                    </div>
                   </FormControl>
                   <FormDescription>Target wakaf harus sesuai dengan kebutuhan masalah.</FormDescription>
                   <FormMessage />
@@ -136,7 +163,7 @@ function FormAddCampaign() {
             />
             <FormField
               control={form.control}
-              name="target"
+              name="phone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-semibold">Nomor WhatsApp</FormLabel>

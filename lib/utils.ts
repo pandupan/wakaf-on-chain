@@ -27,3 +27,7 @@ export const formatCategoryChartLabel = (num: number) => {
 export function formatRupiah(value: number): string {
   return value.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' }).replace(',00', '');
 }
+
+export function addThousandSeparatorNumber(number: number): string {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
