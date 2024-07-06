@@ -3,10 +3,10 @@
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { MdOutlineMail, MdOutlinePhone } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
-import { Label } from "./ui/label";
+import { Label } from "@/components/ui/label";
 
 const ContactUs = () => {
   const contactMethods = [

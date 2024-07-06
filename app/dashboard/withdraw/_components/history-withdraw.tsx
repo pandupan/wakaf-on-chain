@@ -5,7 +5,7 @@ import {
   TableHead,
   TableHeadCol,
   TableRow
-} from '@/components/table'
+} from '@/components/core/table'
 import { Badge } from '@/components/ui/badge'
 import { abbreviateName } from '@/lib/utils'
 

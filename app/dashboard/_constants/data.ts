@@ -8,31 +8,38 @@ import { PiHandCoins } from "react-icons/pi"
 import { BiNotepad } from 'react-icons/bi'
 import { IoWalletOutline } from 'react-icons/io5'
 
-export const sidebarNavItems = [
+import { SidebarNavItems } from '@/lib/types'
+
+export const sidebarNavItems: SidebarNavItems[] = [
   {
     href: "/dashboard/overview",
     icon: MdInsertChartOutlined,
     text: "Overview",
+    role: 'ADMIN'
   },
   {
     href: "/dashboard/campaign-management",
     icon: BiNotepad,
     text: "Kelola Kampanye",
+    role: 'ADMIN'
   },
   {
     href: "/dashboard/wakif",
     icon: PiHandCoins,
     text: "Daftar Wakif",
+    role: 'ADMIN'
   },
   {
     href: "/dashboard/add-campaign",
     icon: RiHeartAddLine,
     text: "Buat Kampanye",
+    role: 'ADMIN'
   },
   {
     href: "/dashboard/withdraw",
     icon: IoWalletOutline,
     text: "Saldo Wakaf",
+    role: 'ADMIN'
   },
   {
     type: "divider",
@@ -41,26 +48,31 @@ export const sidebarNavItems = [
     href: "/dashboard",
     icon: AiOutlineHome,
     text: "Beranda",
+    role: 'USER'
   },
   {
     href: "/dashboard/berwakaf",
     icon: LiaDonateSolid,
     text: "Berwakaf",
+    role: 'USER'
   },
   {
     href: "/dashboard/campaign",
     icon: MdOutlineCampaign,
     text: "Kampanye",
+    role: 'PUBLIC'
   },
   {
     href: "/dashboard/history",
     icon: TbMoneybag,
     text: "Riwayat Wakaf",
+    role: 'USER'
   },
   {
     href: "/dashboard/leaderboard",
     icon: AiOutlineTrophy,
     text: "Papan Peringkat",
+    role: 'PUBLIC'
   },
   {
     type: "divider",
@@ -69,5 +81,6 @@ export const sidebarNavItems = [
     href: "/dashboard/profile",
     icon: LuUser2,
     text: "Profil",
+    role: 'BOTH'
   },
 ];

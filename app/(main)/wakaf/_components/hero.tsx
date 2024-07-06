@@ -20,7 +20,7 @@ const Hero = () => {
             </p>
           </div>
           <div className="w-full sm:flex sm:items-center sm:gap-3 pt-4">
-            <Link href="/dashboard/berwakaf">
+            <Link href="/dashboard/campaign">
               <Button variant="secondary" className="w-full p-4 gap-2">
                 Berwakaf sekarang
               </Button>

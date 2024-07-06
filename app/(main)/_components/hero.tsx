@@ -4,8 +4,8 @@ import { FaArrowRightLong } from "react-icons/fa6"
 
 const Hero = () => {
   return (
-    <section className="relative container mt-24 lg:mt-0 lg:h-screen max-h-[800px] pb-10 items-center flex flex-col-reverse lg:flex-row md:px-8 gap-10 z-[1]">
-      <div className="space-y-4 flex-1 sm:text-center lg:text-left">
+    <section className="relative container mt-24 md:mt-0 md:h-screen max-h-[800px] pb-10 items-center flex flex-col-reverse md:flex-row md:px-8 gap-10 z-[1]">
+      <div className="space-y-4 flex-1">
         <h1 className="text-gray-800 font-bold text-3xl sm:text-5xl xl:text-6xl">
           PP Mahasiswa
           <br />
@@ -28,7 +28,10 @@ const Hero = () => {
         </div>
       </div>
       <div className="flex-1 text-center mt-4 rounded-lg overflow-hidden">
-        <img src="https://picsum.photos/id/83/1600/900" className="w-full mx-auto sm:w-10/12  lg:w-full" />
+        <img
+          src="https://picsum.photos/id/83/1600/900"
+          className="w-full h-full object-cover"
+        />
       </div>
     </section>
   )

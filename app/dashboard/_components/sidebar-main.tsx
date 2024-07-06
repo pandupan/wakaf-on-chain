@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import SidebarNav from './sidebar-nav'
@@ -8,8 +8,14 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { IoIosLogOut } from 'react-icons/io'
 import useSidebarStore from '../_stores/useSidebarStore'
+import { User, UserRole } from '@prisma/client'
+import { logout } from '@/actions/logout'
 
-function SidebarMain() {
+interface IProps {
+  role: UserRole | null;
+}
+
+function SidebarMain({ role }: IProps) {
   const { isOpen, closeSidebar } = useSidebarStore()
 
   useEffect(() => {
@@ -59,15 +65,26 @@ function SidebarMain() {
               </div>
             </div>
             <div className="flex flex-col justify-between flex-1 mt-6">
-              <SidebarNav />
+              <SidebarNav role={role} />
             </div>
           </div>
           <div className="w-full">
-            <Button size="sm" variant="destructive" className="w-full text-xs font-normal gap-2">
-              Logout
-              <IoIosLogOut className="text-sm" />
-            </Button>
+
           </div>
+          {!!role ? (
+            <form action={logout}>
+              <Button type="submit" size="sm" variant="destructive" className="w-full text-xs font-normal gap-2">
+                Logout
+                <IoIosLogOut className="text-sm" />
+              </Button>
+            </form>
+          ) : (
+            <Link href="/auth/login">
+              <Button size="sm" variant="secondary" className="w-full text-xs font-normal gap-2">
+                Login
+              </Button>
+            </Link>
+          )}
         </div>
       </aside>
     </>

@@ -5,7 +5,7 @@ import {
   TableHead,
   TableHeadCol,
   TableRow
-} from '@/components/table'
+} from '@/components/core/table'
 import { formatRupiah } from '@/lib/utils'
 import { FaDownload } from 'react-icons/fa'
 

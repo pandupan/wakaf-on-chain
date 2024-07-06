@@ -31,3 +31,16 @@ export function formatRupiah(value: number): string {
 export function addThousandSeparatorNumber(number: number): string {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
+
+export function getInitials(fullName: string): string {
+  // Trim any extra spaces and split the full name into words
+  const names = fullName.trim().split(/\s+/);
+
+  // If there's only one name, return the first two characters in uppercase
+  if (names.length === 1) {
+    return names[0].substring(0, 2).toUpperCase();
+  }
+
+  // Otherwise, return the first character of the first two names
+  return (names[0][0] + names[1][0]).toUpperCase();
+}

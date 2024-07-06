@@ -1,6 +1,6 @@
 'use client'
 
-import { RichtextEditor } from '@/components/richtext-editor'
+import { RichtextEditor } from '@/components/core/richtext-editor'
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { useForm } from "react-hook-form"

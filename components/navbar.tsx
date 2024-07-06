@@ -1,13 +1,17 @@
-'use client';
+'use client'
 
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from 'react'
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai"
-import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from "./ui/button"
+import { cn } from "@/lib/utils"
 
-const Navbar = () => {
+interface IProps {
+  isAuthenticated: boolean;
+}
+
+const Navbar: React.FC<IProps> = ({ isAuthenticated }) => {
   const [nav, setNav] = useState(false);
 
   const toggleNav = () => setNav((prev) => !prev);
@@ -32,7 +36,15 @@ const Navbar = () => {
               <Link href="/#contact">Kontak</Link>
             </nav>
             <div className="flex gap-6">
-              <Button variant="secondary">Login</Button>
+              {isAuthenticated ? (
+                <Link href="/dashboard">
+                  <Button variant="secondary">Dashboard</Button>
+                </Link>
+              ) : (
+                <Link href="/auth/login">
+                  <Button variant="secondary">Login</Button>
+                </Link>
+              )}
             </div>
           </div>
           <div className="lg:hidden">
@@ -82,18 +94,31 @@ const Navbar = () => {
             </Link>
           </nav>
           <div className="w-full h-auto flex flex-col gap-4">
-            <Button
-              variant="secondary"
-              className="w-full"
-              onClick={toggleNav}
-            >
-              Login
-            </Button>
+            {isAuthenticated ? (
+              <Link href="/dashboard">
+                <Button
+                  variant="secondary"
+                  className="w-full"
+                  onClick={toggleNav}
+                >
+                  Dashboard
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/auth/login">
+                <Button
+                  variant="secondary"
+                  className="w-full"
+                  onClick={toggleNav}
+                >
+                  Login
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </header>
       {/* End Dropdown Menu Mobile */}
-
     </>
   )
 }

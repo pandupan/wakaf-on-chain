@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import ReactApexcharts from "@/components/react-apex-charts";
+import ReactApexcharts from "@/components/core/react-apex-charts";
 import { ApexOptions } from "apexcharts";
-import { chartOptions } from "@/lib/types";
+import { chartOptions } from "@/lib/chart";
 import { BiLoaderAlt } from "react-icons/bi";
 
 const categories: string[] = [

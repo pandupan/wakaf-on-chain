@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import Campaign from './_components/campaign'
 
-const HomeDashboardPage = () => {
+const HomeDashboardPage = async () => {
   return (
     <div className="space-y-4">
       <Link href="/dashboard/berwakaf">

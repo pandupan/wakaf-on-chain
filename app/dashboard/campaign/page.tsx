@@ -1,4 +1,4 @@
-import InputSearch from '@/components/input-search'
+import InputSearch from '@/components/core/input-search'
 import CardCampaign from '@/components/shared/card-campaign'
 import React from 'react'
 

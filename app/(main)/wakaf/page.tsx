@@ -1,7 +1,7 @@
 import Hero from '@/app/(main)/wakaf/_components/hero'
 import WhatIsWakaf from '@/app/(main)/wakaf/_components/what-is-wakaf'
 import OurPlatform from './_components/our-platform'
-import ContactUs from '@/components/contact-us'
+import ContactUs from '@/components/shared/contact-us'
 import CallToAction from './_components/call-to-action'
 import TopWakif from './_components/top-wakif'
 import Statistic from './_components/statistic'
@@ -14,7 +14,7 @@ export default function Home() {
       <WhatIsWakaf />
       <OurPlatform />
       <TopWakif />
-      <HistoryLanding/>
+      <HistoryLanding />
       <Statistic />
       <CallToAction />
       <ContactUs />

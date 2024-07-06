@@ -5,7 +5,7 @@ import {
   TableHead,
   TableHeadCol,
   TableRow
-} from '@/components/table'
+} from '@/components/core/table'
 import { FaCrown, FaMedal } from 'react-icons/fa'
 import { abbreviateName, cn } from '@/lib/utils'
 
