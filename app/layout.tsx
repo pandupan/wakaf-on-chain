@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
+        <Toaster />
         {children}
       </body>
     </html>

@@ -17,7 +17,7 @@ function DataTable() {
       <TableHead>
         <TableHeadCol className="rounded-l-lg">Kampanye</TableHeadCol>
         <TableHeadCol>Status</TableHeadCol>
-        <TableHeadCol className="text-right">Donatur</TableHeadCol>
+        <TableHeadCol className="text-right">Jumlah Wakif</TableHeadCol>
         <TableHeadCol className="text-right">Target</TableHeadCol>
         <TableHeadCol>Dibuat</TableHeadCol>
         <TableHeadCol className="text-center rounded-r-lg">Aksi</TableHeadCol>

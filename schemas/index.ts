@@ -2,7 +2,7 @@ import { z } from "zod"
 
 const phoneRegex = /^08[0-9]{9,11}$/;
 
-export const campaignSchema = z.object({
+export const campaignSchemaRaw = {
   title: z.string().min(5, {
     message: "Judul kampanye minimal 10 karakter.",
   }),
@@ -33,9 +33,11 @@ export const campaignSchema = z.object({
       message: "Banner kampanye harus diisi.",
     })
     .refine((file) => file && (!!file && file.size <= 2 * 1024 * 1024), {
-      message: "Banner kampanye maksimal 2MB.",
+      message: "Banner kampanye maksimal 3MB.",
     })
     .refine((file) => file && (!!file && file.type?.startsWith("image")), {
       message: "Hanya gambar yang diizinkan.",
     }),
-});
+}
+
+export const campaignSchema = z.object(campaignSchemaRaw);

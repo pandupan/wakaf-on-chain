@@ -15,6 +15,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { useState } from 'react'
 import { VscLoading } from 'react-icons/vsc'
@@ -23,6 +30,10 @@ import { MdDelete } from 'react-icons/md'
 import Image from 'next/image'
 import { campaignSchema } from '@/schemas'
 import { addThousandSeparatorNumber } from '@/lib/utils'
+import { wakafCategories } from '../../_constants/data'
+import { toast } from 'sonner'
+import axios, { AxiosError } from "axios"
+import { useRouter } from 'next/navigation'
 
 function FormAddCampaign() {
   const [adding, setAdding] = useState(false);
@@ -36,8 +47,54 @@ function FormAddCampaign() {
     }
   });
 
-  const onSubmit = (data: z.infer<typeof campaignSchema>) => {
-    console.log(data);
+  const navigate = useRouter();
+
+  async function uploadAndCompressImage(file: FileList[0]) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('width', '400');
+    formData.append('height', '300');
+
+    return new Promise<Promise<string>>((resolve) => {
+      const promise = axios('/api/compress-image', {
+        method: 'POST',
+        data: formData,
+      });
+
+      toast.promise(promise, {
+        loading: 'Mengompress gambar...',
+        success: async (res) => {
+          resolve(res.data);
+          return 'Gambar berhasil di kompresi.';
+        },
+        error: 'Gagal mengompress gambar.',
+      });
+    })
+  }
+
+  const onSubmit = async (data: z.infer<typeof campaignSchema>) => {
+    setAdding(true);
+    const compressImage = await uploadAndCompressImage(data.image!);
+
+    axios('/api/campaign', {
+      method: 'POST',
+      data: {
+        ...data,
+        image: `data:image/png;base64,${compressImage}`
+      },
+    })
+      .then((res) => {
+        toast.success('Berhasil membuat kampanye.');
+        navigate.push('/dashboard/campaign-management');
+      })
+      .catch((error: AxiosError) => {
+        setAdding(false);
+        if (error.response!.status === 401) {
+          toast.error('Invalid kredensial');
+        } else {
+          toast.error('Internal Error');
+        }
+      });
   };
 
   return (
@@ -53,9 +110,15 @@ function FormAddCampaign() {
                 <FormItem className="sm:col-span-2">
                   <FormLabel className="font-semibold">Judul</FormLabel>
                   <FormControl>
-                    <Input placeholder="Masukan judul kampanye" {...field} />
+                    <Input
+                      {...field}
+                      placeholder="Masukan judul kampanye"
+                      disabled={adding}
+                    />
                   </FormControl>
-                  <FormDescription>Judul kampanye harus jelas dan mudah dipahami wakif.</FormDescription>
+                  <FormDescription>
+                    Judul kampanye harus jelas dan mudah dipahami wakif.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -89,6 +152,7 @@ function FormAddCampaign() {
                             type="file"
                             className="w-0 h-0"
                             name="image"
+                            disabled={adding}
                             onChange={(event) => {
                               if (event.target.files) {
                                 field.onChange(event.target.files[0]);
@@ -109,6 +173,7 @@ function FormAddCampaign() {
                           <button
                             type="button"
                             className="absolute bottom-3 right-3 p-3 rounded-full border bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
+                            disabled={adding}
                             onClick={() => field.onChange(undefined)}
                           >
                             <MdDelete />
@@ -127,9 +192,23 @@ function FormAddCampaign() {
               render={({ field }) => (
                 <FormItem className="sm:col-span-2">
                   <FormLabel className="font-semibold">Kategori</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Masukan kategori" {...field} />
-                  </FormControl>
+                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled={adding}>
+                    <FormControl>
+                      <SelectTrigger className="text-muted-foreground">
+                        <SelectValue placeholder="Pilih Kategori" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {wakafCategories.map((item) => (
+                        <SelectItem
+                          value={item.value}
+                          key={item.id}
+                        >
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -144,6 +223,7 @@ function FormAddCampaign() {
                     <div className="relative">
                       <Input
                         {...field}
+                        disabled={adding}
                         placeholder="Misal: 12.000.000"
                         className="pl-12"
                         onChange={(e) => {
@@ -156,7 +236,9 @@ function FormAddCampaign() {
                       </span>
                     </div>
                   </FormControl>
-                  <FormDescription>Target wakaf harus sesuai dengan kebutuhan masalah.</FormDescription>
+                  <FormDescription>
+                    Target wakaf harus sesuai dengan kebutuhan masalah.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -168,9 +250,15 @@ function FormAddCampaign() {
                 <FormItem>
                   <FormLabel className="font-semibold">Nomor WhatsApp</FormLabel>
                   <FormControl>
-                    <Input placeholder="Misal: 082123456789" {...field} />
+                    <Input
+                      {...field}
+                      placeholder="Misal: 082123456789"
+                      disabled={adding}
+                    />
                   </FormControl>
-                  <FormDescription>Nomor WhatsApp harus yang aktif untuk membantu wakif jika ada masalah.</FormDescription>
+                  <FormDescription>
+                    Nomor WhatsApp harus yang aktif untuk membantu wakif jika ada masalah.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -187,17 +275,23 @@ function FormAddCampaign() {
                       onChange={(output) => field.onChange(output)}
                     />
                   </FormControl>
-                  <FormDescription>Deksripsi harus jelas kenapa Anda membuat kampanye ini.</FormDescription>
+                  <FormDescription>
+                    Deksripsi harus jelas kenapa Anda membuat kampanye ini.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
           <div>
-            <Button type="submit" variant="secondary" className="mt-4" disabled={adding}>
-              {!adding ? 'Submit' : (
-                <VscLoading fontSize={24} className="animate-spin" />
-              )}
+            <Button
+              type="submit"
+              variant="secondary"
+              className="mt-4 gap-2"
+              disabled={adding}
+            >
+              {adding && <VscLoading className="animate-spin" />}
+              Buat Kampanye
             </Button>
           </div>
         </form>

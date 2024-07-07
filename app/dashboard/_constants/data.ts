@@ -84,3 +84,14 @@ export const sidebarNavItems: SidebarNavItems[] = [
     role: 'BOTH'
   },
 ];
+
+export const wakafCategories = [
+  { id: 1, value: 'pendidikan', label: 'Pendidikan' },
+  { id: 2, value: 'kesehatan', label: 'Kesehatan' },
+  { id: 3, value: 'masjid', label: 'Masjid' },
+  { id: 4, value: 'infrastruktur', label: 'Infrastruktur' },
+  { id: 5, value: 'sosial', label: 'Sosial' },
+  { id: 6, value: 'lingkungan', label: 'Lingkungan' },
+  { id: 7, value: 'ekonomi', label: 'Ekonomi' },
+  { id: 8, value: 'lainnya', label: 'Lainnya' },
+];
