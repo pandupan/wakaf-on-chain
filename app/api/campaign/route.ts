@@ -12,9 +12,7 @@ const campaignSchemaResponse = z.object({
   })
 })
 
-export async function POST(
-  request: Request
-) {
+export async function POST(req: Request) {
   try {
     const session = await auth();
     if (!session || !session.user) {
@@ -27,12 +25,12 @@ export async function POST(
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    const body: z.infer<typeof campaignSchemaResponse> = await request.json();
+    const body: z.infer<typeof campaignSchemaResponse> = await req.json();
 
     const validatedFields = campaignSchemaResponse.safeParse(body);
 
     if (!validatedFields.success) {
-      return { error: 'Invalid fields!' }
+      return new NextResponse('Invalid inputs', { status: 400 })
     }
 
     const {

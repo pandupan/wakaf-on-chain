@@ -1,12 +1,6 @@
 import sharp from 'sharp';
 import { NextResponse } from 'next/server';
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function POST(req: Request) {
   const form = await req.formData();
 
@@ -23,13 +17,11 @@ export async function POST(req: Request) {
 
     const base64Image = outputBuffer.toString('base64');
 
-    return NextResponse.json(base64Image, {
+    return new NextResponse(base64Image, {
       status: 200,
     });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'Failed to process image' }, {
-      status: 500,
-    });
+    console.error('COMPRESS IMAGE ERROR: ', error);
+    return new NextResponse('Failed to process image', { status: 500 });
   }
 }

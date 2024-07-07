@@ -17,7 +17,7 @@ import { FaBell, FaCheckCircle, FaExclamationCircle, FaInfoCircle, FaCertificate
 
 import useSidebarStore from "../_stores/useSidebarStore";
 
-const NotificationDisplay: React.FC = () => {
+const NotificationSheet: React.FC = () => {
   const { notificationDisplay, onOpenNotification } = useSidebarStore();
 
   const notifications = [
@@ -93,4 +93,4 @@ const NotificationDisplay: React.FC = () => {
   );
 };
 
-export default NotificationDisplay;
+export default NotificationSheet;

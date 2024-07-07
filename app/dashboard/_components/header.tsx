@@ -13,7 +13,7 @@ import { IoClose, IoMenu } from "react-icons/io5"
 import useSidebarStore from '../_stores/useSidebarStore'
 import { User } from '@prisma/client'
 import { getInitials } from '@/lib/utils'
-import NotificationDisplay from './notification-display'  // Import the NotificationDisplay component
+import NotificationSheet from './notification-sheet'  // Import the NotificationSheet component
 
 interface IProps {
   user: User | null;
@@ -52,7 +52,7 @@ function Header({ user }: IProps) {
           {isOpen ? <IoClose className="text-xl" /> : <IoMenu className="text-xl" />}
         </button>
       </div>
-      <NotificationDisplay />  {/* Add the NotificationDisplay component */}
+      <NotificationSheet />  {/* Add the NotificationSheet component */}
     </div>
   )
 }
