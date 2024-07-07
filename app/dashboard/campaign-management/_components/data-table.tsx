@@ -17,6 +17,7 @@ function DataTable() {
       <TableHead>
         <TableHeadCol className="rounded-l-lg">Kampanye</TableHeadCol>
         <TableHeadCol>Status</TableHeadCol>
+        <TableHeadCol>Kategori</TableHeadCol>
         <TableHeadCol className="text-right">Donatur</TableHeadCol>
         <TableHeadCol className="text-right">Target</TableHeadCol>
         <TableHeadCol>Dibuat</TableHeadCol>
@@ -57,6 +58,9 @@ function DataTable() {
           </TableCell>
           <TableCell>
             <Badge variant="success" className="text-[10px] sm:text-sm">Berjalan</Badge>
+          </TableCell>
+          <TableCell>
+            <p className="text-[10px] sm:text-sm">Perlengkapan Ibadah</p>
           </TableCell>
           <TableCell className="text-right">
             20
