@@ -20,7 +20,7 @@ interface IProps {
 }
 
 function Header({ user }: IProps) {
-  const { toggleSidebar, isOpen, toggleNotificationDisplay } = useSidebarStore()  // Get the toggleNotificationDisplay function
+  const { toggleSidebar, isOpen, toggleNotification } = useSidebarStore()  // Get the toggleNotification function
 
   return (
     <div className="flex flex-col-reverse sm:flex-row sm:items-end gap-x-2 gap-y-4 justify-between pb-4">
@@ -29,7 +29,7 @@ function Header({ user }: IProps) {
         {!!user && (
           <div className="flex gap-2 items-center p-1.5 rounded-full bg-background shadow-xl shadow-foreground/5">
             <div className="space-x-0.5">
-              <button className="p-1 rounded-full text-lg hover:bg-muted transition" onClick={toggleNotificationDisplay}>
+              <button className="p-1 rounded-full text-lg hover:bg-muted transition" onClick={toggleNotification}>
                 <IoMdNotificationsOutline />
               </button>
               <button className="p-1 rounded-full text-lg hover:bg-muted transition">

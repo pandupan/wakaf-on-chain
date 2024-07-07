@@ -18,7 +18,7 @@ import { FaBell, FaCheckCircle, FaExclamationCircle, FaInfoCircle, FaCertificate
 import useSidebarStore from "../_stores/useSidebarStore";
 
 const NotificationDisplay: React.FC = () => {
-  const { notificationDisplay, closeNotificationDisplay } = useSidebarStore();
+  const { notificationDisplay, onOpenNotification } = useSidebarStore();
 
   const notifications = [
     {
@@ -52,7 +52,7 @@ const NotificationDisplay: React.FC = () => {
   ];
 
   return (
-    <Sheet open={notificationDisplay} onClose={closeNotificationDisplay}>
+    <Sheet open={notificationDisplay} onOpenChange={onOpenNotification}>
       <SheetContent className="overflow-y-auto max-h-screen"> {/* Make SheetContent scrollable */}
         <SheetHeader>
           <SheetTitle className="border-b pb-2">Notifikasi</SheetTitle>

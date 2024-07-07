@@ -6,9 +6,8 @@ interface SidebarState {
   toggleSidebar: () => void;
   closeSidebar: () => void;
   openSidebar: () => void;
-  toggleNotificationDisplay: () => void;
-  closeNotificationDisplay: () => void;
-  openNotificationDisplay: () => void;
+  toggleNotification: () => void;
+  onOpenNotification: (open: boolean) => void;
 }
 
 const useSidebarStore = create<SidebarState>((set) => ({
@@ -17,9 +16,8 @@ const useSidebarStore = create<SidebarState>((set) => ({
   toggleSidebar: () => set((state) => ({ isOpen: !state.isOpen })),
   closeSidebar: () => set({ isOpen: false }),
   openSidebar: () => set({ isOpen: true }),
-  toggleNotificationDisplay: () => set((state) => ({ notificationDisplay: !state.notificationDisplay })),
-  closeNotificationDisplay: () => set({ notificationDisplay: false }),
-  openNotificationDisplay: () => set({ notificationDisplay: true }),
+  toggleNotification: () => set((state) => ({ notificationDisplay: !state.notificationDisplay })),
+  onOpenNotification: (open) => set({ notificationDisplay: open }),
 }));
 
 export default useSidebarStore;
