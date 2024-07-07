@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Wakaf On Chain
 
-## Getting Started
+## Deskripsi
 
-First, run the development server:
+**Wakaf On Chain** adalah platform berbasis blockchain yang memungkinkan transparansi dan akuntabilitas dalam pengelolaan wakaf uang. Platform ini dirancang untuk memudahkan pengelolaan dana pendidikan yang berkelanjutan di Pondok Pesantren Mahasiswa Al-Ihsan Tasikmalaya. Dengan menggunakan teknologi blockchain, wakaf uang dapat dikelola dengan lebih efisien dan aman.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Teknologi yang Digunakan
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js**: Framework React untuk pengembangan aplikasi web dengan fitur server-side rendering dan static site generation.
+- **Tailwind CSS**: Framework CSS yang efisien untuk desain antarmuka pengguna yang responsif dan modern.
+- **Prisma**: ORM untuk Node.js dan TypeScript yang memudahkan interaksi dengan database.
+- **Ethereum Blockchain & Smart Contracts**: Untuk pengelolaan transaksi wakaf uang secara aman dan transparan.
+- **React**: Library JavaScript untuk membangun antarmuka pengguna.
+- **TypeScript**: Superset JavaScript yang menyediakan tipe statis opsional dan alat yang kuat untuk pengembangan skala besar.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Fitur
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Autentikasi Pengguna**: Sistem untuk mendaftar dan login pengguna dengan keamanan tinggi.
+- **Pengelolaan Dana Wakaf**: Kemampuan untuk menerima dan mengelola dana wakaf dari berbagai pihak.
+- **Pelacakan Transparan**: Menyediakan informasi transparan tentang transaksi wakaf uang.
+- **Dashboard Admin**: Halaman admin untuk mengelola data dan pengguna.
+- **Notifikasi**: Sistem notifikasi untuk menginformasikan pengguna tentang transaksi dan perubahan penting.
+- **Analisis dan Pelaporan**: Laporan mengenai pengumpulan dana dan penggunaan dana wakaf.
 
-## Learn More
+## Instalasi
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone repository ini:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```bash
+    git clone https://github.com/username/wakaf-on-chain.git
+    cd wakaf-on-chain
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. **Instal dependensi:**
 
-## Deploy on Vercel
+    ```bash
+    npm install
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Setup database Prisma:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    ```bash
+    npx prisma generate
+    ```
+
+4. **Jalankan aplikasi dalam mode pengembangan:**
+
+    ```bash
+    npm run dev
+    ```
+
+5. **Bangun aplikasi untuk produksi:**
+
+    ```bash
+    npm run build
+    ```
+
+6. **Jalankan aplikasi dalam mode produksi:**
+
+    ```bash
+    npm start
+    ```
+
+## Skrip
+
+- `dev`: Menjalankan aplikasi dalam mode pengembangan.
+- `build`: Membangun aplikasi untuk produksi.
+- `start`: Menjalankan aplikasi dalam mode produksi.
+- `lint`: Menjalankan linter untuk memeriksa kode.
+- `postinstall`: Menjalankan perintah Prisma setelah instalasi.
+
+## Kontribusi
+
+Silakan buat _issue_ atau _pull request_ untuk kontribusi. Pastikan Anda mengikuti pedoman kontribusi dan kode etik.
+
+## Lisensi
+
+Proyek ini dilisensikan di bawah lisensi MIT.
