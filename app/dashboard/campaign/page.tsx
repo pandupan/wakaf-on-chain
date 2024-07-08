@@ -1,8 +1,13 @@
-import InputSearch from '@/components/core/input-search'
-import CardCampaign from '@/components/shared/card-campaign'
 import React from 'react'
+import CampaignList from './_components/campaign-list'
+import { getAllCampaigns } from '@/data/campaign'
+import { redirect } from 'next/navigation';
 
-function CampaignPage() {
+async function CampaignPage() {
+  const campaigns = await getAllCampaigns();
+
+  if (campaigns === null) redirect('/500');
+
   return (
     <>
       <div className="w-full rounded-lg bg-gradient-to-tr from-secondary to-blue-500 p-4 sm:p-10 space-y-2 sm:space-y-4">
@@ -14,21 +19,11 @@ function CampaignPage() {
         </h2>
         <div className="p-4 rounded-md bg-muted">
           <p className="text-xs">
-            <b>Disclaimer:</b> Kampanye ini diadakan secara resmi oleh pengurus dari Pondok Pesantren Mahasiswa Al-Ihsan dan menjadi tanggung jawabnya. Jika ada masalah atau kecurigaan silahkan <a href="#" className="text-secondary underline">laporkan kepada kami.</a>
+            <b>Disclaimer:</b> Kampanye ini diadakan secara resmi oleh pengurus dari Pondok Pesantren Mahasiswa Al-Ihsan dan menjadi tanggung jawabnya. Jika ada masalah atau kecurigaan silahkan <a href="#" className="text-secondary underline">laporkan kepada pihak pengembang.</a>
           </p>
         </div>
       </div>
-      <div className="mt-4 max-w-sm">
-        <InputSearch placeholder="Cari kampanye" />
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-4">
-        <CardCampaign />
-        <CardCampaign />
-        <CardCampaign />
-        <CardCampaign />
-        <CardCampaign />
-        <CardCampaign />
-      </div>
+      <CampaignList data={campaigns} />
     </>
   )
 }

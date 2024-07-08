@@ -2,13 +2,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
+import { auth } from '@/auth';
 
 interface IProps {
   title: string;
   description: string;
 }
 
-function ErrorLayout({ description, title }: IProps) {
+async function ErrorLayout({ description, title }: IProps) {
+  const session = await auth();
+
   return (
     <main>
       <div className="max-w-screen-xl mx-auto px-4 flex items-center justify-start h-screen md:px-8">
@@ -43,11 +46,13 @@ function ErrorLayout({ description, title }: IProps) {
                 Kembali
               </Button>
             </Link>
-            <Link href="/dashboard">
-              <Button size="sm" variant="secondary" className="font-normal">
-                Bawa ke beranda
-              </Button>
-            </Link>
+            {session?.user && (
+              <Link href="/dashboard">
+                <Button size="sm" variant="secondary" className="font-normal">
+                  Bawa ke beranda
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

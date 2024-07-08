@@ -1,8 +1,12 @@
 import CardCampaign from '@/components/shared/card-campaign'
 import { Button } from '@/components/ui/button'
-import React from 'react'
+import { getAllCampaigns } from '@/data/campaign';
 
-function Campaign() {
+async function Campaign() {
+  const campaigns = await getAllCampaigns();
+
+  if (campaigns === null) return null;
+
   return (
     <section id="campaign">
       <div className="container mx-auto my-10">
@@ -15,12 +19,13 @@ function Campaign() {
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-10">
-          <CardCampaign className="border shadow-none" />
-          <CardCampaign className="border shadow-none" />
-          <CardCampaign className="border shadow-none" />
-          <CardCampaign className="border shadow-none" />
-          <CardCampaign className="border shadow-none" />
-          <CardCampaign className="border shadow-none" />
+          {campaigns.map((campaign) => (
+            <CardCampaign
+              key={campaign.id}
+              data={campaign}
+              className="border shadow-none"
+            />
+          ))}
         </div>
         <div className="text-center mt-6">
           <Button size="sm" variant="secondary" className="text-xs">

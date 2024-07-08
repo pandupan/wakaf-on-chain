@@ -41,3 +41,32 @@ export const campaignSchemaRaw = {
 }
 
 export const campaignSchema = z.object(campaignSchemaRaw);
+
+export const profileSchema = z.object({
+  name: z.string().min(2, { message: "Username harus memiliki minimal 2 karakter." }),
+  email: z.string().email({ message: "Email tidak valid." }),
+  address: z.string().min(1, {
+    message: 'Alamat harus diisi.'
+  }),
+  institution: z.string().min(1, {
+    message: 'Instansi harus diisi.'
+  }),
+  phoneNumber: z.string()
+    .min(1, {
+      message: 'Nomor HP harus diisi.'
+    })
+    .regex(phoneRegex, {
+      message: "Nomor HP tidak valid."
+    }),
+  image: z
+    .custom<FileList[0] | undefined | string>()
+    .refine((file) => file, {
+      message: "Poto profil harus diisi.",
+    })
+    .refine((file) => file && (typeof file === 'string' || (!!file && file.size <= 2 * 1024 * 1024)), {
+      message: "Poto profil maksimal 3MB.",
+    })
+    .refine((file) => file && (typeof file === 'string' || !!file && file.type?.startsWith("image")), {
+      message: "Hanya gambar yang diizinkan.",
+    }),
+});

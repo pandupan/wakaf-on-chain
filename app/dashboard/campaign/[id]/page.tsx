@@ -6,12 +6,27 @@ import { BiDetail } from 'react-icons/bi'
 import { PiCoins } from "react-icons/pi"
 import Description from './_components/description'
 import WakafFlowWithdraw from './_components/wakaf-flow-withdraw'
+import { redirect } from 'next/navigation'
+import { getCampaignById } from '@/data/campaign'
 
-const page = () => {
+interface IParams {
+  id: string;
+};
+
+const CampaignDetailPage = async ({ params }: { params: IParams }) => {
+  if (isNaN(+params.id)) redirect('/404');
+
+  const campaign = await getCampaignById(+params.id, {
+    includeUser: true,
+    onlyIncludeNameIdUser: true,
+  });
+
+  if (campaign === null) redirect('/404');
+
   return (
     <div className="grid grid-cols-12 gap-4">
       <div className="col-span-12 md:col-span-7">
-        <CampaignOverview />
+        <CampaignOverview data={campaign} />
         <div className="bg-background rounded-md shadow-sm p-4 space-y-2 mt-4">
           <Tabs defaultValue="description">
             <TabsList>
@@ -25,7 +40,7 @@ const page = () => {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="description">
-              <Description />
+              <Description data={campaign.description} />
             </TabsContent>
             <TabsContent value="balance-flow">
               <WakafFlowWithdraw />
@@ -40,4 +55,4 @@ const page = () => {
   )
 }
 
-export default page
+export default CampaignDetailPage

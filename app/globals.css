@@ -50,3 +50,30 @@
     @apply scroll-pt-16 sm:scroll-pt-24;
   }
 }
+
+@layer components {
+  #campaign-detail {
+    @apply space-y-2;
+  }
+
+  #campaign-detail p {
+    @apply text-sm sm:text-base;
+    text-align: justify;
+  }
+
+  #campaign-detail ol {
+    @apply list-decimal list-inside;
+  }
+
+  #campaign-detail ul {
+    @apply list-disc list-inside;
+  }
+
+  #campaign-detail li {
+    @apply text-sm sm:text-base;
+  }
+
+  #campaign-detail img {
+    @apply mx-auto;
+  }
+}

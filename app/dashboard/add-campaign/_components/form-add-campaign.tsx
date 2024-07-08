@@ -34,6 +34,7 @@ import { wakafCategories } from '../../_constants/data'
 import { toast } from 'sonner'
 import axios, { AxiosError } from "axios"
 import { useRouter } from 'next/navigation'
+import useCompressImage from '@/hooks/useCompressImage'
 
 function FormAddCampaign() {
   const [adding, setAdding] = useState(false);
@@ -47,34 +48,12 @@ function FormAddCampaign() {
     }
   });
 
+  const { uploadAndCompressImage } = useCompressImage();
   const navigate = useRouter();
-
-  async function uploadAndCompressImage(file: FileList[0]) {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('width', '400');
-    formData.append('height', '300');
-
-    return new Promise<Promise<string>>((resolve) => {
-      const promise = axios('/api/compress-image', {
-        method: 'POST',
-        data: formData,
-      });
-
-      toast.promise(promise, {
-        loading: 'Mengompress gambar...',
-        success: async (res) => {
-          resolve(res.data);
-          return 'Gambar berhasil di kompresi.';
-        },
-        error: 'Gagal mengompress gambar.',
-      });
-    })
-  }
 
   const onSubmit = async (data: z.infer<typeof campaignSchema>) => {
     setAdding(true);
-    const compressImage = await uploadAndCompressImage(data.image!);
+    const compressImage = await uploadAndCompressImage(data.image!, 400, 300);
 
     axios('/api/campaign', {
       method: 'POST',
@@ -89,8 +68,18 @@ function FormAddCampaign() {
       })
       .catch((error: AxiosError) => {
         setAdding(false);
-        if (error.response!.status === 401) {
-          toast.error('Invalid kredensial');
+        if (error.response) {
+          switch (error.response!.status) {
+            case 401:
+              toast.error('Invalid kredensial');
+              break;
+            case 400:
+              toast.error('Input tidak valid');
+              break;
+            default:
+              toast.error('Internal Error');
+              break;
+          }
         } else {
           toast.error('Internal Error');
         }
