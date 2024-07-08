@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 async function CampaignPage() {
   const campaigns = await getAllCampaigns();
 
-  if (campaigns === null) redirect('/500');
+  if (campaigns === null) redirect('/error');
 
   return (
     <>

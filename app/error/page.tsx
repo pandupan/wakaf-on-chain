@@ -1,6 +1,6 @@
 import ErrorLayout from '@/components/error-layout'
 
-function ErrorPage500() {
+function ErrorPage() {
   return (
     <ErrorLayout
       title="Ohh Tidak... 500"
@@ -9,4 +9,4 @@ function ErrorPage500() {
   )
 }
 
-export default ErrorPage500
+export default ErrorPage

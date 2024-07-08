@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 async function Campaign() {
   const campaigns = await getAllCampaigns();
 
-  if (campaigns === null) redirect('/500');
+  if (campaigns === null) redirect('/error');
 
   return (
     <div className="space-y-2 bg-background p-4 rounded-xl shadow-sm">
