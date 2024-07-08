@@ -1,6 +1,6 @@
 import React from 'react'
 import CampaignOverview from './_components/campaign-overview'
-import Donator from './_components/donator'
+import WakifList from './_components/wakif-list'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BiDetail } from 'react-icons/bi'
 import { PiCoins } from "react-icons/pi"
@@ -48,7 +48,7 @@ const CampaignDetailPage = async ({ params }: { params: IParams }) => {
         </div>
       </div>
       <div className="col-span-12 md:col-span-5">
-        <Donator />
+        <WakifList />
       </div>
     </div>
   )

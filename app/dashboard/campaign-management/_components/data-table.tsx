@@ -10,7 +10,7 @@ import {
 } from "@/components/core/table"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { abbreviateName, formatRupiah } from "@/lib/utils"
+import { abbreviateName, formatIndonesianDate, formatRupiah } from "@/lib/utils"
 import RowAction from "./row-action"
 import { Campaign, User } from "@prisma/client"
 import { useState } from "react"
@@ -34,7 +34,7 @@ function DataTable({ data }: IProps) {
         <TableHeadCol>Kategori</TableHeadCol>
         <TableHeadCol className="text-right">Total Wakif</TableHeadCol>
         <TableHeadCol className="text-right">Target</TableHeadCol>
-        <TableHeadCol>Dibuat</TableHeadCol>
+        <TableHeadCol>Publikasi</TableHeadCol>
         <TableHeadCol className="text-center rounded-r-lg">Aksi</TableHeadCol>
       </TableHead>
       <TableBody className="text-gray-700">
@@ -87,11 +87,16 @@ function DataTable({ data }: IProps) {
             <TableCell className="text-right">
               {item.numberOfWakif}
             </TableCell>
-            <TableCell className="text-right">
+            <TableCell className="text-right font-semibold">
               {formatRupiah(item.target)}
             </TableCell>
             <TableCell>
-              {abbreviateName(item.creator?.name!)}
+              <span className="block">Oleh: {abbreviateName(item.creator?.name!)}</span>
+              <span className="block">
+                {formatIndonesianDate(item.createdAt, {
+                  withoutDayName: true
+                })}
+              </span>
             </TableCell>
             <TableCell className="text-center rounded-r-lg">
               <RowAction />

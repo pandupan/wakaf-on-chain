@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { Progress } from '../../../../../components/ui/progress';
-import { cn, formatRupiah } from '@/lib/utils';
+import { cn, formatIndonesianDate, formatRupiah } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { IoMdShare } from 'react-icons/io';
 import { Badge } from '@/components/ui/badge';
@@ -24,11 +24,16 @@ function CampaignOverview({ className, data }: IProps) {
           className
         )}
       >
-        {data.creator && (
-          <span className="block text-xs sm:text-sm mb-1">
-            Dibuat oleh: {data.creator.name}
+        <div className="w-full flex flex-col sm:flex-row justify-between gap-x-2 sm:items-end mb-2 sm:mb-1">
+          {data.creator && (
+            <span className="block text-xs sm:text-sm">
+              Penyelenggara: {data.creator.name}
+            </span>
+          )}
+          <span className="block text-xs sm:text-sm">
+            Publikasi: <time className="italic">{formatIndonesianDate(data.createdAt)}</time>
           </span>
-        )}
+        </div>
         <div className="grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-2 sm:gap-y-4 ">
           <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
             <img

@@ -28,7 +28,7 @@ export const getAllCampaigns = async (
         createdAt: true,
         updatedAt: true,
       },
-      take: config?.limit || 5,
+      take: config?.limit || 6,
       skip: config?.cursor ? 1 : 0,
       cursor: config?.cursor ? { id: config.cursor } : undefined,
     });

@@ -17,7 +17,7 @@ export function abbreviateName(name: string): string {
   return `${firstName} ${abbreviated}`;
 }
 
-export const formatCategoryChartLabel = (num: number) => {
+export const numberPrefixer = (num: number) => {
   if (num >= 1000000000) return (num / 1000000000).toFixed(1) + 'm';
   if (num >= 1000000) return (num / 1000000).toFixed(1) + 'jt';
   if (num >= 1000) return (num / 1000).toFixed(1) + 'rb';
@@ -43,4 +43,34 @@ export function getInitials(fullName: string): string {
 
   // Otherwise, return the first character of the first two names
   return (names[0][0] + names[1][0]).toUpperCase();
+}
+
+export function formatIndonesianDate(date: Date, config?: {
+  withoutDayName?: boolean;
+}): string {
+  // Days of the week in Indonesian
+  const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+  // Months of the year in Indonesian
+  const months = [
+    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+  ];
+
+  const dayName = days[date.getDay()];
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  let result = '';
+
+  if (!config?.withoutDayName) {
+    result = `${dayName}, `
+  }
+
+  result += `${day.toString().padStart(2, '0')} ${month} ${year} ${hours}:${minutes}`
+
+  return result;
 }

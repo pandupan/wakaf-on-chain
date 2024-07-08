@@ -1,8 +1,6 @@
-import React from "react";
-import Link from "next/link";
-import { FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa"
 
-const Donator = () => {
+const WakifList = () => {
   const donations = [
     { name: "Anonim", amount: "Rp20.000", time: "Baru saja" },
     { name: "Ega Aprianto", amount: "Rp50.000", time: "3 hari yang lalu" },
@@ -11,16 +9,14 @@ const Donator = () => {
 
   return (
     <div className="bg-background rounded-md shadow-sm p-4 space-y-4 sticky top-0">
-      <Link href="/dashboard/campaign/details/donatur">
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg sm:text-xl font-bold">
-            Donatur
-            <span className="ml-2 rounded-full bg-secondary text-white px-3 py-[2px] text-sm">
-              89
-            </span>
-          </h2>
-        </div>
-      </Link>
+      <div className="flex gap-2 items-center">
+        <h2 className="text-lg sm:text-xl font-bold">
+          Wakif
+        </h2>
+        <span className="inline-block rounded-full bg-secondary text-white px-3 py-[2px] text-sm">
+          89
+        </span>
+      </div>
       <div className="space-y-4">
         {donations.map((donation, index) => (
           <div
@@ -44,4 +40,4 @@ const Donator = () => {
   );
 };
 
-export default Donator;
+export default WakifList;

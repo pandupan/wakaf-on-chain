@@ -1,5 +1,5 @@
 import { ApexOptions } from "apexcharts";
-import { formatCategoryChartLabel, formatRupiah } from "./utils";
+import { numberPrefixer, formatRupiah } from "./utils";
 
 export const chartOptions: ApexOptions = {
   legend: {
@@ -48,7 +48,7 @@ export const chartOptions: ApexOptions = {
   },
   dataLabels: {
     enabled: true,
-    formatter: (value) => formatCategoryChartLabel(Number(value)),
+    formatter: (value) => numberPrefixer(Number(value)),
   },
   markers: {
     size: 4,
@@ -83,7 +83,7 @@ export const chartOptions: ApexOptions = {
       },
     },
     labels: {
-      formatter: (value) => formatCategoryChartLabel(Number(value)),
+      formatter: (value) => numberPrefixer(Number(value)),
     }
   },
   responsive: [
