@@ -18,7 +18,7 @@ async function Sidebar({ children }: IProps) {
 
   if (!!session?.user.email!) {
     user = await getUserByEmail(session?.user.email!);
-    if (!user) redirect('/auth/logout');
+    if (!user) redirect('/404');
     role = user.role;
   }
 

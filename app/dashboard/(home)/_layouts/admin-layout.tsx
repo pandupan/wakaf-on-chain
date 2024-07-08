@@ -1,11 +1,11 @@
 import React from 'react'
-import Overview from './_components/overview'
+import AdminOverview from '../_components/admin-overview'
 import IncomeChart from '@/components/shared/income-chart'
 
-const page = () => {
+const AdminLayout = () => {
   return (
     <div>
-      <Overview />
+      <AdminOverview />
       <div className='rounded-xl p-4 bg-background mt-4 shadow-sm'>
         <h1 className="text-xl font-semibold">Pemasukan Wakaf 1 Tahun Terakhir</h1>
         <IncomeChart />
@@ -14,4 +14,4 @@ const page = () => {
   )
 }
 
-export default page
+export default AdminLayout

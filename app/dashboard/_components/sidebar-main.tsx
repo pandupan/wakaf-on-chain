@@ -69,22 +69,21 @@ function SidebarMain({ role }: IProps) {
             </div>
           </div>
           <div className="w-full">
-
+            {!!role ? (
+              <form action={logout}>
+                <Button type="submit" size="sm" variant="destructive" className="w-full text-xs font-normal gap-2">
+                  Logout
+                  <IoIosLogOut className="text-sm" />
+                </Button>
+              </form>
+            ) : (
+              <Link href="/auth/login">
+                <Button size="sm" variant="secondary" className="w-full text-xs font-normal gap-2">
+                  Login
+                </Button>
+              </Link>
+            )}
           </div>
-          {!!role ? (
-            <form action={logout}>
-              <Button type="submit" size="sm" variant="destructive" className="w-full text-xs font-normal gap-2">
-                Logout
-                <IoIosLogOut className="text-sm" />
-              </Button>
-            </form>
-          ) : (
-            <Link href="/auth/login">
-              <Button size="sm" variant="secondary" className="w-full text-xs font-normal gap-2">
-                Login
-              </Button>
-            </Link>
-          )}
         </div>
       </aside>
     </>

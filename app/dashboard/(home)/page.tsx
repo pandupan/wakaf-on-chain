@@ -1,21 +1,24 @@
 import React from 'react'
-import Overview from './_components/overview'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import Campaign from './_components/campaign'
+import { auth } from '@/auth'
+import { UserRole } from '@prisma/client'
+import { redirect } from 'next/navigation'
+import { getUserByEmail } from '@/data/user'
+import AdminLayout from './_layouts/admin-layout'
+import UserLayout from './_layouts/user-layout'
 
 const HomeDashboardPage = async () => {
-  return (
-    <div className="space-y-4">
-      <Link href="/dashboard/berwakaf">
-        <Button size="sm" variant="secondary" className="text-xs">
-          Ayo Berwakaf
-        </Button>
-      </Link>
-      <Overview />
-      <Campaign />
-    </div>
-  )
+  const session = await auth();
+  let role: UserRole | null = null;
+
+  if (!!session?.user.email!) {
+    const user = await getUserByEmail(session?.user.email!);
+    if (!user) redirect('/404');
+    role = user.role;
+  }
+
+  if (role === 'ADMIN') return <AdminLayout />
+
+  return <UserLayout />
 }
 
 export default HomeDashboardPage

@@ -18,7 +18,6 @@ const CampaignDetailPage = async ({ params }: { params: IParams }) => {
 
   const campaign = await getCampaignById(+params.id, {
     includeUser: true,
-    onlyIncludeNameIdUser: true,
   });
 
   if (campaign === null) redirect('/404');

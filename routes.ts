@@ -9,7 +9,7 @@ export const publicRoutes = [
   "/dashboard/campaign",
   "/dashboard/leaderboard",
   "/404",
-  "/500"
+  "/error"
 ];
 
 /**

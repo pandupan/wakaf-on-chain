@@ -262,7 +262,7 @@ const Profile: React.FC<IProps> = ({ data }) => {
           <div className="col-span-2 pt-2">
             <Button size="sm" variant="secondary" type="submit" className="gap-2" disabled={loading}>
               {loading && <VscLoading className="animate-spin" />}
-              Simpan Profil
+              Simpan
             </Button>
           </div>
         </form>

@@ -11,7 +11,7 @@ import Link from 'next/link';
 interface IProps {
   className?: string;
   data: Omit<Campaign, 'description'> & {
-    creator?: Pick<User, 'name' | 'id'>
+    creator?: User
   }
 }
 

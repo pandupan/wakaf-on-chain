@@ -6,7 +6,7 @@ import { MdCampaign } from "react-icons/md"
 import CardOverview from '../../../../components/shared/overview-card'
 import { LuUser2 } from 'react-icons/lu'
 
-function Overview() {
+function AdminOverview() {
   return (
     <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <CardOverview
@@ -43,4 +43,4 @@ function Overview() {
   );
 }
 
-export default Overview;
+export default AdminOverview;

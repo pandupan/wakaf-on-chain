@@ -4,7 +4,7 @@ import { BsCurrencyDollar } from "react-icons/bs"
 import { FaHandHoldingUsd } from 'react-icons/fa'
 import { HiOutlineTrophy } from "react-icons/hi2"
 
-function Overview() {
+function UserOverview() {
   return (
     <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <CardOverview
@@ -26,4 +26,4 @@ function Overview() {
   )
 }
 
-export default Overview
+export default UserOverview

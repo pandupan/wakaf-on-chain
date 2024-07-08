@@ -12,10 +12,10 @@ import { SidebarNavItems } from '@/lib/types'
 
 export const sidebarNavItems: SidebarNavItems[] = [
   {
-    href: "/dashboard/overview",
-    icon: MdInsertChartOutlined,
-    text: "Overview",
-    role: 'ADMIN'
+    href: "/dashboard",
+    icon: AiOutlineHome,
+    text: "Beranda",
+    role: 'BOTH'
   },
   {
     href: "/dashboard/campaign-management",
@@ -43,12 +43,6 @@ export const sidebarNavItems: SidebarNavItems[] = [
   },
   {
     type: "divider",
-  },
-  {
-    href: "/dashboard",
-    icon: AiOutlineHome,
-    text: "Beranda",
-    role: 'USER'
   },
   {
     href: "/dashboard/berwakaf",

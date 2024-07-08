@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
     const currentUser = await getUserById(session.user.id!);
 
-    if (!currentUser?.id || !currentUser?.email) {
+    if (!currentUser?.id || !currentUser?.email || currentUser.role !== 'ADMIN') {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 

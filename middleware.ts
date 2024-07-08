@@ -9,9 +9,10 @@ import {
 
 const { auth: middleware } = NextAuth(authConfig);
 
-export default middleware((req) => {
+export default middleware(async (req) => {
   const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
+  const session = req.auth;
+  const isLoggedIn = !!session;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);

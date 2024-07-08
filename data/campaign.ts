@@ -1,6 +1,12 @@
-import { db } from "@/lib/db";
+import { db } from "@/lib/db"
 
-export const getAllCampaigns = async () => {
+export const getAllCampaigns = async (
+  config?: {
+    includeUser?: boolean;
+    limit?: number;
+    cursor?: number;
+  }
+) => {
   try {
     const campaigns = await db.campaign.findMany({
       orderBy: {
@@ -15,12 +21,16 @@ export const getAllCampaigns = async () => {
         target: true,
         category: true,
         phone: true,
+        creator: config?.includeUser,
         creatorId: true,
         remaining: true,
         collected: true,
         createdAt: true,
         updatedAt: true,
       },
+      take: config?.limit || 5,
+      skip: config?.cursor ? 1 : 0,
+      cursor: config?.cursor ? { id: config.cursor } : undefined,
     });
 
     const sortedCampaigns = campaigns.sort((a, b) => {
@@ -36,7 +46,7 @@ export const getAllCampaigns = async () => {
     });
 
     return sortedCampaigns;
-  } catch {
+  } catch (error) {
     return null;
   }
 };
@@ -46,7 +56,6 @@ export const getCampaignById = async (
   config?: {
     withoutDescription?: boolean;
     includeUser?: boolean;
-    onlyIncludeNameIdUser?: boolean;
   }
 ) => {
   type PayloadType = {
@@ -55,12 +64,7 @@ export const getCampaignById = async (
       [key: string]: boolean
     },
     include?: {
-      creator: boolean | {
-        select: {
-          name: boolean,
-          id: boolean
-        }
-      };
+      creator: boolean;
     }
   }
 
@@ -88,12 +92,7 @@ export const getCampaignById = async (
 
   if (config && config.includeUser) {
     payload.include = {
-      creator: config.onlyIncludeNameIdUser ? {
-        select: {
-          id: true,
-          name: true
-        }
-      } : true,
+      creator: true,
     }
   }
 
