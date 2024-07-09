@@ -29,14 +29,14 @@ function NotificationList() {
           <div className="flex items-center space-x-3 w-full rounded-lg">
             <div className="relative">
               <div className="bg-emerald-500 p-3 rounded-xl">
-                <FaCheck className="text-white text-xl" />
+                <FaCheck className="text-white sm:text-xl" />
               </div>
             </div>
             <div className="text-start">
-              <h2 className="font-semibold">
+              <h2 className="text-sm sm:text-base font-semibold leading-4">
                 Aktivitas Wakaf
               </h2>
-              <span className="text-xs text-gray-500">
+              <span className="text-[10px] sm:text-xs text-gray-500">
                 {notifications[0].time}
               </span>
             </div>
@@ -44,13 +44,13 @@ function NotificationList() {
         </AccordionTrigger>
         <AccordionContent>
           <div className="p-4 space-y-1 border rounded-lg">
-            <h2 className="text-base font-semibold text-black">
+            <h2 className="text-sm sm:text-base font-semibold text-black">
               {notifications[0].title}
             </h2>
-            <p className="text-sm text-gray-700">
+            <p className="text-xs sm:text-sm text-gray-700">
               {notifications[0].message}
             </p>
-            <span className="text-xs text-gray-500">
+            <span className="text-[10px] sm:text-xs text-gray-500">
               {notifications[0].time}
             </span>
           </div>

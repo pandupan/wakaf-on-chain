@@ -1,4 +1,4 @@
-import InputSearch from "@/components/core/input-search"
+import InputSearch from "@/components/shared/input-search"
 import CardHistoryWakaf from "./_components/card-history-wakaf"
 
 function HistoryPage() {

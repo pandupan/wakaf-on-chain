@@ -30,6 +30,7 @@ import axios, { AxiosError } from "axios"
 import useCompressImage from "@/hooks/useCompressImage"
 import { useRouter } from "next/navigation"
 import { VscLoading } from "react-icons/vsc"
+import useAxiosErrorToast from "@/hooks/useAxiosErrorToast"
 
 interface IProps {
   data: User;
@@ -48,6 +49,7 @@ const Profile: React.FC<IProps> = ({ data }) => {
     },
   })
 
+  const { handleAxiosErrorToast } = useAxiosErrorToast();
   const { uploadAndCompressImage } = useCompressImage();
   const navigate = useRouter();
 
@@ -69,17 +71,7 @@ const Profile: React.FC<IProps> = ({ data }) => {
       })
       .catch((error: AxiosError) => {
         if (error.response) {
-          switch (error.response!.status) {
-            case 401:
-              toast.error('Invalid kredensial');
-              break;
-            case 400:
-              toast.error('Input tidak valid');
-              break;
-            default:
-              toast.error('Internal Error');
-              break;
-          }
+          handleAxiosErrorToast(error.response!.status);
         } else {
           toast.error('Internal Error');
         }

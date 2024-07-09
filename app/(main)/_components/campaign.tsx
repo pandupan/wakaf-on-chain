@@ -1,9 +1,12 @@
 import CardCampaign from '@/components/shared/card-campaign'
 import { Button } from '@/components/ui/button'
 import { getAllCampaigns } from '@/data/campaign';
+import Link from 'next/link';
+
+const LIMIT = 9;
 
 async function Campaign() {
-  const campaigns = await getAllCampaigns();
+  const campaigns = await getAllCampaigns({ limit: LIMIT });
 
   if (campaigns === null) return null;
 
@@ -27,11 +30,15 @@ async function Campaign() {
             />
           ))}
         </div>
-        <div className="text-center mt-6">
-          <Button size="sm" variant="secondary" className="text-xs">
-            Lebih banyak
-          </Button>
-        </div>
+        {campaigns.length === LIMIT && (
+          <div className="text-center mt-6">
+            <Link href="/dashboard/campaign">
+              <Button size="sm" variant="secondary" className="text-xs">
+                Lebih banyak
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   )

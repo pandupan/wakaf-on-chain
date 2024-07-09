@@ -4,7 +4,7 @@ export const getAllCampaigns = async (
   config?: {
     includeUser?: boolean;
     limit?: number;
-    cursor?: number;
+    cursor?: number | undefined;
   }
 ) => {
   try {
@@ -28,7 +28,7 @@ export const getAllCampaigns = async (
         createdAt: true,
         updatedAt: true,
       },
-      take: config?.limit || 6,
+      take: config?.limit || 9,
       skip: config?.cursor ? 1 : 0,
       cursor: config?.cursor ? { id: config.cursor } : undefined,
     });

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { Progress } from '../ui/progress'
 import { cn, formatRupiah } from '@/lib/utils';
 import Link from 'next/link';
@@ -11,12 +11,15 @@ interface IProps {
   onlyView?: boolean;
 }
 
-function CardCampaign({ className, data, onlyView }: IProps) {
+const CardCampaign = forwardRef<HTMLDivElement, IProps>(({ className, data, onlyView }, ref) => {
   const content = (
-    <div className={cn(
-      'bg-background rounded-md shadow-sm grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2 p-4',
-      className
-    )}>
+    <div
+      ref={ref}
+      className={cn(
+        'bg-background rounded-md shadow-sm grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2 p-4',
+        className
+      )}
+    >
       <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
         <img
           src={data.image}
@@ -86,6 +89,8 @@ function CardCampaign({ className, data, onlyView }: IProps) {
       {content}
     </Link>
   )
-}
+});
 
-export default CardCampaign
+CardCampaign.displayName = 'CardCampaign';
+
+export default CardCampaign;

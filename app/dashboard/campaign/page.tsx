@@ -1,10 +1,12 @@
 import React from 'react'
 import CampaignList from './_components/campaign-list'
 import { getAllCampaigns } from '@/data/campaign'
-import { redirect } from 'next/navigation';
+import { redirect } from 'next/navigation'
+
+const LIMIT = 9;
 
 async function CampaignPage() {
-  const campaigns = await getAllCampaigns();
+  const campaigns = await getAllCampaigns({ limit: LIMIT });
 
   if (campaigns === null) redirect('/error');
 
@@ -23,7 +25,7 @@ async function CampaignPage() {
           </p>
         </div>
       </div>
-      <CampaignList data={campaigns} />
+      <CampaignList data={campaigns} limit={LIMIT} />
     </>
   )
 }

@@ -35,6 +35,7 @@ import { toast } from 'sonner'
 import axios, { AxiosError } from "axios"
 import { useRouter } from 'next/navigation'
 import useCompressImage from '@/hooks/useCompressImage'
+import useAxiosErrorToast from '@/hooks/useAxiosErrorToast'
 
 function FormAddCampaign() {
   const [adding, setAdding] = useState(false);
@@ -48,6 +49,7 @@ function FormAddCampaign() {
     }
   });
 
+  const { handleAxiosErrorToast } = useAxiosErrorToast();
   const { uploadAndCompressImage } = useCompressImage();
   const navigate = useRouter();
 
@@ -55,7 +57,7 @@ function FormAddCampaign() {
     setAdding(true);
     const compressImage = await uploadAndCompressImage(data.image!, 400, 300);
 
-    axios('/api/campaign', {
+    axios('/api/admin/campaign', {
       method: 'POST',
       data: {
         ...data,
@@ -69,17 +71,7 @@ function FormAddCampaign() {
       .catch((error: AxiosError) => {
         setAdding(false);
         if (error.response) {
-          switch (error.response!.status) {
-            case 401:
-              toast.error('Invalid kredensial');
-              break;
-            case 400:
-              toast.error('Input tidak valid');
-              break;
-            default:
-              toast.error('Internal Error');
-              break;
-          }
+          handleAxiosErrorToast(error.response!.status);
         } else {
           toast.error('Internal Error');
         }

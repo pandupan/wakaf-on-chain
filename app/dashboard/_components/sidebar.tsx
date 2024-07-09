@@ -23,17 +23,17 @@ async function Sidebar({ children }: IProps) {
   }
 
   return (
-    <>
-      <div className="w-full lg:flex">
-        <SidebarMain role={role} />
-        <div className="w-full min-h-screen px-4 pt-2 pb-4 bg-slate-100">
-          <div className="max-w-[1500px] mx-auto">
-            <Header user={user} />
+    <div className="w-full flex">
+      <SidebarMain role={role} />
+      <div className="w-full min-h-screen px-4 pt-2 pb-4 bg-slate-100">
+        <div className="max-w-[1500px] h-full flex flex-col mx-auto">
+          <Header user={user} />
+          <div className="flex-auto">
             {children}
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

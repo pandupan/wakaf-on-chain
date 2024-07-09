@@ -8,23 +8,59 @@ import {
   TableHeadCol,
   TableRow,
 } from "@/components/core/table"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { abbreviateName, formatIndonesianDate, formatRupiah } from "@/lib/utils"
-import RowAction from "./row-action"
 import { Campaign, User } from "@prisma/client"
-import { useState } from "react"
+import { useCallback, useRef, useState } from "react"
+import DataTableRow from "./data-table-row"
+import { VscLoading } from "react-icons/vsc"
+import axios, { AxiosError } from "axios"
+import { toast } from "sonner"
+import useAxiosErrorToast from "@/hooks/useAxiosErrorToast"
 
-type CampaignItem = Omit<Campaign, 'description'> & {
+export type CampaignItem = Omit<Campaign, 'description'> & {
   creator?: User;
 }
 
 interface IProps {
   data: CampaignItem[];
+  limit: number;
 }
 
-function DataTable({ data }: IProps) {
-  const [campaigns, setCampaigns] = useState<IProps['data']>(data);
+function DataTable({ data, limit }: IProps) {
+  const [campaigns, setCampaigns] = useState<IProps['data']>(data)
+  const [cursor, setCursor] = useState(!!data.length ? data[data.length - 1].id : null)
+  const [hasMore, setHasMore] = useState(data.length === limit)
+  const [loading, setLoading] = useState(false)
+
+  const { handleAxiosErrorToast } = useAxiosErrorToast()
+  const observer = useRef<IntersectionObserver | null>()
+
+  const lastDataElementRef = useCallback((node: HTMLTableRowElement) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        setLoading(true);
+        axios.get(`/api/admin/campaign?cursor=${cursor}&limit=${limit}`)
+          .then((res) => {
+            if (res.data.length === limit) {
+              setCursor(data[data.length - 1].id);
+            } else {
+              setHasMore(false);
+            }
+            setCampaigns((prev) => [...prev, ...res.data]);
+          })
+          .catch((error: AxiosError) => {
+            if (error.response) {
+              handleAxiosErrorToast(error.response!.status);
+            } else {
+              toast.error('Internal Error');
+            }
+          })
+          .finally(() => setLoading(false));
+      }
+    })
+    if (node) observer.current.observe(node);
+  }, [loading, hasMore]);
 
   return (
     <Table>
@@ -38,71 +74,33 @@ function DataTable({ data }: IProps) {
         <TableHeadCol className="text-center rounded-r-lg">Aksi</TableHeadCol>
       </TableHead>
       <TableBody className="text-gray-700">
-        {campaigns.map((item) => (
-          <TableRow key={item.id}>
-            <TableCell className="rounded-l-lg">
-              <div className="flex items-start gap-2 sm:gap-4">
-                <div className="w-24 aspect-[4/3] bg-slate-300 rounded-md overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt="banner campaign"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="flex-auto">
-                  <div className="font-bold max-w-xs">
-                    {item.title}
-                  </div>
-                  <Separator className="my-1" />
-                  <div className="flex flex-row justify-between">
-                    <div>
-                      <h4 className="text-xs">Terkumpul</h4>
-                      <span className="block font-bold text-xs text-green-500">
-                        {formatRupiah(item.collected)}
-                      </span>
-                    </div>
-                    <div className="text-right">
-                      <h4 className="text-xs">Kekurangan</h4>
-                      <span className="block font-bold text-xs text-red-500">
-                        {formatRupiah(item.remaining)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </TableCell>
-            <TableCell>
-              <Badge
-                variant={
-                  item.status === 'RUNNING' ? 'info' : item.status === 'CLOSED' ? 'destructive' : 'success'
-                }
-                className="text-[10px] sm:text-xs"
-              >
-                {item.status === 'RUNNING' ? 'Berjalan' : item.status === 'CLOSED' ? 'Ditutup' : 'Selesai'}
-              </Badge>
-            </TableCell>
-            <TableCell className="capitalize">
-              {item.category}
-            </TableCell>
-            <TableCell className="text-right">
-              {item.numberOfWakif}
-            </TableCell>
-            <TableCell className="text-right font-semibold">
-              {formatRupiah(item.target)}
-            </TableCell>
-            <TableCell>
-              <span className="block">Oleh: {abbreviateName(item.creator?.name!)}</span>
-              <span className="block">
-                {formatIndonesianDate(item.createdAt, {
-                  withoutDayName: true
-                })}
-              </span>
-            </TableCell>
-            <TableCell className="text-center rounded-r-lg">
-              <RowAction />
+        {campaigns
+          .map((item, index) => {
+            if (campaigns.length === index + 1 && hasMore) return (
+              <TableRow ref={lastDataElementRef} key={item.id}>
+                <DataTableRow data={item} />
+              </TableRow>
+            )
+            return (
+              <TableRow key={item.id}>
+                <DataTableRow data={item} />
+              </TableRow>
+            )
+          })}
+        {loading && (
+          <TableRow>
+            <TableCell colSpan={7} className="bg-background hover:bg-background">
+              <VscLoading fontSize={20} className="animate-spin mx-auto" />
             </TableCell>
           </TableRow>
-        ))}
+        )}
+        {!hasMore && (
+          <TableRow>
+            <TableCell colSpan={7} className="text-center text-gray-500 bg-background hover:bg-background">
+              Tidak ada lagi kampanye
+            </TableCell>
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   )

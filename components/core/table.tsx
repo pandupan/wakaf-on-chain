@@ -1,11 +1,11 @@
 import { cn } from '@/lib/utils';
-import React from 'react';
+import * as React from 'react';
 
 interface TableProps {
   children: React.ReactNode;
 }
 
-export const Table: React.FC<TableProps> = ({ children }) => {
+const Table: React.FC<TableProps> = ({ children }) => {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-transparent table-auto border-separate border-spacing-y-2">
@@ -19,7 +19,7 @@ interface TableHeadProps {
   children: React.ReactNode;
 }
 
-export const TableHead: React.FC<TableHeadProps> = ({ children }) => {
+const TableHead: React.FC<TableHeadProps> = ({ children }) => {
   return (
     <thead className="bg-gradient-to-r from-secondary to-indigo-500 text-white">
       <tr>
@@ -34,7 +34,7 @@ interface TableBodyProps {
   className?: string;
 }
 
-export const TableBody: React.FC<TableBodyProps> = ({ children, className }) => {
+const TableBody: React.FC<TableBodyProps> = ({ children, className }) => {
   return (
     <tbody className={cn(className)}>
       {children}
@@ -48,17 +48,28 @@ interface TableRowProps {
   className?: string;
 }
 
-export const TableRow: React.FC<TableRowProps> = ({ children, isEven = false, className }) => {
+const TableRow = React.forwardRef<
+  HTMLTableRowElement,
+  React.HTMLAttributes<HTMLTableRowElement> & TableRowProps
+>((
+  { children, isEven = false, className, ...props }, ref
+) => {
   return (
-    <tr className={cn(
-      'transition duration-500',
-      isEven ? "bg-gray-50 hover:bg-gray-100" : "bg-white hover:bg-gray-100",
-      className
-    )}>
+    <tr
+      ref={ref}
+      className={cn(
+        'transition duration-500',
+        isEven ? "bg-gray-50 hover:bg-gray-100" : "bg-white hover:bg-gray-100",
+        className
+      )}
+      {...props}
+    >
       {children}
     </tr>
   );
-};
+});
+
+TableRow.displayName = "TableRow";
 
 interface TableHeadColProps {
   children: React.ReactNode;
@@ -66,7 +77,7 @@ interface TableHeadColProps {
   className?: string;
 }
 
-export const TableHeadCol: React.FC<TableHeadColProps> = ({ children, align = 'left', className }) => {
+const TableHeadCol: React.FC<TableHeadColProps> = ({ children, align = 'left', className }) => {
   const alignment = `text-${align}`;
   return (
     <th className={cn(
@@ -85,15 +96,33 @@ interface TableCellProps {
   className?: string;
 }
 
-export const TableCell: React.FC<TableCellProps> = ({ children, align = 'left', className }) => {
+const TableCell = React.forwardRef<
+  HTMLTableCellElement,
+  React.TdHTMLAttributes<HTMLTableCellElement> & TableCellProps
+>(({ children, align = 'left', className, ...props }, ref) => {
   const alignment = `text-${align}`;
   return (
-    <td className={cn(
-      'py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm',
-      alignment,
-      className
-    )}>
+    <td
+      ref={ref}
+      className={cn(
+        'py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm',
+        alignment,
+        className
+      )}
+      {...props}
+    >
       {children}
     </td>
   );
-};
+});
+
+TableCell.displayName = "TableCell";
+
+export {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeadCol,
+  TableRow,
+  TableCell,
+}

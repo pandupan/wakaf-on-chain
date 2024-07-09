@@ -7,13 +7,15 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { isDivider } from '@/lib/predict-type'
 import { UserRole } from '@prisma/client'
+import useSidebarStore from '../_stores/useSidebarStore'
 
 interface IProps {
   role: UserRole | null;
 }
 
 function SidebarNav({ role }: IProps) {
-  const pathname = usePathname();
+  const { isOpen, closeSidebar } = useSidebarStore()
+  const pathname = usePathname()
 
   return (
     <nav className="w-full flex flex-col gap-2">
@@ -28,6 +30,9 @@ function SidebarNav({ role }: IProps) {
               pathname === item.href ? 'text-secondary-foreground bg-secondary' : 'transition-colors duration-300 transform hover:bg-gray-100 hover:text-gray-700'
             )}
             href={item.href}
+            onClick={() => {
+              if (isOpen) closeSidebar();
+            }}
           >
             {item.icon && <item.icon fontSize={20} />}
             <span className="mx-4 font-medium text-sm">{item.text}</span>

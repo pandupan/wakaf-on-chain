@@ -1,11 +1,13 @@
 import React from 'react'
 import CardCampaign from '@/components/shared/card-campaign'
 import { Button } from '@/components/ui/button'
-import { getAllCampaigns } from '@/data/campaign';
-import { redirect } from 'next/navigation';
+import { getAllCampaigns } from '@/data/campaign'
+import { redirect } from 'next/navigation'
+
+const LIMIT = 9;
 
 async function Campaign() {
-  const campaigns = await getAllCampaigns();
+  const campaigns = await getAllCampaigns({ limit: LIMIT });
 
   if (campaigns === null) redirect('/error');
 
@@ -21,11 +23,13 @@ async function Campaign() {
           />
         ))}
       </div>
-      <div className="text-center pt-2">
-        <Button size="sm" variant="secondary" className="text-xs">
-          Lebih banyak
-        </Button>
-      </div>
+      {campaigns.length === LIMIT && (
+        <div className="text-center pt-2">
+          <Button size="sm" variant="secondary" className="text-xs">
+            Lebih banyak
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

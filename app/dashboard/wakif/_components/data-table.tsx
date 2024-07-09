@@ -38,13 +38,13 @@ function DataTable() {
             Rp200.000
           </TableCell>
           <TableCell>
-            <Badge variant="success" className="text-[10px] sm:text-sm">Berhasil</Badge>
+            <Badge variant="success" className="text-[10px] sm:text-xs">Berhasil</Badge>
           </TableCell>
           <TableCell>
             Mari berwakaf untuk membantu santri PPM Al Ihsan Tasikmalaya
           </TableCell>
           <TableCell>
-            <Badge variant="info" className="text-[10px] sm:text-sm">Belum</Badge>
+            <Badge variant="info" className="text-[10px] sm:text-xs">Belum</Badge>
           </TableCell>
           <TableCell className="text-center rounded-r-lg">
             <RowAction />

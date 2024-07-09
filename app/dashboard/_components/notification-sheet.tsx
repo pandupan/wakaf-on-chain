@@ -15,7 +15,7 @@ const NotificationSheet: React.FC = () => {
   return (
     <Sheet open={notificationDisplay} onOpenChange={onOpenNotification}>
       <SheetContent className="overflow-y-auto max-h-screen">
-        <SheetHeader>
+        <SheetHeader className="text-left">
           <SheetTitle className="border-b pb-2">Notifikasi</SheetTitle>
         </SheetHeader>
         <NotificationList />
