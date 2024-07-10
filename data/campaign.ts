@@ -5,10 +5,27 @@ export const getAllCampaigns = async (
     includeUser?: boolean;
     limit?: number;
     cursor?: number | undefined;
+    search?: string;
   }
 ) => {
   try {
     const campaigns = await db.campaign.findMany({
+      where: !!config?.search?.length ? {
+        OR: [
+          {
+            title: {
+              contains: config.search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            category: {
+              contains: config.search,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      } : undefined,
       orderBy: {
         createdAt: 'desc'
       },

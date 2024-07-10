@@ -8,6 +8,7 @@ export async function GET(req: Request) {
   const searchParams = url.searchParams;
   const cursor = searchParams.get('cursor');
   const limit = searchParams.get('limit');
+  const search = searchParams.get('search') || '';
 
   try {
     const session = await auth();
@@ -26,7 +27,8 @@ export async function GET(req: Request) {
 
     const campaigns = await getAllCampaigns({
       cursor: parsedCursor,
-      limit: parsedLimit
+      limit: parsedLimit,
+      search
     });
 
     if (campaigns === null) throw new Error('Error when get campaigns');

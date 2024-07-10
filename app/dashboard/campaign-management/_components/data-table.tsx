@@ -12,9 +12,10 @@ import { Campaign, User } from "@prisma/client"
 import { useCallback, useRef, useState } from "react"
 import DataTableRow from "./data-table-row"
 import { VscLoading } from "react-icons/vsc"
-import axios, { AxiosError } from "axios"
+import axios, { AxiosError, CancelTokenSource } from "axios"
 import { toast } from "sonner"
 import useAxiosErrorToast from "@/hooks/useAxiosErrorToast"
+import InputSearch from "@/components/shared/input-search"
 
 export type CampaignItem = Omit<Campaign, 'description'> & {
   creator?: User;
@@ -30,79 +31,130 @@ function DataTable({ data, limit }: IProps) {
   const [cursor, setCursor] = useState(!!data.length ? data[data.length - 1].id : null)
   const [hasMore, setHasMore] = useState(data.length === limit)
   const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState('')
+  const [searching, setSearching] = useState(false)
+  const cancelTokenSource = useRef<CancelTokenSource | null>(null);
 
   const { handleAxiosErrorToast } = useAxiosErrorToast()
   const observer = useRef<IntersectionObserver | null>()
+
+  const handleSearch = (value: string) => {
+    // Hapus spasi di awal dan di akhir
+    value = value.trim();
+    // Jika pencarian sebelumnya tidak sama dengan pencarian sekarang
+    // Maka, lanjutkan pencarian
+    if (search !== value) {
+      setSearch(value);
+      fetch(value, 'reset');
+    }
+  }
+
+  const fetch = useCallback((keyword: string, type: 'reset' | 'pagination') => {
+    if (cancelTokenSource.current) {
+      cancelTokenSource.current.cancel('Operation canceled due to new request.');
+    }
+
+    const source = axios.CancelToken.source();
+    cancelTokenSource.current = source;
+
+    if (type === 'pagination') setLoading(true);
+    else setSearching(true);
+
+    axios
+      .get(`/api/admin/campaign`, {
+        params: type === 'reset' ? { search: keyword } : { cursor, limit: limit, search: keyword },
+        cancelToken: source.token,
+      })
+      .then((res) => {
+        if (res.data.length === limit) {
+          setCursor(res.data[res.data.length - 1].id);
+          if (!hasMore) setHasMore(true);
+        } else {
+          setHasMore(false);
+        }
+        setCampaigns((prev) => type === 'reset' ? [...res.data] : [...prev, ...res.data]);
+      })
+      .catch((error: AxiosError) => {
+        if (axios.isCancel(error)) {
+          console.log('Request canceled:', error.message);
+        } else {
+          const axiosError = error as AxiosError;
+
+          if (axiosError.response) {
+            handleAxiosErrorToast(axiosError.response.status);
+          } else {
+            toast.error('Internal Error');
+          }
+        }
+      })
+      .finally(() => {
+        if (type === 'pagination') setLoading(false);
+        else setSearching(false);
+      });
+  }, [cursor]);
 
   const lastDataElementRef = useCallback((node: HTMLTableRowElement) => {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && hasMore) {
-        setLoading(true);
-        axios.get(`/api/admin/campaign?cursor=${cursor}&limit=${limit}`)
-          .then((res) => {
-            if (res.data.length === limit) {
-              setCursor(data[data.length - 1].id);
-            } else {
-              setHasMore(false);
-            }
-            setCampaigns((prev) => [...prev, ...res.data]);
-          })
-          .catch((error: AxiosError) => {
-            if (error.response) {
-              handleAxiosErrorToast(error.response!.status);
-            } else {
-              toast.error('Internal Error');
-            }
-          })
-          .finally(() => setLoading(false));
+        fetch(search, 'pagination')
       }
     })
     if (node) observer.current.observe(node);
   }, [loading, hasMore]);
 
   return (
-    <Table>
-      <TableHead>
-        <TableHeadCol className="rounded-l-lg">Kampanye</TableHeadCol>
-        <TableHeadCol>Status</TableHeadCol>
-        <TableHeadCol>Kategori</TableHeadCol>
-        <TableHeadCol className="text-right">Total Wakif</TableHeadCol>
-        <TableHeadCol className="text-right">Target</TableHeadCol>
-        <TableHeadCol>Publikasi</TableHeadCol>
-        <TableHeadCol className="text-center rounded-r-lg">Aksi</TableHeadCol>
-      </TableHead>
-      <TableBody className="text-gray-700">
-        {campaigns
-          .map((item, index) => {
-            if (campaigns.length === index + 1 && hasMore) return (
-              <TableRow ref={lastDataElementRef} key={item.id}>
-                <DataTableRow data={item} />
+    <>
+      <div className="max-w-sm">
+        <InputSearch
+          placeholder="Cari kampanye: judul, kategori"
+          onChange={handleSearch}
+        />
+      </div>
+      <div className="p-4 rounded-lg bg-background mt-4">
+        <Table>
+          <TableHead>
+            <TableHeadCol className="rounded-l-lg">Kampanye</TableHeadCol>
+            <TableHeadCol>Status</TableHeadCol>
+            <TableHeadCol>Kategori</TableHeadCol>
+            <TableHeadCol className="text-right">Total Wakif</TableHeadCol>
+            <TableHeadCol className="text-right">Target</TableHeadCol>
+            <TableHeadCol>Publikasi</TableHeadCol>
+            <TableHeadCol className="text-center rounded-r-lg">Aksi</TableHeadCol>
+          </TableHead>
+          <TableBody className="text-gray-700">
+            {!searching && campaigns
+              .map((item, index) => {
+                if (campaigns.length === index + 1 && hasMore) return (
+                  <TableRow ref={lastDataElementRef} key={item.id}>
+                    <DataTableRow data={item} />
+                  </TableRow>
+                )
+                return (
+                  <TableRow key={item.id}>
+                    <DataTableRow data={item} />
+                  </TableRow>
+                )
+              })}
+            {(searching || loading) && (
+              <TableRow>
+                <TableCell colSpan={7} className="bg-background hover:bg-background">
+                  <VscLoading fontSize={20} className="animate-spin mx-auto" />
+                </TableCell>
               </TableRow>
-            )
-            return (
-              <TableRow key={item.id}>
-                <DataTableRow data={item} />
+            )}
+            {!searching && !hasMore && (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center text-gray-500 bg-background hover:bg-background">
+                  Tidak ada lagi kampanye
+                </TableCell>
               </TableRow>
-            )
-          })}
-        {loading && (
-          <TableRow>
-            <TableCell colSpan={7} className="bg-background hover:bg-background">
-              <VscLoading fontSize={20} className="animate-spin mx-auto" />
-            </TableCell>
-          </TableRow>
-        )}
-        {!hasMore && (
-          <TableRow>
-            <TableCell colSpan={7} className="text-center text-gray-500 bg-background hover:bg-background">
-              Tidak ada lagi kampanye
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    </>
   )
 }
 

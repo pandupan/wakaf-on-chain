@@ -5,7 +5,6 @@ import { getUserByEmail } from "@/data/user"
 import { User } from "@prisma/client"
 import { redirect } from "next/navigation"
 import { getAllCampaigns } from "@/data/campaign"
-import InputSearch from "@/components/shared/input-search"
 
 const LIMIT = 9;
 
@@ -26,12 +25,7 @@ const CampaignManagementPage = async () => {
 
   return (
     <>
-      <div className="max-w-sm">
-        <InputSearch placeholder="Cari kampanye" />
-      </div>
-      <div className="p-4 rounded-lg bg-background mt-4">
-        <DataTable data={campaigns} limit={LIMIT} />
-      </div>
+      <DataTable data={campaigns} limit={LIMIT} />
     </>
   );
 };
