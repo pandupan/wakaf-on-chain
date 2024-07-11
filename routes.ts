@@ -7,6 +7,7 @@ export const publicRoutes = [
   "/",
   "/wakaf",
   "/dashboard/campaign",
+  "/dashboard/campaign/:path",
   "/dashboard/leaderboard",
   "/404",
   "/error"

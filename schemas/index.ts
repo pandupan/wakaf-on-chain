@@ -28,14 +28,14 @@ export const campaignSchemaRaw = {
       message: "Nomor WhatsApp tidak valid."
     }),
   image: z
-    .custom<FileList[0] | undefined>()
+    .custom<FileList[0] | undefined | string>()
     .refine((file) => file, {
-      message: "Banner kampanye harus diisi.",
+      message: "Poto profil harus diisi.",
     })
-    .refine((file) => file && (!!file && file.size <= 2 * 1024 * 1024), {
-      message: "Banner kampanye maksimal 3MB.",
+    .refine((file) => file && (typeof file === 'string' || (!!file && file.size <= 2 * 1024 * 1024)), {
+      message: "Poto profil maksimal 3MB.",
     })
-    .refine((file) => file && (!!file && file.type?.startsWith("image")), {
+    .refine((file) => file && (typeof file === 'string' || !!file && file.type?.startsWith("image")), {
       message: "Hanya gambar yang diizinkan.",
     }),
 }

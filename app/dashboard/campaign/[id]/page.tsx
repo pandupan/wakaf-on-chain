@@ -8,12 +8,16 @@ import Description from './_components/description'
 import WakafFlowWithdraw from './_components/wakaf-flow-withdraw'
 import { redirect } from 'next/navigation'
 import { getCampaignById } from '@/data/campaign'
+import { auth } from '@/auth'
 
 interface IParams {
   id: string;
 };
 
 const CampaignDetailPage = async ({ params }: { params: IParams }) => {
+  const session = await auth();
+  const role = session?.user.role || null;
+
   if (isNaN(+params.id)) redirect('/404');
 
   const campaign = await getCampaignById(+params.id, {
@@ -25,7 +29,7 @@ const CampaignDetailPage = async ({ params }: { params: IParams }) => {
   return (
     <div className="grid grid-cols-12 gap-4">
       <div className="col-span-12 md:col-span-7">
-        <CampaignOverview data={campaign} />
+        <CampaignOverview data={campaign} role={role} />
         <div className="bg-background rounded-md shadow-sm p-4 space-y-2 mt-4">
           <Tabs defaultValue="description">
             <TabsList>

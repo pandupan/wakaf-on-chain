@@ -1,5 +1,5 @@
 import React from 'react'
-import FormAddCampaign from './_components/form-add-campaign'
+import FormAddCampaign from '../../campaign/_components/form-campaign'
 import { auth } from '@/auth';
 import { User } from '@prisma/client';
 import { getUserByEmail } from '@/data/user';
@@ -16,7 +16,7 @@ async function AddCampaignPage() {
 
   return (
     <div className="p-4 rounded-lg bg-background">
-      <FormAddCampaign />
+      <FormAddCampaign mode="create" />
     </div>
   )
 }

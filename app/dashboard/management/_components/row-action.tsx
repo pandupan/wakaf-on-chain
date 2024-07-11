@@ -10,8 +10,13 @@ import { FiEdit, FiEye } from "react-icons/fi"
 import { Button } from "@/components/ui/button"
 import { FaEllipsis } from "react-icons/fa6"
 import { LuX } from "react-icons/lu"
+import { CampaignItem } from './data-table';
 
-function RowAction() {
+interface IProps {
+  data: CampaignItem;
+}
+
+function RowAction({ data }: IProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,7 +30,7 @@ function RowAction() {
             className="w-full flex items-center gap-2"
             target="_blank"
             rel="noopener noreferrer"
-            href="#"
+            href={`/dashboard/campaign/${data.id}`}
           >
             <FiEye /> Detail
           </Link>
@@ -33,8 +38,7 @@ function RowAction() {
         <DropdownMenuItem>
           <Link
             className="w-full flex items-center gap-2"
-            rel="noopener noreferrer"
-            href="#"
+            href={`/dashboard/campaign/edit/${data.id}`}
           >
             <FiEdit /> Edit
           </Link>

@@ -9,6 +9,9 @@ function useAxiosErrorToast() {
       case 400:
         toast.error('Input tidak valid');
         break;
+      case 404:
+        toast.error('Data tidak ditemukan');
+        break;
       default:
         toast.error('Internal Error');
         break;

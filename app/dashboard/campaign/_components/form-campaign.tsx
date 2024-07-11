@@ -23,24 +23,54 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { VscLoading } from 'react-icons/vsc'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { MdDelete } from 'react-icons/md'
 import Image from 'next/image'
-import { campaignSchema } from '@/schemas'
-import { addThousandSeparatorNumber } from '@/lib/utils'
-import { wakafCategories } from '../../_constants/data'
+import { campaignSchema, campaignSchemaRaw } from '@/schemas'
+import { addThousandSeparatorNumber, formatRupiah } from '@/lib/utils'
+import { wakafCategories } from '@/app/dashboard/_constants/data'
 import { toast } from 'sonner'
 import axios, { AxiosError } from "axios"
 import { useRouter } from 'next/navigation'
 import useCompressImage from '@/hooks/useCompressImage'
 import useAxiosErrorToast from '@/hooks/useAxiosErrorToast'
+import { Campaign } from '@prisma/client'
 
-function FormAddCampaign() {
-  const [adding, setAdding] = useState(false);
-  const form = useForm<z.infer<typeof campaignSchema>>({
-    resolver: zodResolver(campaignSchema),
+interface EditProps {
+  mode: 'edit';
+  data: Campaign;
+}
+
+interface CreateProps {
+  mode: 'create';
+}
+
+type PropTypes = EditProps | CreateProps;
+
+function FormCampaign(props: PropTypes) {
+  const { mode } = props;
+  const [loading, setLoading] = useState(false);
+  const dynamicCampaignSchema = z.object({
+    ...campaignSchemaRaw,
+    target: z.string()
+      .transform((price) => price.replace(/[^0-9]/g, ''))
+      .refine((price) => {
+        const numericValue = parseFloat(price);
+        return !isNaN(numericValue) && numericValue >= 100000;
+      }, {
+        message: "Target wakaf harus sama dengan atau lebih dari Rp100.000.",
+      })
+      .refine((price) => {
+        return +price >= (mode === 'create' ? 0 : props.data.collected);
+      }, {
+        message: "Target wakaf harus sama dengan atau lebih dari wakaf terkumpul",
+      })
+  });
+
+  const form = useForm<z.infer<typeof dynamicCampaignSchema>>({
+    resolver: zodResolver(dynamicCampaignSchema),
     defaultValues: {
       description: '',
       phone: '',
@@ -53,30 +83,77 @@ function FormAddCampaign() {
   const { uploadAndCompressImage } = useCompressImage();
   const navigate = useRouter();
 
-  const onSubmit = async (data: z.infer<typeof campaignSchema>) => {
-    setAdding(true);
-    const compressImage = await uploadAndCompressImage(data.image!, 400, 300);
+  const onSubmit = async (data: z.infer<typeof dynamicCampaignSchema>) => {
+    // Gambar di create pasti dalam bentuk file bukan string
+    if (mode === 'create' && typeof data.image === 'object') {
+      setLoading(true);
+      const compressImage = await uploadAndCompressImage(data.image!, 400, 300);
 
-    axios('/api/admin/campaign', {
-      method: 'POST',
-      data: {
-        ...data,
-        image: `data:image/png;base64,${compressImage}`
-      },
-    })
-      .then((res) => {
-        toast.success('Berhasil membuat kampanye.');
-        navigate.push('/dashboard/campaign-management');
+      axios('/api/admin/campaign', {
+        method: 'POST',
+        data: {
+          ...data,
+          image: `data:image/png;base64,${compressImage}`
+        },
       })
-      .catch((error: AxiosError) => {
-        setAdding(false);
-        if (error.response) {
-          handleAxiosErrorToast(error.response!.status);
-        } else {
-          toast.error('Internal Error');
-        }
-      });
+        .then(() => {
+          toast.success('Berhasil membuat kampanye.');
+          navigate.push('/dashboard/management');
+        })
+        .catch((error: AxiosError) => {
+          setLoading(false);
+          if (error.response) {
+            handleAxiosErrorToast(error.response!.status);
+          } else {
+            toast.error('Internal Error');
+          }
+        });
+
+      return;
+    } else if (mode === 'edit') {
+      setLoading(true);
+      const { data: { id } } = props;
+      const compressImage =
+        typeof data.image === 'string' ?
+          data.image.replaceAll('data:image/png;base64,', '') :
+          await uploadAndCompressImage(data.image!, 400, 300);
+
+      axios('/api/admin/campaign', {
+        method: 'PUT',
+        data: {
+          ...data,
+          image: `data:image/png;base64,${compressImage}`,
+          id
+        },
+      })
+        .then(() => {
+          toast.success('Berhasil mengupdate kampanye.');
+          navigate.push('/dashboard/management');
+        })
+        .catch((error: AxiosError) => {
+          setLoading(false);
+          if (error.response) {
+            handleAxiosErrorToast(error.response!.status);
+          } else {
+            toast.error('Internal Error');
+          }
+        });
+
+      return;
+    }
   };
+
+  useEffect(() => {
+    if (mode === 'edit') {
+      const { data } = props;
+      form.setValue('title', data.title);
+      form.setValue('image', data.image);
+      form.setValue('category', data.category);
+      form.setValue('phone', data.phone);
+      form.setValue('target', addThousandSeparatorNumber(data.target));
+      form.setValue('description', data.description);
+    }
+  }, [mode]);
 
   return (
     <div className="sm:p-4">
@@ -94,7 +171,7 @@ function FormAddCampaign() {
                     <Input
                       {...field}
                       placeholder="Masukan judul kampanye"
-                      disabled={adding}
+                      disabled={loading}
                     />
                   </FormControl>
                   <FormDescription>
@@ -133,7 +210,7 @@ function FormAddCampaign() {
                             type="file"
                             className="w-0 h-0"
                             name="image"
-                            disabled={adding}
+                            disabled={loading}
                             onChange={(event) => {
                               if (event.target.files) {
                                 field.onChange(event.target.files[0]);
@@ -145,7 +222,7 @@ function FormAddCampaign() {
                         <div className="relative w-full h-full">
                           <div className="relative w-full h-[200px]">
                             <Image
-                              src={URL.createObjectURL(field.value)}
+                              src={typeof field.value === 'string' ? field.value : URL.createObjectURL(field.value)}
                               alt="uploaded-pic"
                               fill={true}
                               className="object-contain"
@@ -154,7 +231,7 @@ function FormAddCampaign() {
                           <button
                             type="button"
                             className="absolute bottom-3 right-3 p-3 rounded-full border bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
-                            disabled={adding}
+                            disabled={loading}
                             onClick={() => field.onChange(undefined)}
                           >
                             <MdDelete />
@@ -173,7 +250,11 @@ function FormAddCampaign() {
               render={({ field }) => (
                 <FormItem className="sm:col-span-2">
                   <FormLabel className="font-semibold">Kategori</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled={adding}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={mode === 'edit' ? props.data.category : field.value}
+                    disabled={loading}
+                  >
                     <FormControl>
                       <SelectTrigger className="text-muted-foreground">
                         <SelectValue placeholder="Pilih Kategori" />
@@ -204,12 +285,13 @@ function FormAddCampaign() {
                     <div className="relative">
                       <Input
                         {...field}
-                        disabled={adding}
+                        disabled={loading}
                         placeholder="Misal: 12.000.000"
                         className="pl-12"
                         onChange={(e) => {
                           e.target.value = addThousandSeparatorNumber(+e.target.value.replace(/[^0-9]/g, ''));
                           form.setValue('target', e.target.value);
+                          if (mode === 'edit') form.trigger('target');
                         }}
                       />
                       <span className="absolute top-[50%] -translate-y-[50%] h-full px-2 bg-gray-100 text-sm flex items-center justify-center rounded-l-lg border">
@@ -218,7 +300,10 @@ function FormAddCampaign() {
                     </div>
                   </FormControl>
                   <FormDescription>
-                    Target wakaf harus sesuai dengan kebutuhan masalah.
+                    {mode === 'create' ?
+                      'Target wakaf harus sesuai dengan kebutuhan masalah.' :
+                      `Target harus lebih dari wakaf yang sudah terkumpul (${formatRupiah(props.data.collected)}).`
+                    }
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -234,7 +319,7 @@ function FormAddCampaign() {
                     <Input
                       {...field}
                       placeholder="Misal: 082123456789"
-                      disabled={adding}
+                      disabled={loading}
                     />
                   </FormControl>
                   <FormDescription>
@@ -269,10 +354,10 @@ function FormAddCampaign() {
               type="submit"
               variant="secondary"
               className="mt-4 gap-2"
-              disabled={adding}
+              disabled={loading}
             >
-              {adding && <VscLoading className="animate-spin" />}
-              Buat Kampanye
+              {loading && <VscLoading className="animate-spin" />}
+              {mode === 'create' ? 'Buat Kampanye' : 'Simpan'}
             </Button>
           </div>
         </form>
@@ -281,4 +366,4 @@ function FormAddCampaign() {
   )
 }
 
-export default FormAddCampaign
+export default FormCampaign

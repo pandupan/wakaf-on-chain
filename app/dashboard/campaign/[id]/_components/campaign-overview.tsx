@@ -5,17 +5,21 @@ import { cn, formatIndonesianDate, formatRupiah } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { IoMdShare } from 'react-icons/io';
 import { Badge } from '@/components/ui/badge';
-import { Campaign, User } from '@prisma/client';
+import { Campaign, User, UserRole } from '@prisma/client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
   className?: string;
   data: Omit<Campaign, 'description'> & {
     creator?: User
-  }
+  };
+  role: UserRole | null;
 }
 
-function CampaignOverview({ className, data }: IProps) {
+function CampaignOverview({ className, data, role }: IProps) {
+  const navigate = useRouter()
+
   return (
     <>
       <div
@@ -79,7 +83,7 @@ function CampaignOverview({ className, data }: IProps) {
               <Button variant="outline">
                 <IoMdShare className="text-base" />
               </Button>
-              {data.status === 'RUNNING' ? (
+              {role === 'USER' && data.status === 'RUNNING' ? (
                 <Link href={`/dashboard/berwakaf?campaign_id=${data.id}`} className="inline-block flex-1">
                   <Button
                     variant="secondary"
@@ -95,7 +99,13 @@ function CampaignOverview({ className, data }: IProps) {
                 <Button
                   variant="secondary"
                   className="relative flex-1"
-                  disabled
+                  disabled={!!role}
+                  onClick={() => {
+                    if (!role) {
+                      const callbackUrl = encodeURIComponent(`/dashboard/berwakaf?campaign_id=${data.id}`);
+                      navigate.push(`/auth/login?callbackUrl=${callbackUrl}`);
+                    }
+                  }}
                 >
                   Donasi sekarang
                   <span className="absolute -top-2 -right-2 bg-sky-200 text-secondary rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
@@ -127,18 +137,42 @@ function CampaignOverview({ className, data }: IProps) {
             </div>
             <div className="sm:mt-2">
               <span className="text-xs">Total: {formatRupiah(data.target)}</span>
-              <Progress value={(data.collected / (data.remaining)) * 100} className="h-1.5 sm:h-2" />
+              <Progress value={(data.collected / (data.target)) * 100} className="h-1.5 sm:h-2" />
             </div>
             <div className="flex sm:hidden gap-2 mt-4">
               <Button size="sm" variant="outline">
                 <IoMdShare className="text-xs" />
               </Button>
-              <Button size="sm" variant="secondary" className="relative flex-1 text-xs">
-                Donasi sekarang
-                <span className="absolute -top-2 -right-2 bg-sky-200 text-secondary rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                  💰
-                </span>
-              </Button>
+              {role === 'USER' && data.status === 'RUNNING' ? (
+                <Link href={`/dashboard/berwakaf?campaign_id=${data.id}`} className="inline-block flex-1">
+                  <Button
+                    variant="secondary"
+                    className="relative w-full"
+                  >
+                    Donasi sekarang
+                    <span className="absolute -top-2 -right-2 bg-sky-200 text-secondary rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                      💰
+                    </span>
+                  </Button>
+                </Link>
+              ) : (
+                <Button
+                  variant="secondary"
+                  className="relative flex-1"
+                  disabled={!!role}
+                  onClick={() => {
+                    if (!role) {
+                      const callbackUrl = encodeURIComponent(`/dashboard/berwakaf?campaign_id=${data.id}`);
+                      navigate.push(`/auth/login?callbackUrl=${callbackUrl}`);
+                    }
+                  }}
+                >
+                  Donasi sekarang
+                  <span className="absolute -top-2 -right-2 bg-sky-200 text-secondary rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                    💰
+                  </span>
+                </Button>
+              )}
             </div>
           </div>
           <div className="col-span-2 p-4 rounded-md bg-muted">

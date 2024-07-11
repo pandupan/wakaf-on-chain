@@ -74,7 +74,7 @@ function DataTableRow({ data }: IProps) {
         </span>
       </TableCell>
       <TableCell className="text-center rounded-r-lg">
-        <RowAction />
+        <RowAction data={data} />
       </TableCell>
     </>
   )

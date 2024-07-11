@@ -2,8 +2,7 @@ import { AiOutlineHome, AiOutlineTrophy } from 'react-icons/ai'
 import { TbMoneybag } from "react-icons/tb"
 import { LuUser2 } from "react-icons/lu"
 import { LiaDonateSolid } from "react-icons/lia"
-import { MdInsertChartOutlined, MdOutlineCampaign } from 'react-icons/md'
-import { RiHeartAddLine } from "react-icons/ri"
+import { MdOutlineCampaign } from 'react-icons/md'
 import { PiHandCoins } from "react-icons/pi"
 import { BiNotepad } from 'react-icons/bi'
 import { IoWalletOutline } from 'react-icons/io5'
@@ -18,7 +17,7 @@ export const sidebarNavItems: SidebarNavItems[] = [
     role: 'BOTH'
   },
   {
-    href: "/dashboard/campaign-management",
+    href: "/dashboard/management",
     icon: BiNotepad,
     text: "Kelola Kampanye",
     role: 'ADMIN'
@@ -27,12 +26,6 @@ export const sidebarNavItems: SidebarNavItems[] = [
     href: "/dashboard/wakif",
     icon: PiHandCoins,
     text: "Daftar Wakif",
-    role: 'ADMIN'
-  },
-  {
-    href: "/dashboard/add-campaign",
-    icon: RiHeartAddLine,
-    text: "Buat Kampanye",
     role: 'ADMIN'
   },
   {

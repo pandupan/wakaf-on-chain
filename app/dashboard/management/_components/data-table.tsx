@@ -16,6 +16,8 @@ import axios, { AxiosError, CancelTokenSource } from "axios"
 import { toast } from "sonner"
 import useAxiosErrorToast from "@/hooks/useAxiosErrorToast"
 import InputSearch from "@/components/shared/input-search"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export type CampaignItem = Omit<Campaign, 'description'> & {
   creator?: User;
@@ -113,6 +115,14 @@ function DataTable({ data, limit }: IProps) {
         />
       </div>
       <div className="p-4 rounded-lg bg-background mt-4">
+        <div className="mb-2 w-full flex justify-between items-end">
+          <h2 className="sm:text-lg font-semibold">Daftar Kampanye</h2>
+          <Link href="/dashboard/campaign/create">
+            <Button variant="secondary" size="sm" className="text-[10px] sm:text-xs rounded-lg">
+              Tambah Kampanye
+            </Button>
+          </Link>
+        </div>
         <Table>
           <TableHead>
             <TableHeadCol className="rounded-l-lg">Kampanye</TableHeadCol>

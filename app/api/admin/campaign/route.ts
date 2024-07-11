@@ -66,6 +66,69 @@ export async function POST(req: Request) {
   }
 }
 
+export async function PUT(req: Request) {
+  try {
+    const session = await auth();
+    if (!session || !session.user) {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
+    const currentUser = await getUserById(session.user.id!);
+
+    if (!currentUser?.id || !currentUser?.email || currentUser.role !== 'ADMIN') {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
+    const body = await req.json();
+
+    const validatedFields = campaignSchemaResponse.safeParse(body);
+
+    if (!validatedFields.success) {
+      return new NextResponse('Invalid inputs', { status: 400 })
+    }
+
+    const {
+      category,
+      description,
+      image,
+      phone,
+      target,
+      title,
+    } = validatedFields.data;
+
+    const campaign = await db.campaign.findUnique({
+      where: { id: body.id }
+    });
+
+    if (!campaign) {
+      return new NextResponse('Data not found', { status: 404 });
+    }
+
+    const newCampaign = await db.campaign.update({
+      where: {
+        id: body.id,
+      },
+      data: {
+        image,
+        title,
+        target: +target,
+        category,
+        description,
+        phone,
+        remaining: +target - campaign.collected
+      },
+    });
+
+    return NextResponse.json(newCampaign, {
+      status: 201
+    });
+
+  } catch (error: any) {
+    console.log('CREATE CAMPAIGN ERROR: ', error);
+    return new NextResponse('Internal Error', { status: 500 });
+  }
+}
+
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const searchParams = url.searchParams;

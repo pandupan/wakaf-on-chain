@@ -76,7 +76,7 @@ const CardCampaign = forwardRef<HTMLDivElement, IProps>(({ className, data, only
         </div>
         <div>
           <span className="text-[10px] sm:text-xs">Total: {formatRupiah(data.target)}</span>
-          <Progress value={(data.collected / (data.remaining)) * 100} className="h-1.5 sm:h-2" />
+          <Progress value={(data.collected / (data.target)) * 100} className="h-1.5 sm:h-2" />
         </div>
       </div>
     </div>

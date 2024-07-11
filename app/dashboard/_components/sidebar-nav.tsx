@@ -27,7 +27,9 @@ function SidebarNav({ role }: IProps) {
             key={index}
             className={cn(
               'flex items-center px-4 py-3 rounded-md',
-              pathname === item.href ? 'text-secondary-foreground bg-secondary' : 'transition-colors duration-300 transform hover:bg-gray-100 hover:text-gray-700'
+              (item.href === '/dashboard' ? pathname === item.href : pathname.includes(item.href)) ?
+                'text-secondary-foreground bg-secondary' :
+                'transition-colors duration-300 transform hover:bg-gray-100 hover:text-gray-700'
             )}
             href={item.href}
             onClick={() => {
