@@ -10,7 +10,7 @@ const merriweather = Merriweather({
 
 const SuratPernyataan = () => {
   return (
-    <div className={`${merriweather.variable} w-full py-8 px-4 bg-gray-100`}>
+    <div className={`${merriweather.className} w-full py-8 px-4 bg-gray-100`}>
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
         <div className="relative mb-8">
           <Image
