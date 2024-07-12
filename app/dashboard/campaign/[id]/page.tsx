@@ -9,6 +9,7 @@ import WakafFlowWithdraw from './_components/wakaf-flow-withdraw'
 import { redirect } from 'next/navigation'
 import { getCampaignById } from '@/data/campaign'
 import { auth } from '@/auth'
+import Contact from './_components/contact'
 
 interface IParams {
   id: string;
@@ -51,7 +52,8 @@ const CampaignDetailPage = async ({ params }: { params: IParams }) => {
           </Tabs>
         </div>
       </div>
-      <div className="col-span-12 md:col-span-5">
+      <div className="col-span-12 md:col-span-5 space-y-4">
+        <Contact phone={campaign.phone} />
         <WakifList />
       </div>
     </div>
