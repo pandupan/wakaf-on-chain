@@ -19,6 +19,7 @@ const CampaignManagementPage = async () => {
 
   const campaigns = await getAllCampaigns({
     includeUser: true,
+    sorted: 'updatedAt'
   });
 
   if (campaigns === null) redirect('/error');

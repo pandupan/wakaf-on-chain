@@ -9,14 +9,16 @@ import Link from "next/link";
 import { FiEdit, FiEye } from "react-icons/fi"
 import { Button } from "@/components/ui/button"
 import { FaEllipsis } from "react-icons/fa6"
-import { LuX } from "react-icons/lu"
+import { LuCheck, LuX } from "react-icons/lu"
 import { CampaignItem } from './data-table';
 
 interface IProps {
   data: CampaignItem;
+  onClickNonactive: (id: number) => void;
+  onClickFinishCampaign: (id: number) => void;
 }
 
-function RowAction({ data }: IProps) {
+function RowAction({ data, onClickFinishCampaign, onClickNonactive }: IProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,21 +37,39 @@ function RowAction({ data }: IProps) {
             <FiEye /> Detail
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Link
-            className="w-full flex items-center gap-2"
-            href={`/dashboard/campaign/edit/${data.id}`}
-          >
-            <FiEdit /> Edit
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="w-full"
-        >
-          <button className="w-full flex items-center gap-2 text-red-500 focus:text-red-500">
-            <LuX /> Tutup Kampanye
-          </button>
-        </DropdownMenuItem>
+        {data.status !== 'REACHED' && (
+          <>
+            <DropdownMenuItem>
+              <Link
+                className="w-full flex items-center gap-2"
+                href={`/dashboard/campaign/edit/${data.id}`}
+              >
+                <FiEdit /> Edit
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="w-full"
+            >
+              <button
+                className="w-full flex items-center gap-2"
+                onClick={() => onClickNonactive(data.id)}
+              >
+                <LuX />
+                {data.status === 'RUNNING' ? 'Nonaktifkan sementara' : 'Aktifkan kembali'}
+              </button>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="w-full"
+            >
+              <button
+                className="w-full flex items-center gap-2 text-emerald-500 focus:text-emerald-500"
+                onClick={() => onClickFinishCampaign(data.id)}
+              >
+                <LuCheck /> Kampanye selesai
+              </button>
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

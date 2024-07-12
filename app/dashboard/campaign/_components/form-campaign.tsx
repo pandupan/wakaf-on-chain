@@ -63,9 +63,9 @@ function FormCampaign(props: PropTypes) {
         message: "Target wakaf harus sama dengan atau lebih dari Rp100.000.",
       })
       .refine((price) => {
-        return +price >= (mode === 'create' ? 0 : props.data.collected);
+        return +price > (mode === 'create' ? 0 : props.data.collected);
       }, {
-        message: "Target wakaf harus sama dengan atau lebih dari wakaf terkumpul",
+        message: "Target wakaf harus lebih dari wakaf terkumpul",
       })
   });
 

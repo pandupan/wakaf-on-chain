@@ -18,6 +18,8 @@ import useAxiosErrorToast from "@/hooks/useAxiosErrorToast"
 import InputSearch from "@/components/shared/input-search"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { NonactiveCampaignAlert } from "./nonactive-campaign-alert"
+import { FinishCampaignAlert } from "./finish-campaign-alert"
 
 export type CampaignItem = Omit<Campaign, 'description'> & {
   creator?: User;
@@ -35,6 +37,10 @@ function DataTable({ data, limit }: IProps) {
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
   const [searching, setSearching] = useState(false)
+  const [nonactiveDisplay, setNonactiveDisplay] = useState(false);
+  const [nonactiveCampaignId, setNonactiveCampaignId] = useState<number | null>(null);
+  const [finishDisplay, setFinishDisplay] = useState(false);
+  const [finishCampaignId, setFinishCampaignId] = useState<number | null>(null);
   const cancelTokenSource = useRef<CancelTokenSource | null>(null);
 
   const { handleAxiosErrorToast } = useAxiosErrorToast()
@@ -60,7 +66,10 @@ function DataTable({ data, limit }: IProps) {
     cancelTokenSource.current = source;
 
     if (type === 'pagination') setLoading(true);
-    else setSearching(true);
+    else {
+      setSearching(true);
+      setHasMore(true);
+    };
 
     axios
       .get(`/api/admin/campaign`, {
@@ -70,7 +79,6 @@ function DataTable({ data, limit }: IProps) {
       .then((res) => {
         if (res.data.length === limit) {
           setCursor(res.data[res.data.length - 1].id);
-          if (!hasMore) setHasMore(true);
         } else {
           setHasMore(false);
         }
@@ -108,6 +116,29 @@ function DataTable({ data, limit }: IProps) {
 
   return (
     <>
+      <NonactiveCampaignAlert
+        status={campaigns.find((campaign) => campaign.id === nonactiveCampaignId)?.status}
+        campaignId={nonactiveCampaignId}
+        open={nonactiveDisplay}
+        onOpenChange={setNonactiveDisplay}
+        onCancel={() => {
+          setNonactiveCampaignId(null);
+        }}
+        onSuccessAction={() => {
+          fetch('', 'reset');
+        }}
+      />
+      <FinishCampaignAlert
+        campaignId={finishCampaignId}
+        open={finishDisplay}
+        onOpenChange={setFinishDisplay}
+        onCancel={() => {
+          setFinishCampaignId(null);
+        }}
+        onSuccessAction={() => {
+          fetch('', 'reset');
+        }}
+      />
       <div className="max-w-sm">
         <InputSearch
           placeholder="Cari kampanye: judul, kategori"
@@ -138,12 +169,32 @@ function DataTable({ data, limit }: IProps) {
               .map((item, index) => {
                 if (campaigns.length === index + 1 && hasMore) return (
                   <TableRow ref={lastDataElementRef} key={item.id}>
-                    <DataTableRow data={item} />
+                    <DataTableRow
+                      data={item}
+                      onClickFinishCampaign={(id) => {
+                        setFinishCampaignId(id);
+                        setFinishDisplay(true);
+                      }}
+                      onClickNonactive={(id) => {
+                        setNonactiveDisplay(true);
+                        setNonactiveCampaignId(id);
+                      }}
+                    />
                   </TableRow>
                 )
                 return (
                   <TableRow key={item.id}>
-                    <DataTableRow data={item} />
+                    <DataTableRow
+                      data={item}
+                      onClickFinishCampaign={(id) => {
+                        setFinishCampaignId(id);
+                        setFinishDisplay(true);
+                      }}
+                      onClickNonactive={(id) => {
+                        setNonactiveDisplay(true);
+                        setNonactiveCampaignId(id);
+                      }}
+                    />
                   </TableRow>
                 )
               })}

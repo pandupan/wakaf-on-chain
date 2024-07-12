@@ -46,7 +46,10 @@ function CampaignList({ data, limit }: IProps) {
     cancelTokenSource.current = source;
 
     if (type === 'pagination') setLoading(true);
-    else setSearching(true);
+    else {
+      setSearching(true);
+      setHasMore(true);
+    };
 
     axios
       .get(`/api/user/campaign`, {

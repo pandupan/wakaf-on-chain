@@ -155,7 +155,8 @@ export async function GET(req: Request) {
       includeUser: true,
       cursor: parsedCursor,
       limit: parsedLimit,
-      search
+      search,
+      sorted: 'updatedAt'
     });
 
     if (campaigns === null) throw new Error('Error when get campaigns');

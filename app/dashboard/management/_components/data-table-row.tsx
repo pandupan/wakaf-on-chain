@@ -9,9 +9,11 @@ import { CampaignItem } from "./data-table"
 
 interface IProps {
   data: CampaignItem;
+  onClickNonactive: (id: number) => void;
+  onClickFinishCampaign: (id: number) => void;
 }
 
-function DataTableRow({ data }: IProps) {
+function DataTableRow({ data, onClickFinishCampaign, onClickNonactive }: IProps) {
   return (
     <>
       <TableCell className="rounded-l-lg">
@@ -74,7 +76,11 @@ function DataTableRow({ data }: IProps) {
         </span>
       </TableCell>
       <TableCell className="text-center rounded-r-lg">
-        <RowAction data={data} />
+        <RowAction
+          data={data}
+          onClickFinishCampaign={onClickFinishCampaign}
+          onClickNonactive={onClickNonactive}
+        />
       </TableCell>
     </>
   )

@@ -23,7 +23,7 @@ async function EditPage({ params }: { params: IParams }) {
 
   const campaign = await getCampaignById(+params.id, {});
 
-  if (campaign === null) redirect('/404');
+  if (campaign === null || campaign.status === 'REACHED') redirect('/404');
 
   return (
     <div className="p-4 rounded-lg bg-background">

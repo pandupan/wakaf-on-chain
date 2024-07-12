@@ -6,6 +6,7 @@ export const getAllCampaigns = async (
     limit?: number;
     cursor?: number | undefined;
     search?: string;
+    sorted?: 'createdAt' | 'updatedAt'
   }
 ) => {
   try {
@@ -27,7 +28,7 @@ export const getAllCampaigns = async (
         ],
       } : undefined,
       orderBy: {
-        createdAt: 'desc'
+        [config?.sorted || 'createdAt']: 'desc'
       },
       select: {
         id: true,
@@ -50,19 +51,7 @@ export const getAllCampaigns = async (
       cursor: config?.cursor ? { id: config.cursor } : undefined,
     });
 
-    const sortedCampaigns = campaigns.sort((a, b) => {
-      const statusOrder = {
-        RUNNING: 1,
-        CLOSED: 2,
-        REACHED: 3,
-      };
-
-      if (statusOrder[a.status] < statusOrder[b.status]) return -1;
-      if (statusOrder[a.status] > statusOrder[b.status]) return 1;
-      return 0;
-    });
-
-    return sortedCampaigns;
+    return campaigns;
   } catch (error) {
     return null;
   }
