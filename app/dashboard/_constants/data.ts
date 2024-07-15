@@ -50,9 +50,9 @@ export const sidebarNavItems: SidebarNavItems[] = [
     role: 'PUBLIC'
   },
   {
-    href: "/dashboard/history",
+    href: "/dashboard/transaction",
     icon: TbMoneybag,
-    text: "Riwayat Wakaf",
+    text: "Riwayat Transaksi",
     role: 'USER'
   },
   {

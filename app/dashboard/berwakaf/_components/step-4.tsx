@@ -40,11 +40,11 @@ function Step4() {
         <h1 className="font-bold">Detail Informasi</h1>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Nama Lengkap</span>
-          <span>Aam Hermansyah (anonim)</span>
+          <span className="text-right">Aam Hermansyah (anonim)</span>
         </div>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Email/Nomor Ponsel</span>
-          <span>aamhermansyah@gmail.com</span>
+          <span className="text-right">aamhermansyah@gmail.com</span>
         </div>
       </div>
       <Separator />
@@ -52,15 +52,15 @@ function Step4() {
         <h1 className="font-bold">Detail Wakaf</h1>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Atas Nama</span>
-          <span className="font-bold">Aam Hermansyah</span>
+          <span className="font-bold text-right">Aam Hermansyah</span>
         </div>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Metode Transaksi</span>
-          <span>DANA</span>
+          <span className="text-right">DANA</span>
         </div>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Nominal</span>
-          <span className="font-bold">Rp100.000</span>
+          <span className="font-bold text-right">Rp100.000</span>
         </div>
       </div>
       <Separator />

@@ -1,59 +1,22 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Separator } from "@radix-ui/react-separator";
-import Link from "next/link";
-import {
-  FaCheckCircle,
-  FaCalendarAlt,
-  FaMoneyBillWave,
-  FaIdBadge,
-  FaQuestionCircle,
-} from "react-icons/fa";
-import { IoMdShare } from "react-icons/io";
-import TransactionCampaign from "./_components/transaction-campaign";
-import TransactionInformation from "./_components/transaction-information";
-import NominalDonation from "./_components/nominal-donation";
+import InputSearch from "@/components/shared/input-search"
+import CardHistoryWakaf from "./_components/card-history-wakaf"
 
-const Transaction = () => {
+function HistoryPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      <main className="flex-1 flex flex-col items-center w-full">
-        <div className="flex flex-col gap-4 w-full">
-          {/* HEADER */}
-          <div className="bg-white p-4 rounded-lg shadow-sm text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-blue-500 opacity-75"></div>
-          <div className="relative z-10 flex flex-col items-center">
-            <h1 className="text-2xl font-bold text-white mb-2">
-              Terima kasih!
-            </h1>
-            <p className="text-white">
-              Donasimu telah diterima dan akan segera disalurkan
-            </p>
-          </div>
-        </div>
-          {/* OVERVIEW KAMPANYE */}
-          <TransactionCampaign />
-          {/* TOTAL DONASI */}
-          <NominalDonation />
-          {/* BANTUAN BUTTON */}
-          <div className="bg-white p-4 rounded-lg shadow-sm">
-            <Link href="#">
-              <div className="flex justify-start items-center">
-                <Button
-                  variant="link"
-                  className="text-primary flex items-center gap-2"
-                >
-                  <FaQuestionCircle className="text-base" />
-                  Bantuan
-                </Button>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </main>
+    <div className="space-y-4">
+      <div className="max-w-sm">
+        <InputSearch placeholder="Cari riwayat wakaf" />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-4">
+        <CardHistoryWakaf />
+        <CardHistoryWakaf />
+        <CardHistoryWakaf />
+        <CardHistoryWakaf />
+        <CardHistoryWakaf />
+        <CardHistoryWakaf />
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default Transaction;
+export default HistoryPage

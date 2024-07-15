@@ -4,18 +4,23 @@ import { Button } from '@/components/ui/button'
 import { FaWhatsapp } from 'react-icons/fa6'
 import Link from 'next/link'
 import useCopyText from '@/hooks/useCopyText';
+import { cn } from '@/lib/utils';
 
 interface IProps {
   phone: string;
+  className?: string;
 }
 
-function Contact({ phone }: IProps) {
+function ContactCampaign({ phone, className }: IProps) {
   const { copyToClipboard } = useCopyText();
 
   return (
-    <div className="px-4 py-10 bg-background rounded-lg space-y-4">
+    <div className={cn(
+      'px-4 py-10 bg-background rounded-lg space-y-4',
+      className
+    )}>
       <h6 className="text-sm sm:text-base font-semibold text-center">
-        Ada pertanyaan atau masalah terkait kampanye ini? {" "}
+        Ada pertanyaan atau masalah terkait ini? {" "}
         <br className="hidden sm:block" />
         Hubungi:
       </h6>
@@ -60,4 +65,4 @@ function Contact({ phone }: IProps) {
   )
 }
 
-export default Contact
+export default ContactCampaign
