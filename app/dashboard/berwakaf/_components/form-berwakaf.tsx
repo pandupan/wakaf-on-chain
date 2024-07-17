@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import StepHeader from './step-header'
 import Step1 from './step-1'
@@ -9,16 +9,41 @@ import Step2 from './step-2'
 import Step3 from './step-3'
 import Step4 from './step-4'
 import { Campaign } from '@prisma/client'
+import { MIN_AMOUNT } from '../../_constants/data'
+import { FormTypes } from '../_types'
 
 interface IProps {
   data: Omit<Campaign, 'description'> | null;
 }
 
+const initialForm: FormTypes = {
+  step1: {
+    amount: 0
+  },
+  step2: {
+    paymentMethodId: null,
+    paymentMethodLabel: null,
+  },
+  step3: {
+    name: '',
+    email: '',
+    isHiddenName: false,
+    message: ''
+  },
+}
+
 function FormBerwakaf({ data }: IProps) {
+  const [form, setForm] = useState(initialForm);
   const [steps, setStep] = useState({
     stepsCount: [1, 2, 3, 4],
     currentStep: 1
   })
+
+  const formWrapperRef = useRef<HTMLDivElement>(null);
+  const step1Ref = useRef<HTMLDivElement>(null);
+  const step2Ref = useRef<HTMLDivElement>(null);
+  const step3Ref = useRef<HTMLDivElement>(null);
+  const step4Ref = useRef<HTMLDivElement>(null);
 
   const handleNextStep = () => {
     setStep((prev) => ({
@@ -34,22 +59,101 @@ function FormBerwakaf({ data }: IProps) {
     }))
   }
 
+  const disabledNextButton = useCallback(() => {
+    switch (steps.currentStep) {
+      case 1:
+        const { amount } = form.step1;
+        return amount < MIN_AMOUNT;
+      case 2:
+        const { paymentMethodId, paymentMethodLabel } = form.step2;
+        return !paymentMethodId || !paymentMethodLabel;
+      case 3:
+        const { email, name } = form.step3;
+        return !email || !name;
+      case 4:
+      default:
+        return false;
+    }
+  }, [steps.currentStep, form]);
+
+  const updateFormWrapperHeight = () => {
+    if (formWrapperRef.current) {
+      const formWrapper = formWrapperRef.current;
+      switch (steps.currentStep) {
+        case 1:
+          if (step1Ref.current) {
+            const height = step1Ref.current.clientHeight;
+            formWrapper.style.height = `${height + 4}px`;
+          }
+          break;
+        case 2:
+          if (step2Ref.current) {
+            const height = step2Ref.current.clientHeight;
+            formWrapper.style.height = `${height + 4}px`;
+          }
+          break;
+        case 3:
+          if (step3Ref.current) {
+            const height = step3Ref.current.clientHeight;
+            formWrapper.style.height = `${height + 4}px`;
+          }
+          break;
+        case 4:
+          if (step4Ref.current) {
+            const height = step4Ref.current.clientHeight;
+            formWrapper.style.height = `${height + 4}px`;
+          }
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  useEffect(() => {
+    updateFormWrapperHeight();
+
+    const handleResize = () => {
+      updateFormWrapperHeight();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [steps.currentStep])
+
   return (
     <div className="w-full bg-background p-4 sm:p-6 rounded-xl shadow-sm space-y-2">
       <h2 className="text-lg font-bold text-secondary">Mari Berwakaf</h2>
       <StepHeader data={steps} />
-      {steps.currentStep === 1 && (
-        <Step1 />
-      )}
-      {steps.currentStep === 2 && (
-        <Step2 />
-      )}
-      {steps.currentStep === 3 && (
-        <Step3 />
-      )}
-      {steps.currentStep === 4 && (
-        <Step4 />
-      )}
+      <div className="w-full overflow-x-hidden">
+        <div
+          ref={formWrapperRef}
+          className="flex items-start gap-1 px-0.5 transition-all duration-500 overflow-y-hidden"
+          style={{
+            width: 100 * 4 + '%',
+            transform: `translateX(-${100 / 4 * (steps.currentStep - 1)}%)`
+          }}
+        >
+          <Step1
+            ref={step1Ref}
+            onChange={(amount) => {
+              setForm((prev) => ({
+                ...prev,
+                step1: {
+                  ...prev.step1,
+                  amount
+                }
+              }))
+            }}
+          />
+          <Step2 ref={step2Ref} />
+          <Step3 ref={step3Ref} />
+          <Step4 ref={step4Ref} />
+        </div>
+      </div>
       <div className="space-y-4">
         <Separator />
         <div className="flex gap-4">
@@ -68,7 +172,7 @@ function FormBerwakaf({ data }: IProps) {
               onClick={handleNextStep}
               variant="secondary"
               className="w-full flex-1"
-              disabled={!data || data.status !== 'RUNNING'}
+              disabled={!data || data.status !== 'RUNNING' || disabledNextButton()}
             >
               Lanjutkan
             </Button>

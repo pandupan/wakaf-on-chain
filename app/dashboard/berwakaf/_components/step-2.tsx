@@ -1,8 +1,9 @@
+import { forwardRef } from 'react'
 import { IoCheckmark } from 'react-icons/io5'
 
-function Step2() {
+const Step2 = forwardRef<HTMLDivElement>((props, ref) => {
   return (
-    <div className="space-y-4">
+    <div ref={ref} className="flex-1 space-y-4">
       <div className="flex items-center gap-2">
         <span className="block px-4 py-1 rounded-full text-sm font-semibold bg-secondary/20 text-secondary">2</span>
         <h1 className="text-lg font-bold">Pilih metode wakaf</h1>
@@ -56,6 +57,6 @@ function Step2() {
       </div>
     </div>
   )
-}
+})
 
 export default Step2

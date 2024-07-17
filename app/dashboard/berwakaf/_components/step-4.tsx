@@ -7,10 +7,11 @@ import {
 } from "@/components/ui/alert"
 import { AiOutlineExclamationCircle } from 'react-icons/ai'
 import { Separator } from '@/components/ui/separator'
+import { forwardRef } from 'react'
 
-function Step4() {
+const Step4 = forwardRef<HTMLDivElement>((props, ref) => {
   return (
-    <div className="space-y-4">
+    <div ref={ref} className="flex-1 space-y-4">
       <div className="flex items-center gap-2">
         <span className="block px-4 py-1 rounded-full text-sm font-semibold bg-secondary/20 text-secondary">4</span>
         <h1 className="text-lg font-bold">Ringkasan</h1>
@@ -74,6 +75,6 @@ function Step4() {
       </div>
     </div>
   )
-}
+})
 
 export default Step4

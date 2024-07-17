@@ -82,3 +82,5 @@ export const wakafCategories = [
   { id: 7, value: 'ekonomi', label: 'Ekonomi' },
   { id: 8, value: 'lainnya', label: 'Lainnya' },
 ];
+
+export const MIN_AMOUNT = 20000;

@@ -70,3 +70,27 @@ export const profileSchema = z.object({
       message: "Hanya gambar yang diizinkan.",
     }),
 });
+
+export const transactionSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email(),
+  amount: z.string()
+    .transform((price) => price.replace(/[^0-9]/g, ''))
+    .refine((price) => {
+      const numericValue = parseFloat(price);
+      return !isNaN(numericValue) && numericValue >= 100000;
+    }, {
+      message: "Nominal wakaf harus sama dengan atau lebih dari Rp100.000.",
+    }),
+  paymentMethodId: z.string().min(1, {
+    message: "Metode pembayaran harus diisi."
+  }),
+  paymentMethodLabel: z.string().min(1, {
+    message: "Label metode pembayaran harus diisi."
+  }),
+  message: z.string().optional(),
+  userId: z.string().min(1, {
+    message: "User id harus diisi."
+  }),
+  campaignId: z.number().int().positive(),
+});
