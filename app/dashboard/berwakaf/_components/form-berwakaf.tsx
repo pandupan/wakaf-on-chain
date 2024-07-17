@@ -149,7 +149,19 @@ function FormBerwakaf({ data }: IProps) {
               }))
             }}
           />
-          <Step2 ref={step2Ref} />
+          <Step2
+            ref={step2Ref}
+            onChange={(payment) => {
+              setForm((prev) => ({
+                ...prev,
+                step2: {
+                  ...prev.step2,
+                  paymentMethodId: payment.value,
+                  paymentMethodLabel: payment.label
+                }
+              }))
+            }}
+          />
           <Step3 ref={step3Ref} />
           <Step4 ref={step4Ref} />
         </div>
