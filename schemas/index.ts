@@ -74,14 +74,7 @@ export const profileSchema = z.object({
 export const transactionSchema = z.object({
   name: z.string().optional(),
   email: z.string().email(),
-  amount: z.string()
-    .transform((price) => price.replace(/[^0-9]/g, ''))
-    .refine((price) => {
-      const numericValue = parseFloat(price);
-      return !isNaN(numericValue) && numericValue >= 100000;
-    }, {
-      message: "Nominal wakaf harus sama dengan atau lebih dari Rp100.000.",
-    }),
+  amount: z.number().min(1),
   paymentMethodId: z.string().min(1, {
     message: "Metode pembayaran harus diisi."
   }),
@@ -92,5 +85,5 @@ export const transactionSchema = z.object({
   userId: z.string().min(1, {
     message: "User id harus diisi."
   }),
-  campaignId: z.number().int().positive(),
+  campaignId: z.number().min(1),
 });

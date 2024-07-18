@@ -25,7 +25,12 @@ export const numberPrefixer = (num: number) => {
 };
 
 export function formatRupiah(value: number): string {
-  return value.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' }).replace(',00', '');
+  return value
+    .toLocaleString('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      maximumFractionDigits: 0
+    })
 }
 
 export function addThousandSeparatorNumber(number: number): string {

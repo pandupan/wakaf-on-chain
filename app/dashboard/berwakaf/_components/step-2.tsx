@@ -19,7 +19,7 @@ const paymentMethods = [
     category: "Virtual Account",
     methods: [
       { id: 'va-1', value: 'BRIVA', label: 'BRIVA' },
-      { id: 'va-2', value: 'BCA Virtual Account', label: 'BCA Virtual Account' }
+      { id: 'va-2', value: 'BCA VA', label: 'BCA VA' }
     ]
   }
 ];

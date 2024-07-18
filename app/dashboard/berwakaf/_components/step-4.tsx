@@ -8,8 +8,18 @@ import {
 import { AiOutlineExclamationCircle } from 'react-icons/ai'
 import { Separator } from '@/components/ui/separator'
 import { forwardRef } from 'react'
+import { FormTypes } from '../_types'
+import { useSession } from 'next-auth/react'
+import { Session } from 'next-auth'
+import { formatRupiah } from '@/lib/utils'
 
-const Step4 = forwardRef<HTMLDivElement>((props, ref) => {
+interface IProps {
+  data: FormTypes;
+  user: Session['user'];
+  onChangeStep: (step: number) => void;
+}
+
+const Step4 = forwardRef<HTMLDivElement, IProps>(({ data, user, onChangeStep }, ref) => {
   return (
     <div ref={ref} className="flex-1 space-y-4">
       <div className="flex items-center gap-2">
@@ -28,9 +38,14 @@ const Step4 = forwardRef<HTMLDivElement>((props, ref) => {
           <div className="flex items-center justify-between gap-2 p-2 shadow-sm text-sm">
             <div className="flex items-center gap-2">
               <div className="w-[80px] aspect-[4/3] text-lg rounded-md bg-muted"></div>
-              DANA
+              {data.step2.paymentMethodLabel}
             </div>
-            <Button size="sm" variant="primary" className="py-1 px-2 h-auto text-[10px] border border-secondary rounded-full gap-1">
+            <Button
+              size="sm"
+              variant="primary"
+              className="py-1 px-2 h-auto text-[10px] border border-secondary rounded-full gap-1"
+              onClick={() => onChangeStep(2)}
+            >
               Ganti
               <HiOutlineChevronDown />
             </Button>
@@ -41,11 +56,13 @@ const Step4 = forwardRef<HTMLDivElement>((props, ref) => {
         <h1 className="font-bold">Detail Informasi</h1>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Nama Lengkap</span>
-          <span className="text-right">Aam Hermansyah (anonim)</span>
+          <span className="text-right">
+            {data.step3.name} {data.step3.isHiddenName && '(anonim)'}
+          </span>
         </div>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Email/Nomor Ponsel</span>
-          <span className="text-right">aamhermansyah@gmail.com</span>
+          <span className="text-right">{data.step3.email}</span>
         </div>
       </div>
       <Separator />
@@ -53,15 +70,30 @@ const Step4 = forwardRef<HTMLDivElement>((props, ref) => {
         <h1 className="font-bold">Detail Wakaf</h1>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Atas Nama</span>
-          <span className="font-bold text-right">Aam Hermansyah</span>
+          <span className="font-bold text-right">
+            {user.name}
+          </span>
         </div>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Metode Transaksi</span>
-          <span className="text-right">DANA</span>
+          <span className="text-right">
+            {data.step2.paymentMethodLabel}
+          </span>
         </div>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Nominal</span>
-          <span className="font-bold text-right">Rp100.000</span>
+          <span className="font-bold text-right">
+            {formatRupiah(data.step1.amount)}
+          </span>
+        </div>
+      </div>
+      <Separator />
+      <div className="space-y-2 text-sm sm:text-base">
+        <h1 className="font-bold">Pesan atau Doa</h1>
+        <div className="p-4 border rounded-md">
+          <p className="text-gray-400 italic">
+            {`"${data.step3.message || 'Anda tidak memasukan pesan atau doa apapun.'}"`}
+          </p>
         </div>
       </div>
       <Separator />
