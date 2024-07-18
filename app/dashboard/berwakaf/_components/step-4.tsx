@@ -109,4 +109,6 @@ const Step4 = forwardRef<HTMLDivElement, IProps>(({ data, user, onChangeStep }, 
   )
 })
 
+Step4.displayName = 'Step4'
+
 export default Step4
