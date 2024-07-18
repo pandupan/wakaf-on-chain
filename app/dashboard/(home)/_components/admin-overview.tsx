@@ -5,6 +5,7 @@ import { HiOutlineTrophy } from "react-icons/hi2"
 import { MdCampaign } from "react-icons/md"
 import CardOverview from '../../../../components/shared/overview-card'
 import { LuUser2 } from 'react-icons/lu'
+import { numberPrefixer } from '@/lib/utils'
 
 function AdminOverview() {
   return (
@@ -12,21 +13,21 @@ function AdminOverview() {
       <CardOverview
         Icon={LuUser2}
         title="Total Pengguna"
-        value="200"
+        value={numberPrefixer(2000)}
       />
       <CardOverview
         Icon={FaHandHoldingUsd}
-        title="Jumlah Wakif"
-        value="170"
+        title="Total Berwakaf"
+        value="170x"
       />
       <CardOverview
         Icon={BsCashCoin}
-        title="Total Uang Wakaf"
+        title="Total Pemasukan"
         value="Rp1.200.000"
       />
       <CardOverview
         Icon={BsCurrencyDollar}
-        title="Uang Wakaf Tersisa"
+        title="Wakaf Tersisa"
         value="Rp200.000"
       />
       <CardOverview

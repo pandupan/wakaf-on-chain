@@ -1,52 +1,92 @@
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button'
+import { formatIndonesianDate, formatRupiah } from '@/lib/utils';
+import { Campaign, Transaction } from '@prisma/client'
+import Link from 'next/link';
 
-function CardHistoryWakaf() {
+interface IProps {
+  data: Transaction & {
+    campaign?: Campaign;
+  }
+}
+
+function CardHistoryWakaf({ data }: IProps) {
   return (
-    <div className="bg-background rounded-md shadow-sm grid grid-cols-1 sm:grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2 p-4">
-      <div className="sm:col-span-2 flex items-end justify-between gap-2">
-        <h3 className="text-sm">
-          ID Transaksi: <b>#129</b>
-        </h3>
-        <span className="block text-[10px] leading-3 text-gray-400 text-right">
-          Rabu, 3 Juni 2024 02:56
+    <div className="relative bg-background rounded-md shadow-sm grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2 p-4">
+      <div className="col-span-2">
+        <span className="block text-[10px] leading-3 text-gray-400">
+          {formatIndonesianDate(data.createdAt)}
         </span>
+        <div className="absolute right-4 top-1">
+          <Badge
+            variant={
+              data.status === 'PENDING' ? 'info' : data.status === 'FAILED' ? 'destructive' : 'success'
+            }
+            className="text-[10px]"
+          >
+            {data.status === 'PENDING' ? 'Pending' : data.status === 'FAILED' ? 'Gagal' : 'Berhasil'}
+          </Badge>
+        </div>
+        <h3 className="text-sm">
+          ID Transaksi: <b>{data.id}</b>
+        </h3>
       </div>
       <div className="w-full aspect-[4/3] rounded-md overflow-hidden">
         <img
-          src="https://picsum.photos/id/83/1600/900"
+          src={data.campaign!.image}
           className="w-full h-full"
-          alt="campaign 1"
+          alt="banner campaign"
         />
       </div>
       <div className="sm:space-y-1">
-        <h2 className="text-sm font-bold">
-          Wakaf untuk kebutuhan mesjid al ihsan tasikmalaya
+        <h2 className="text-sm font-bold line-clamp-2">
+          {data.campaign!.title}
         </h2>
         <div>
           <h5 className="text-xs text-gray-700 font-semibold">
             Berwakaf sebesar
           </h5>
-          <span className="block text-sm text-secondary font-bold">Rp100.000</span>
+          <span className="block text-xs md:text-sm text-secondary font-bold">
+            {formatRupiah(data.amount)}
+          </span>
         </div>
         <div className="flex justify-between items-end text-gray-700 pt-1">
           <div>
-            <h4 className="text-xs leading-3">Donator ke</h4>
-            <span className="block font-semibold text-xs sm:text-sm">89</span>
+            <h4 className="text-xs leading-3">Wakif ke</h4>
+            <span className="block font-semibold text-xs md:text-sm">
+              {data.numberOfWakif || '-'}
+            </span>
           </div>
           <div className="text-right">
             <h4 className="text-xs leading-3">Metode</h4>
-            <span className="block font-semibold text-xs sm:text-sm">DANA</span>
+            <span className="block font-semibold text-xs md:text-sm">
+              {data.paymentMethodLabel}
+            </span>
           </div>
         </div>
       </div>
-      <div className="sm:col-span-2 pt-2">
-        <div className="flex items-center gap-2 sm:gap-4">
-          <Button size="sm" variant="outline" className="w-full text-xs flex-1">
-            Detail Kampanye
-          </Button>
-          <Button size="sm" variant="secondary" className="w-full text-xs flex-1">
-            Lihat Sertikat
-          </Button>
+      <div className="col-span-2 pt-2">
+        <div className="w-full flex items-center gap-2 sm:gap-4">
+          <Link
+            href={`/dashboard/campaign/${data.campaign!.id}`}
+            rel="noopener noreferrer"
+            target="_blank"
+            className="w-full"
+          >
+            <Button size="sm" variant="outline" className="w-full text-xs flex-1">
+              Detail Kampanye
+            </Button>
+          </Link>
+          <Link
+            href={`/dashboard/transaction/${data.id}`}
+            rel="noopener noreferrer"
+            target="_blank"
+            className="w-full"
+          >
+            <Button size="sm" variant="secondary" className="w-full text-xs flex-1">
+              Detail Transaksi
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
