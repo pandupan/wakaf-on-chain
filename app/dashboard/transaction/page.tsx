@@ -31,7 +31,7 @@ const Transaction = () => {
               Donasimu telah diterima dan akan segera disalurkan
             </p>
           </div>
-        </div>
+        </div>89
           {/* OVERVIEW KAMPANYE */}
           <TransactionCampaign />
           {/* TOTAL DONASI */}
@@ -45,7 +45,7 @@ const Transaction = () => {
                   className="text-primary flex items-center gap-2"
                 >
                   <FaQuestionCircle className="text-base" />
-                  Bantuan
+                  bantuan
                 </Button>
               </div>
             </Link>
