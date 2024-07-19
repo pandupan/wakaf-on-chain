@@ -21,31 +21,45 @@ export const getAllTransactions = async (
     limit?: number;
     cursor?: string | undefined;
     search?: string;
-    sorted?: 'createdAt' | 'updatedAt'
+    sorted?: 'createdAt' | 'updatedAt';
+    userId?: string;
   }
 ) => {
+  const searchQuery = !!config?.search?.length ? [
+    {
+      campaign: {
+        title: {
+          contains: config.search,
+          mode: 'insensitive',
+        }
+      },
+    },
+    {
+      user: {
+        name: {
+          contains: config.search,
+          mode: 'insensitive',
+        }
+      },
+    },
+  ] : null;
+
+  const filterQuery = !!config?.userId ? {
+    userId: config.userId,
+  } : null;
+
   try {
     const transactions = await db.transaction.findMany({
-      where: !!config?.search?.length ? {
-        OR: [
-          {
-            campaign: {
-              title: {
-                contains: config.search,
-                mode: 'insensitive',
-              }
-            },
-          },
-          {
-            campaign: {
-              category: {
-                contains: config.search,
-                mode: 'insensitive',
-              }
-            },
-          },
-        ],
-      } : undefined,
+      // @ts-expect-error
+      where: !!searchQuery && !!filterQuery ?
+        {
+          AND: [
+            { ...filterQuery },
+            { OR: searchQuery }
+          ]
+        } : !!searchQuery ?
+          { OR: searchQuery } : !!filterQuery ?
+            { ...filterQuery } : undefined,
       orderBy: {
         [config?.sorted || 'createdAt']: 'desc'
       },

@@ -15,7 +15,7 @@ interface IProps {
 }
 
 function CampaignList({ data, limit }: IProps) {
-  const [campaigns, setCampaigns] = useState<IProps['data']>(data)
+  const [campaigns, setCampaigns] = useState(data)
   const [cursor, setCursor] = useState(!!data.length ? data[data.length - 1].id : null);
   const [hasMore, setHasMore] = useState(data.length === limit)
   const [loading, setLoading] = useState(false)
@@ -53,7 +53,7 @@ function CampaignList({ data, limit }: IProps) {
 
     axios
       .get(`/api/user/campaign`, {
-        params: type === 'reset' ? { search: keyword } : { cursor, limit: limit, search: keyword },
+        params: type === 'reset' ? { search: keyword, limit } : { cursor, limit: limit, search: keyword },
         cancelToken: source.token,
       })
       .then((res) => {
@@ -66,6 +66,8 @@ function CampaignList({ data, limit }: IProps) {
         setCampaigns((prev) => type === 'reset' ? [...res.data] : [...prev, ...res.data]);
       })
       .catch((error: AxiosError) => {
+        setCampaigns([]);
+        setHasMore(false);
         if (axios.isCancel(error)) {
           console.log('Request canceled:', error.message);
         } else {

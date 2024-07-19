@@ -4,6 +4,9 @@ import { auth } from '@/auth';
 import { User } from '@prisma/client';
 import { getUserByEmail } from '@/data/user';
 import { redirect } from 'next/navigation';
+import { getAllTransactions } from '@/data/transaction';
+
+const LIMIT = 9;
 
 async function WakifPage() {
   const session = await auth();
@@ -14,10 +17,16 @@ async function WakifPage() {
     if (!user || user.role !== 'ADMIN') redirect('/404');
   }
 
+  const transactions = await getAllTransactions({
+    sorted: 'updatedAt'
+  });
+
+  if (transactions === null) redirect('/error');
+
   return (
-    <div className="p-4 rounded-lg bg-background">
-      <DataTable />
-    </div>
+    <>
+      <DataTable data={transactions} limit={LIMIT} />
+    </>
   )
 }
 

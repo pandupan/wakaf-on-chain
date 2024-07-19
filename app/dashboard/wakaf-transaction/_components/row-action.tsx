@@ -11,7 +11,11 @@ import { FaEllipsis } from 'react-icons/fa6'
 import { PiCertificate } from 'react-icons/pi'
 import { BiMessageDetail } from 'react-icons/bi'
 
-function RowAction() {
+interface IProps {
+  onClickMessage: () => void;
+}
+
+function RowAction({ onClickMessage }: IProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -27,13 +31,13 @@ function RowAction() {
             rel="noopener noreferrer"
             href="#"
           >
-            <PiCertificate /> Beri Sertifikat
+            <PiCertificate /> Verifikasi Serah Terima
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem
           className="w-full"
         >
-          <button className="w-full flex items-center gap-2">
+          <button onClick={onClickMessage} className="w-full flex items-center gap-2">
             <BiMessageDetail /> Pesan/Doa Wakif
           </button>
         </DropdownMenuItem>

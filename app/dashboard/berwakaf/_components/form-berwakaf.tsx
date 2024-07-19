@@ -22,7 +22,7 @@ interface IProps {
   data: Omit<Campaign, 'description'> | null;
   initialForm: FormTypes;
   user: Session['user'];
-  campaignId: number;
+  campaignId: number | null;
 }
 
 function FormBerwakaf({ data, initialForm, user, campaignId }: IProps) {
@@ -57,27 +57,29 @@ function FormBerwakaf({ data, initialForm, user, campaignId }: IProps) {
   }
 
   const handleSubmit = () => {
-    setLoading(true);
+    if (campaignId) {
+      setLoading(true);
 
-    axios.post('/api/transaction', {
-      ...form.step1,
-      ...form.step2,
-      ...form.step3,
-      name: form.step3.isHiddenName ? '' : form.step3.name,
-      userId: user.id,
-      campaignId
-    })
-      .then((res) => {
-        navigate.push(`/dashboard/transaction/${res.data.id}`);
+      axios.post('/api/user/transaction', {
+        ...form.step1,
+        ...form.step2,
+        ...form.step3,
+        name: form.step3.isHiddenName ? '' : form.step3.name,
+        userId: user.id,
+        campaignId
       })
-      .catch((error: AxiosError) => {
-        setLoading(false);
-        if (error.response) {
-          handleAxiosErrorToast(error.response!.status);
-        } else {
-          toast.error('Internal Error');
-        }
-      });
+        .then((res) => {
+          navigate.push(`/dashboard/transaction/${res.data.id}`);
+        })
+        .catch((error: AxiosError) => {
+          setLoading(false);
+          if (error.response) {
+            handleAxiosErrorToast(error.response!.status);
+          } else {
+            toast.error('Internal Error');
+          }
+        });
+    }
   }
 
   const disabledNextButton = useCallback(() => {

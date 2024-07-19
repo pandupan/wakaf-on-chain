@@ -6,7 +6,7 @@ const AdminLayout = () => {
   return (
     <div>
       <AdminOverview />
-      <div className="rounded-xl p-4 bg-background mt-4 shadow-sm overflow-x-hidden">
+      <div className="w-full rounded-xl p-4 bg-background mt-4 shadow-sm overflow-x-hidden">
         <h1 className="text-xl font-semibold">Pemasukan Wakaf 1 Tahun Terakhir</h1>
         <IncomeChart />
       </div>

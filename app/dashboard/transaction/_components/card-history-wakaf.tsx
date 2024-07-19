@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { formatIndonesianDate, formatRupiah } from '@/lib/utils';
 import { Campaign, Transaction } from '@prisma/client'
 import Link from 'next/link';
+import { forwardRef } from 'react';
 
 interface IProps {
   data: Transaction & {
@@ -10,12 +11,12 @@ interface IProps {
   }
 }
 
-function CardHistoryWakaf({ data }: IProps) {
+const CardHistoryWakaf = forwardRef<HTMLDivElement, IProps>(({ data }, ref) => {
   return (
-    <div className="relative bg-background rounded-md shadow-sm grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2 p-4">
+    <div ref={ref} className="relative bg-background rounded-md shadow-sm grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2 p-4">
       <div className="col-span-2">
         <span className="block text-[10px] leading-3 text-gray-400">
-          {formatIndonesianDate(data.createdAt)}
+          {formatIndonesianDate(new Date(data.createdAt))}
         </span>
         <div className="absolute right-4 top-1">
           <Badge
@@ -91,6 +92,8 @@ function CardHistoryWakaf({ data }: IProps) {
       </div>
     </div>
   )
-}
+})
+
+CardHistoryWakaf.displayName = "CardHistoryWakaf"
 
 export default CardHistoryWakaf

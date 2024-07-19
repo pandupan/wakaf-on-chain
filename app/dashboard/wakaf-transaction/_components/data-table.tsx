@@ -8,39 +8,38 @@ import {
   TableHeadCol,
   TableRow,
 } from "@/components/core/table"
-import { Campaign, User } from "@prisma/client"
-import { useCallback, useRef, useState } from "react"
-import DataTableRow from "./data-table-row"
-import { VscLoading } from "react-icons/vsc"
-import axios, { AxiosError, CancelTokenSource } from "axios"
-import { toast } from "sonner"
-import useAxiosErrorToast from "@/hooks/useAxiosErrorToast"
-import InputSearch from "@/components/shared/input-search"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { NonactiveCampaignAlert } from "./nonactive-campaign-alert"
-import { FinishCampaignAlert } from "./finish-campaign-alert"
+import { Badge } from "@/components/ui/badge"
+import RowAction from "./row-action"
+import { Campaign, Transaction, User } from "@prisma/client";
+import { useCallback, useRef, useState } from "react";
+import DataTableRow from "./data-table-row";
+import InputSearch from "@/components/shared/input-search";
+import axios, { AxiosError, CancelTokenSource } from "axios";
+import useAxiosErrorToast from "@/hooks/useAxiosErrorToast";
+import { toast } from "sonner";
+import { VscLoading } from "react-icons/vsc";
+import MessageAlert from "./message-alert";
+import StatusFilter from "./status-filter";
 
-export type CampaignItem = Omit<Campaign, 'description'> & {
-  creator?: User;
-}
+export type TransactionType = (Transaction & {
+  user?: User;
+  campaign?: Campaign;
+})
 
 interface IProps {
-  data: CampaignItem[];
+  data: TransactionType[];
   limit: number;
 }
 
 function DataTable({ data, limit }: IProps) {
-  const [campaigns, setCampaigns] = useState(data)
+  const [transactions, setTransactions] = useState(data);
   const [cursor, setCursor] = useState(!!data.length ? data[data.length - 1].id : null)
   const [hasMore, setHasMore] = useState(data.length === limit)
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
   const [searching, setSearching] = useState(false)
-  const [nonactiveDisplay, setNonactiveDisplay] = useState(false);
-  const [nonactiveCampaignId, setNonactiveCampaignId] = useState<number | null>(null)
-  const [finishDisplay, setFinishDisplay] = useState(false);
-  const [finishCampaignId, setFinishCampaignId] = useState<number | null>(null)
+  const [messageDisplay, setMessageDisplay] = useState(false);
+  const [messageWakif, setMessageWakif] = useState<string | null>(null)
   const cancelTokenSource = useRef<CancelTokenSource | null>(null);
 
   const { handleAxiosErrorToast } = useAxiosErrorToast()
@@ -72,8 +71,8 @@ function DataTable({ data, limit }: IProps) {
     };
 
     axios
-      .get(`/api/admin/campaign`, {
-        params: type === 'reset' ? { search: keyword } : { cursor, limit: limit, search: keyword },
+      .get(`/api/admin/transaction`, {
+        params: type === 'reset' ? { search: keyword, limit } : { cursor, limit: limit, search: keyword },
         cancelToken: source.token,
       })
       .then((res) => {
@@ -82,10 +81,10 @@ function DataTable({ data, limit }: IProps) {
         } else {
           setHasMore(false);
         }
-        setCampaigns((prev) => type === 'reset' ? [...res.data] : [...prev, ...res.data]);
+        setTransactions((prev) => type === 'reset' ? [...res.data] : [...prev, ...res.data]);
       })
       .catch((error: AxiosError) => {
-        setCampaigns([]);
+        setTransactions([]);
         setHasMore(false);
         if (axios.isCancel(error)) {
           console.log('Request canceled:', error.message);
@@ -118,68 +117,44 @@ function DataTable({ data, limit }: IProps) {
 
   return (
     <>
-      <NonactiveCampaignAlert
-        status={campaigns.find((campaign) => campaign.id === nonactiveCampaignId)?.status}
-        campaignId={nonactiveCampaignId}
-        open={nonactiveDisplay}
-        onOpenChange={setNonactiveDisplay}
+      <MessageAlert
+        open={messageDisplay}
+        onOpenChange={setMessageDisplay}
         onCancel={() => {
-          setNonactiveCampaignId(null);
+          setMessageWakif(null);
         }}
-        onSuccessAction={() => {
-          fetch('', 'reset');
-        }}
+        message={messageWakif}
       />
-      <FinishCampaignAlert
-        campaignId={finishCampaignId}
-        open={finishDisplay}
-        onOpenChange={setFinishDisplay}
-        onCancel={() => {
-          setFinishCampaignId(null);
-        }}
-        onSuccessAction={() => {
-          fetch('', 'reset');
-        }}
-      />
-      <div className="max-w-sm">
-        <InputSearch
-          placeholder="Cari kampanye: judul, kategori"
-          onChange={handleSearch}
-        />
+      <div className="w-full flex items-end gap-2">
+        <div className="w-full max-w-sm">
+          <InputSearch
+            placeholder="Cari transaksi: nama wakif, judul kampanye"
+            onChange={handleSearch}
+          />
+        </div>
+        <StatusFilter />
       </div>
       <div className="p-4 rounded-lg bg-background mt-4">
-        <div className="mb-2 w-full flex justify-between items-end">
-          <h2 className="sm:text-lg font-semibold">Daftar Kampanye</h2>
-          <Link href="/dashboard/campaign/create">
-            <Button variant="secondary" size="sm" className="text-[10px] sm:text-xs rounded-lg">
-              Tambah Kampanye
-            </Button>
-          </Link>
-        </div>
         <Table>
           <TableHead>
-            <TableHeadCol className="rounded-l-lg">Kampanye</TableHeadCol>
+            <TableHeadCol className="rounded-l-lg">Wakif</TableHeadCol>
+            <TableHeadCol className="text-right">Jumlah Wakaf</TableHeadCol>
             <TableHeadCol>Status</TableHeadCol>
-            <TableHeadCol>Kategori</TableHeadCol>
-            <TableHeadCol className="text-right">Total Wakif</TableHeadCol>
-            <TableHeadCol className="text-right">Target</TableHeadCol>
-            <TableHeadCol>Publikasi</TableHeadCol>
+            <TableHeadCol className="min-w-[150px]">Kampanye Tujuan</TableHeadCol>
+            <TableHeadCol>Status Verifikasi</TableHeadCol>
+            <TableHeadCol>Tanggal</TableHeadCol>
             <TableHeadCol className="text-center rounded-r-lg">Aksi</TableHeadCol>
           </TableHead>
           <TableBody className="text-gray-700">
-            {!searching && campaigns
+            {!searching && transactions
               .map((item, index) => {
-                if (campaigns.length === index + 1 && hasMore) return (
+                if (transactions.length === index + 1 && hasMore) return (
                   <TableRow ref={lastDataElementRef} key={item.id}>
                     <DataTableRow
                       data={item}
-                      onClickFinishCampaign={(id) => {
-                        setFinishCampaignId(id);
-                        setFinishDisplay(true);
-                      }}
-                      onClickNonactive={(id) => {
-                        setNonactiveDisplay(true);
-                        setNonactiveCampaignId(id);
+                      onClickMessage={(message) => {
+                        setMessageWakif(message);
+                        setMessageDisplay(true);
                       }}
                     />
                   </TableRow>
@@ -188,13 +163,9 @@ function DataTable({ data, limit }: IProps) {
                   <TableRow key={item.id}>
                     <DataTableRow
                       data={item}
-                      onClickFinishCampaign={(id) => {
-                        setFinishCampaignId(id);
-                        setFinishDisplay(true);
-                      }}
-                      onClickNonactive={(id) => {
-                        setNonactiveDisplay(true);
-                        setNonactiveCampaignId(id);
+                      onClickMessage={(message) => {
+                        setMessageWakif(message);
+                        setMessageDisplay(true);
                       }}
                     />
                   </TableRow>
@@ -210,7 +181,7 @@ function DataTable({ data, limit }: IProps) {
             {!searching && !hasMore && (
               <TableRow>
                 <TableCell colSpan={7} className="text-center text-gray-500 bg-background hover:bg-background">
-                  Tidak ada lagi kampanye
+                  Tidak ada lagi transaksi
                 </TableCell>
               </TableRow>
             )}

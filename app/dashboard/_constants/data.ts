@@ -23,9 +23,9 @@ export const sidebarNavItems: SidebarNavItems[] = [
     role: 'ADMIN'
   },
   {
-    href: "/dashboard/wakif",
+    href: "/dashboard/wakaf-transaction",
     icon: PiHandCoins,
-    text: "Daftar Wakif",
+    text: "Serah Terima Wakaf",
     role: 'ADMIN'
   },
   {

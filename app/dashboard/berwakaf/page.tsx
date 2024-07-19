@@ -49,7 +49,7 @@ async function BerwakafPage({ searchParams }: IProps) {
           data={selectedCampaign}
           initialForm={initialForm}
           user={session?.user!}
-          campaignId={selectedCampaign!.id}
+          campaignId={!!selectedCampaign ? selectedCampaign.id : null}
         />
       </div>
       <div className="p-4 sm:p-6 rounded-lg bg-background col-span-12 md:hidden">
