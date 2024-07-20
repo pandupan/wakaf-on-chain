@@ -36,7 +36,7 @@ function DataTableRow({ data, onClickMessage }: IProps) {
           }
           className="text-[10px] sm:text-xs"
         >
-          {data.status === 'PENDING' ? 'Pending' : data.status === 'FAILED' ? 'Gagal' : 'Berhasil'}
+          {data.status === 'PENDING' ? 'Pending' : data.status === 'FAILED' ? 'Dibatalkan' : 'Berhasil'}
         </Badge>
       </TableCell>
       <TableCell>

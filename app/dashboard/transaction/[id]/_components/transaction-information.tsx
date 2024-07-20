@@ -51,7 +51,7 @@ function TransactionInformation({ createdAt, id, status }: IProps) {
         )}
         {status === 'FAILED' && (
           <span className="text-destructive flex items-center font-semibold">
-            <FaTimesCircle className="mr-1" /> Gagal
+            <FaTimesCircle className="mr-1" /> Dibatalkan
           </span>
         )}
       </div>

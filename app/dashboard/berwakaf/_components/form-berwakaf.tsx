@@ -64,7 +64,6 @@ function FormBerwakaf({ data, initialForm, user, campaignId }: IProps) {
         ...form.step1,
         ...form.step2,
         ...form.step3,
-        name: form.step3.isHiddenName ? '' : form.step3.name,
         userId: user.id,
         campaignId
       })

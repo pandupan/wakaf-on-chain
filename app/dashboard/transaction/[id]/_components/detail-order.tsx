@@ -1,12 +1,32 @@
+'use client'
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { formatRupiah } from "@/lib/utils";
-import { TransactionStatus, User } from "@prisma/client";
-import React from "react"
+import useAxiosErrorToast from "@/hooks/useAxiosErrorToast"
+import { formatRupiah } from "@/lib/utils"
+import { TransactionStatus, User } from "@prisma/client"
+import axios, { AxiosError } from "axios"
+import { useRouter } from "next/navigation"
+import React, { useState } from "react"
+import { VscLoading } from "react-icons/vsc"
+import { toast } from "sonner"
 
 interface IProps {
+  id: string;
   user: User;
-  name: string | null;
+  name: string;
+  isHiddenName: boolean;
   email: string;
   message: string | null;
   amount: number;
@@ -14,7 +34,40 @@ interface IProps {
   status: TransactionStatus;
 }
 
-function DetailOrder({ user, email, message, name, amount, paymentLabel, status }: IProps) {
+function DetailOrder({
+  id,
+  user,
+  email,
+  message,
+  name,
+  amount,
+  paymentLabel,
+  status,
+  isHiddenName
+}: IProps) {
+  const [cancelDisplay, setCancelDisplay] = useState(false);
+  const [canceling, setCanceling] = useState(false)
+  const navigate = useRouter();
+
+  const { handleAxiosErrorToast } = useAxiosErrorToast();
+
+  const handleCancelTransaction = () => {
+    setCanceling(true);
+
+    axios.post(`/api/user/transaction/${id}/failed`)
+      .then(() => {
+        navigate.refresh();
+      })
+      .catch((error: AxiosError) => {
+        setCanceling(false);
+        if (error.response) {
+          handleAxiosErrorToast(error.response!.status);
+        } else {
+          toast.error('Internal Error');
+        }
+      });
+  }
+
   return (
     <>
       <div className="space-y-2 text-sm sm:text-base">
@@ -22,7 +75,7 @@ function DetailOrder({ user, email, message, name, amount, paymentLabel, status 
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Nama Lengkap</span>
           <span className="text-right">
-            {!name ? `${user.name} (anonim)` : name}
+            {isHiddenName ? `${name} (anonim)` : name}
           </span>
         </div>
         <div className="flex items-center justify-between gap-2">
@@ -67,9 +120,48 @@ function DetailOrder({ user, email, message, name, amount, paymentLabel, status 
         </Button>
       )}
       {status === 'PENDING' && (
-        <Button variant="secondary" className="w-full">
-          Bayar
-        </Button>
+        <div className="w-full flex justify-between gap-2">
+          <AlertDialog open={cancelDisplay} onOpenChange={setCancelDisplay}>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="destructive"
+                className="w-full gap-2"
+                disabled={canceling}
+              >
+                Batalkan
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Apakah Anda yakin?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Aksi ini akan membatalkan transaksi serah terima wakaf yang telah anda lakukan.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel disabled={canceling}>
+                  Cancel
+                </AlertDialogCancel>
+                <Button
+                  onClick={handleCancelTransaction}
+                  variant="destructive"
+                  className="gap-2"
+                  disabled={canceling}
+                >
+                  {canceling && <VscLoading className="animate-spin" />}
+                  Konfirmasi
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <Button
+            variant="secondary"
+            className="w-full"
+            disabled={canceling}
+          >
+            Bayar
+          </Button>
+        </div>
       )}
     </>
   );

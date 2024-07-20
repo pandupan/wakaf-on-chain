@@ -41,6 +41,8 @@ model User {
   institution   String?
   address       String?
   role          UserRole  @default(USER)
+  berwakafTotal Int       @default(0)
+  berwakafCount Int       @default(0)
 
   accounts    Account[]
   campaigns   Campaign[]
@@ -93,7 +95,8 @@ model Transaction {
   updatedAt          DateTime          @updatedAt
   status             TransactionStatus @default(PENDING)
   numberOfWakif      Int?
-  name               String?
+  name               String
+  isHiddenName       Boolean           @default(false)
   email              String
   amount             Float
   paymentMethodId    String

@@ -54,10 +54,12 @@ async function TransactionPage({ params }: { params: IParams }) {
         </div>
         <div className="bg-white p-6 rounded-lg shadow-sm space-y-4">
           <DetailOrder
+            id={transaction.id}
             amount={transaction.amount}
             email={transaction.email}
             message={transaction.message}
             name={transaction.name}
+            isHiddenName={transaction.isHiddenName}
             paymentLabel={transaction.paymentMethodLabel}
             user={transaction.user!}
             status={transaction.status}

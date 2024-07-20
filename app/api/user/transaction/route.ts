@@ -35,7 +35,8 @@ export async function POST(req: Request) {
       paymentMethodLabel,
       userId,
       message,
-      name
+      name,
+      isHiddenName
     } = validatedFields.data;
 
     const campaign = await db.campaign.findUnique({
@@ -55,7 +56,8 @@ export async function POST(req: Request) {
         campaignId: campaign.id,
         userId,
         message: message || null,
-        name: name || null
+        name: name,
+        isHiddenName
       },
     });
 

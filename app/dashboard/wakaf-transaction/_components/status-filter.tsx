@@ -25,7 +25,7 @@ function StatusFilter({ onValueChange, disabled }: IProps) {
           <SelectLabel>Daftar Status</SelectLabel>
           <SelectItem value="PENDING">Pending</SelectItem>
           <SelectItem value="COMPLETED">Berhasil</SelectItem>
-          <SelectItem value="FAILED">Gagal</SelectItem>
+          <SelectItem value="FAILED">Dibatalkan</SelectItem>
           <SelectItem value="all">Semua</SelectItem>
         </SelectGroup>
       </SelectContent>

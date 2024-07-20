@@ -72,9 +72,10 @@ export const profileSchema = z.object({
 });
 
 export const transactionSchema = z.object({
-  name: z.string().optional(),
+  name: z.string().min(1),
+  isHiddenName: z.boolean(),
   email: z.string().email(),
-  amount: z.number().min(1),
+  amount: z.number().min(20000),
   paymentMethodId: z.string().min(1, {
     message: "Metode pembayaran harus diisi."
   }),

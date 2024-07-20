@@ -25,7 +25,7 @@ const CardHistoryWakaf = forwardRef<HTMLDivElement, IProps>(({ data }, ref) => {
             }
             className="text-[10px]"
           >
-            {data.status === 'PENDING' ? 'Pending' : data.status === 'FAILED' ? 'Gagal' : 'Berhasil'}
+            {data.status === 'PENDING' ? 'Pending' : data.status === 'FAILED' ? 'Dibatalkan' : 'Berhasil'}
           </Badge>
         </div>
         <h3 className="text-sm">
