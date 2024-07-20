@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { Progress } from '../../../../../components/ui/progress'
 import { cn, formatIndonesianDate, formatRupiah } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -20,6 +20,16 @@ interface IProps {
 function CampaignOverview({ className, data, role }: IProps) {
   const navigate = useRouter()
 
+  const detailImages = [
+    data.image,
+    'https://fastly.picsum.photos/id/83/1600/900.jpg?hmac=R9BQdLAPaGw27suOHRBe6G6xb7m1XzQlbsx7as1N7-s',
+    'https://fastly.picsum.photos/id/83/1600/900.jpg?hmac=R9BQdLAPaGw27suOHRBe6G6xb7m1XzQlbsx7as1N7-s',
+    'https://fastly.picsum.photos/id/83/1600/900.jpg?hmac=R9BQdLAPaGw27suOHRBe6G6xb7m1XzQlbsx7as1N7-s',
+    'https://fastly.picsum.photos/id/83/1600/900.jpg?hmac=R9BQdLAPaGw27suOHRBe6G6xb7m1XzQlbsx7as1N7-s',
+  ];
+
+  const [mainImage, setMainImage] = useState(data.image);
+
   return (
     <>
       <div
@@ -39,23 +49,41 @@ function CampaignOverview({ className, data, role }: IProps) {
           </span>
         </div>
         <div className="grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-2 sm:gap-y-4 ">
-          <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
-            <img
-              src={data.image}
-              className="w-full h-full object-cover"
-              alt="campaign banner"
-            />
-            <div className="absolute left-2 top-2">
-              <Badge
-                variant={
-                  data.status === 'RUNNING' ? 'info' : data.status === 'CLOSED' ? 'destructive' : 'success'
-                }
-                className="text-[10px] sm:text-xs"
-              >
-                {data.status === 'RUNNING' ? 'Berjalan' : data.status === 'CLOSED' ? 'Ditutup' : 'Selesai'}
-              </Badge>
+        <div className='flex flex-col'>
+            <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
+              <img
+                src={mainImage}
+                className="w-full h-full object-cover"
+                alt="campaign banner"
+              />
+              <div className="absolute left-2 top-2">
+                <Badge
+                  variant={
+                    data.status === 'RUNNING' ? 'info' : data.status === 'CLOSED' ? 'destructive' : 'success'
+                  }
+                  className="text-[10px] sm:text-xs"
+                >
+                  {data.status === 'RUNNING' ? 'Berjalan' : data.status === 'CLOSED' ? 'Ditutup' : 'Selesai'}
+                </Badge>
+              </div>
+            </div>
+            {/* Horizontal Scrollable Images Section */}
+            <div className="col-span-2 mt-4">
+              <div className="overflow-x-auto flex space-x-2">
+                {detailImages.map((image, index) => (
+                  <div key={index} className="relative min-w-[33%] sm:min-w-[25%] aspect-[4/3] rounded-md overflow-hidden">
+                    <img
+                      src={image}
+                      className="w-full h-full object-cover cursor-pointer"
+                      alt={`Detail Image ${index + 1}`}
+                      onClick={() => setMainImage(image)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+
           <div className="sm:space-y-2 flex flex-col justify-between">
             <div>
               <h2 className="text-sm sm:text-lg font-semibold leading-tight">
