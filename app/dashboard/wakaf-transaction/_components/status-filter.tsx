@@ -7,10 +7,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { TransactionStatus } from "@prisma/client";
 
-function StatusFilter() {
+interface IProps {
+  onValueChange: (value: TransactionStatus | 'all') => void;
+  disabled?: boolean;
+}
+
+function StatusFilter({ onValueChange, disabled }: IProps) {
   return (
-    <Select>
+    <Select onValueChange={onValueChange} disabled={disabled}>
       <SelectTrigger className="w-[100px] rounded-full border-0 shadow-sm py-2 h-auto">
         <SelectValue placeholder="Status" />
       </SelectTrigger>

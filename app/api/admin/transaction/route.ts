@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { getAllTransactions } from "@/data/transaction";
 import { getUserById } from "@/data/user";
+import { TransactionStatus } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -9,6 +10,7 @@ export async function GET(req: Request) {
   const cursor = searchParams.get('cursor');
   const limit = searchParams.get('limit');
   const search = searchParams.get('search') || '';
+  const category = searchParams.get('category') || '';
 
   try {
     const session = await auth();
@@ -29,6 +31,7 @@ export async function GET(req: Request) {
       cursor: parsedCursor,
       limit: parsedLimit,
       search,
+      category: !!category.length ? category as TransactionStatus : undefined
     });
 
     if (campaigns === null) throw new Error('Error when get transactions');

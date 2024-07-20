@@ -1,4 +1,10 @@
 import { db } from "@/lib/db";
+import { TransactionStatus } from "@prisma/client";
+
+interface FilterQuery {
+  userId?: string;
+  status?: string;
+}
 
 export const getTransactionById = async (id: string) => {
   try {
@@ -23,6 +29,7 @@ export const getAllTransactions = async (
     search?: string;
     sorted?: 'createdAt' | 'updatedAt';
     userId?: string;
+    category?: TransactionStatus;
   }
 ) => {
   const searchQuery = !!config?.search?.length ? [
@@ -44,21 +51,29 @@ export const getAllTransactions = async (
     },
   ] : null;
 
-  const filterQuery = !!config?.userId ? {
-    userId: config.userId,
-  } : null;
+  const filterQuery: FilterQuery = {};
+
+  if (!!config?.userId) {
+    filterQuery.userId = config.userId;
+  }
+
+  if (!!config?.category) {
+    filterQuery.status = config.category;
+  }
+
+  const filterIsEmpty = Object.keys(filterQuery).length === 0;
 
   try {
     const transactions = await db.transaction.findMany({
       // @ts-expect-error
-      where: !!searchQuery && !!filterQuery ?
+      where: !!searchQuery && !filterIsEmpty ?
         {
           AND: [
             { ...filterQuery },
             { OR: searchQuery }
           ]
         } : !!searchQuery ?
-          { OR: searchQuery } : !!filterQuery ?
+          { OR: searchQuery } : !filterIsEmpty ?
             { ...filterQuery } : undefined,
       orderBy: {
         [config?.sorted || 'createdAt']: 'desc'

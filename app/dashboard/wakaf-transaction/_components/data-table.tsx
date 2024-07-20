@@ -10,7 +10,7 @@ import {
 } from "@/components/core/table"
 import { Badge } from "@/components/ui/badge"
 import RowAction from "./row-action"
-import { Campaign, Transaction, User } from "@prisma/client";
+import { Campaign, Transaction, TransactionStatus, User } from "@prisma/client";
 import { useCallback, useRef, useState } from "react";
 import DataTableRow from "./data-table-row";
 import InputSearch from "@/components/shared/input-search";
@@ -37,6 +37,7 @@ function DataTable({ data, limit }: IProps) {
   const [hasMore, setHasMore] = useState(data.length === limit)
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
+  const [category, setCategory] = useState<TransactionStatus | 'all'>('all');
   const [searching, setSearching] = useState(false)
   const [messageDisplay, setMessageDisplay] = useState(false);
   const [messageWakif, setMessageWakif] = useState<string | null>(null)
@@ -52,11 +53,20 @@ function DataTable({ data, limit }: IProps) {
     // Maka, lanjutkan pencarian
     if (search !== value) {
       setSearch(value);
-      fetch(value, 'reset');
+      fetch(value, 'reset', category === 'all' ? undefined : category);
     }
   }
 
-  const fetch = useCallback((keyword: string, type: 'reset' | 'pagination') => {
+  const handleStatusFilter = (value: TransactionStatus | 'all') => {
+    setCategory(value);
+    fetch(search, 'reset', value === 'all' ? undefined : value);
+  }
+
+  const fetch = useCallback((
+    keyword: string,
+    type: 'reset' | 'pagination',
+    status?: TransactionStatus
+  ) => {
     if (cancelTokenSource.current) {
       cancelTokenSource.current.cancel('Operation canceled due to new request.');
     }
@@ -72,7 +82,16 @@ function DataTable({ data, limit }: IProps) {
 
     axios
       .get(`/api/admin/transaction`, {
-        params: type === 'reset' ? { search: keyword, limit } : { cursor, limit: limit, search: keyword },
+        params: type === 'reset' ? {
+          search: keyword,
+          limit,
+          category: status
+        } : {
+          cursor,
+          limit: limit,
+          search: keyword,
+          category: status
+        },
         cancelToken: source.token,
       })
       .then((res) => {
@@ -109,7 +128,7 @@ function DataTable({ data, limit }: IProps) {
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && hasMore) {
-        fetch(search, 'pagination')
+        fetch(search, 'pagination', category === 'all' ? undefined : category)
       }
     })
     if (node) observer.current.observe(node);
@@ -132,7 +151,10 @@ function DataTable({ data, limit }: IProps) {
             onChange={handleSearch}
           />
         </div>
-        <StatusFilter />
+        <StatusFilter
+          onValueChange={handleStatusFilter}
+          disabled={searching || loading}
+        />
       </div>
       <div className="p-4 rounded-lg bg-background mt-4">
         <Table>
