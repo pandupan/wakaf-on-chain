@@ -47,32 +47,49 @@ function CampaignOverview({ className, data, role }: IProps) {
           </span>
         </div>
         <div className="grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-2 sm:gap-y-4 ">
-          <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
-            <img
-              src={mainImage}
-              className="w-full h-full object-cover"
-              alt="campaign banner"
-            />
-            <div className="absolute left-2 top-2">
-              <Badge
-                variant={
-                  data.status === "RUNNING"
-                    ? "info"
+          <div className="flex flex-col">
+            <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
+              <img
+                src={mainImage}
+                className="w-full h-full object-cover"
+                alt="campaign banner"
+              />
+              <div className="absolute left-2 top-2">
+                <Badge
+                  variant={
+                    data.status === "RUNNING"
+                      ? "info"
+                      : data.status === "CLOSED"
+                      ? "destructive"
+                      : "success"
+                  }
+                  className="text-[10px] sm:text-xs"
+                >
+                  {data.status === "RUNNING"
+                    ? "Berjalan"
                     : data.status === "CLOSED"
-                    ? "destructive"
-                    : "success"
-                }
-                className="text-[10px] sm:text-xs"
-              >
-                {data.status === "RUNNING"
-                  ? "Berjalan"
-                  : data.status === "CLOSED"
-                  ? "Ditutup"
-                  : "Selesai"}
-              </Badge>
+                    ? "Ditutup"
+                    : "Selesai"}
+                </Badge>
+              </div>
+            </div>
+            {/* Horizontal Scrollable Images Section */}
+            <div className="overflow-x-auto flex space-x-2 mt-2">
+              {detailImages.map((image, index) => (
+                <div
+                  key={index}
+                  className="relative min-w-[33%] sm:min-w-[25%] aspect-[4/3] rounded-md overflow-hidden"
+                >
+                  <img
+                    src={image}
+                    className="w-full h-full object-cover cursor-pointer"
+                    alt={`Detail Image ${index + 1}`}
+                    onClick={() => setMainImage(image)}
+                  />
+                </div>
+              ))}
             </div>
           </div>
-
           <div className="sm:space-y-2 flex flex-col justify-between">
             <div>
               <h2 className="text-sm sm:text-lg font-semibold leading-tight">
@@ -138,22 +155,7 @@ function CampaignOverview({ className, data, role }: IProps) {
               )}
             </div>
           </div>
-          {/* Horizontal Scrollable Images Section */}
-            <div className="overflow-x-auto flex space-x-2">
-              {detailImages.map((image, index) => (
-                <div
-                  key={index}
-                  className="relative min-w-[33%] sm:min-w-[25%] aspect-[4/3] rounded-md overflow-hidden"
-                >
-                  <img
-                    src={image}
-                    className="w-full h-full object-cover cursor-pointer"
-                    alt={`Detail Image ${index + 1}`}
-                    onClick={() => setMainImage(image)}
-                  />
-                </div>
-              ))}
-          </div>
+
           <div className="col-span-2">
             {data.status !== "RUNNING" && (
               <p className="text-xs p-2 bg-destructive/10 text-destructive rounded">
