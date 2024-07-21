@@ -1,8 +1,14 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { formatDistanceToNow } from 'date-fns'
+import { id } from 'date-fns/locale'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export function indonesiaRelativeTime(date: Date): string {
+  return formatDistanceToNow(date, { locale: id, addSuffix: true });
 }
 
 export function abbreviateName(name: string): string {

@@ -47,7 +47,7 @@ model User {
 
   accounts    Account[]
   campaigns   Campaign[]
-  Transaction Transaction[]
+  transaction Transaction[]
 }
 
 model Account {
@@ -87,7 +87,7 @@ model Campaign {
 
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-  Transaction Transaction[]
+  transaction Transaction[]
 }
 
 model Transaction {

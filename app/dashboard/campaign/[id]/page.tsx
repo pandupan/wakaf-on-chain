@@ -1,6 +1,5 @@
 import React from 'react'
 import CampaignOverview from './_components/campaign-overview'
-import WakifList from './_components/wakif-list'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BiDetail } from 'react-icons/bi'
 import { PiCoins } from "react-icons/pi"
@@ -10,6 +9,7 @@ import { redirect } from 'next/navigation'
 import { getCampaignById } from '@/data/campaign'
 import { auth } from '@/auth'
 import ContactCampaign from '../../../../components/shared/contact-campaign'
+import WakifListContainer from './_components/wakif-list-container'
 
 interface IParams {
   id: string;
@@ -54,7 +54,7 @@ const CampaignDetailPage = async ({ params }: { params: IParams }) => {
       </div>
       <div className="col-span-12 md:col-span-5 space-y-4">
         <ContactCampaign phone={campaign.phone} />
-        <WakifList />
+        <WakifListContainer campaignId={campaign.id} />
       </div>
     </div>
   )
