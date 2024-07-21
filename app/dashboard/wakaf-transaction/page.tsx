@@ -18,7 +18,8 @@ async function WakifPage() {
   }
 
   const transactions = await getAllTransactions({
-    sorted: 'updatedAt'
+    sorted: 'updatedAt',
+    limit: LIMIT
   });
 
   if (transactions === null) redirect('/error');

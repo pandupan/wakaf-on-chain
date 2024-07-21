@@ -31,7 +31,8 @@ export async function GET(req: Request) {
       cursor: parsedCursor,
       limit: parsedLimit,
       search,
-      category: !!category.length ? category as TransactionStatus : undefined
+      category: !!category.length ? category as TransactionStatus : undefined,
+      sorted: 'updatedAt',
     });
 
     if (campaigns === null) throw new Error('Error when get transactions');
