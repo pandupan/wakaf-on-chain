@@ -6,25 +6,15 @@ import {
   TableHeadCol,
   TableRow
 } from '@/components/core/table'
-import { abbreviateName, cn, formatRupiah } from '@/lib/utils'
+import { getTopWakif } from '@/data/wakif';
+import { abbreviateName, anonymizeName, cn, formatRupiah } from '@/lib/utils'
 import { FaCrown, FaMedal } from 'react-icons/fa'
 
-const wakifList = [
-  { name: 'Ahmad Abdullah', date: '2024-06-01', amount: 1000000 },
-  { name: 'Fatimah Ibrahim', date: '2024-06-02', amount: 500000 },
-  { name: 'Yusuf Ali', date: '2024-06-03', amount: 2000000 },
-  { name: 'Aisha Rahman', date: '2024-06-04', amount: 750000 },
-  { name: 'Khalid Hassan', date: '2024-06-05', amount: 1500000 },
-  { name: 'Noura Saleh', date: '2024-06-06', amount: 1250000 },
-  { name: 'Kareem Mustafa', date: '2024-06-07', amount: 1750000 },
-  { name: 'Layla Bakr', date: '2024-06-08', amount: 3000000 },
-  { name: 'Omar Khattab', date: '2024-06-09', amount: 1100000 },
-  { name: 'Salma Ahmad', date: '2024-06-10', amount: 800000 },
-];
+const TopWakifGrid = async () => {
+  const data = await getTopWakif();
 
-const sortedWakifList = wakifList.sort((a, b) => b.amount - a.amount);
+  if (data.rank.length === 0) return null;
 
-const TopWakifGrid = () => {
   return (
     <div className="p-4 sm:container mx-auto space-y-4 sm:space-y-8">
       <h1 className="sm:text-center text-3xl sm:text-5xl xl:text-6xl font-bold text-secondary">
@@ -42,9 +32,9 @@ const TopWakifGrid = () => {
           <TableHeadCol align="right" className="rounded-r-lg">Total Wakaf</TableHeadCol>
         </TableHead>
         <TableBody className="text-gray-700">
-          {sortedWakifList.map((wakif, index) => (
+          {data.rank.map((wakif, index) => (
             <TableRow
-              key={index}
+              key={wakif.id}
               isEven={index % 2 === 0}
               className={`
               ${index === 0 ?
@@ -76,9 +66,11 @@ const TopWakifGrid = () => {
                   </span>
                 </div>
               </TableCell>
-              <TableCell>{abbreviateName(wakif.name)}</TableCell>
+              <TableCell>
+                {anonymizeName(abbreviateName(wakif?.name || 'Anonim', 2))}
+              </TableCell>
               <TableCell align="right" className="rounded-r-lg">
-                {formatRupiah(wakif.amount)}
+                {formatRupiah(wakif.berwakafTotal)}
               </TableCell>
             </TableRow>
           ))}

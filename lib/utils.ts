@@ -11,16 +11,18 @@ export function indonesiaRelativeTime(date: Date): string {
   return formatDistanceToNow(date, { locale: id, addSuffix: true });
 }
 
-export function abbreviateName(name: string): string {
+export function abbreviateName(name: string, numToAbbreviate = 1) {
   const words = name.split(' ');
-  if (words.length === 1) {
-    return name;
-  }
 
-  const firstName = words[0];
-  const abbreviated = words.slice(1).map(word => `${word[0]}.`).join(' ');
+  if (words.length <= numToAbbreviate) return words.join(' ');
 
-  return `${firstName} ${abbreviated}`;
+  return words
+    .map((word, index) => {
+      if (index >= numToAbbreviate) return `${word.split('')[0]}.`;
+
+      return word
+    })
+    .join(' ')
 }
 
 export const numberPrefixer = (num: number, toFixed = 1) => {
@@ -84,4 +86,14 @@ export function formatIndonesianDate(date: Date, config?: {
   result += `${day.toString().padStart(2, '0')} ${month} ${year} ${hours}:${minutes}`
 
   return result;
+}
+
+export function anonymizeName(name: string) {
+  return name.split(' ').map(word => {
+    if (word.length > 2) {
+      return word[0] + '*'.repeat(word.length - 2) + word[word.length - 1];
+    } else {
+      return word;
+    }
+  }).join(' ');
 }

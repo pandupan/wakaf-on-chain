@@ -13,12 +13,13 @@ import { BiMessageDetail } from 'react-icons/bi'
 
 interface IProps {
   onClickMessage: () => void;
+  disabled: boolean;
 }
 
-function RowAction({ onClickMessage }: IProps) {
+function RowAction({ onClickMessage, disabled }: IProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild disabled={disabled}>
         <Button size="sm" variant="outline" className="data-[state=open]:bg-muted text-xs">
           <FaEllipsis />
         </Button>

@@ -52,6 +52,7 @@ function DataTableRow({ data, onClickMessage }: IProps) {
       </TableCell>
       <TableCell className="text-center rounded-r-lg">
         <RowAction
+          disabled={data.status !== 'COMPLETED'}
           onClickMessage={() => {
             onClickMessage(data.message);
           }}

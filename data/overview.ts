@@ -31,13 +31,15 @@ export const getUserOverview = async (id: string) => {
 }
 
 export const getAdminOverview = async () => {
-  const usersCount = await db.user.count();
-  const berwakafCount = await db.user.aggregate({
-    _sum: { berwakafCount: true },
+  const usersCount = await db.user.count({
+    where: { role: 'USER' }
   });
   const income = await db.transaction.aggregate({
     where: { status: 'COMPLETED' },
     _sum: { amount: true },
+  });
+  const berwakafCount = await db.transaction.count({
+    where: { status: 'COMPLETED' },
   });
   const activeCampaign = await db.campaign.count({
     where: { status: 'RUNNING' },
@@ -51,8 +53,8 @@ export const getAdminOverview = async () => {
 
   return {
     usersCount,
-    berwakafCount: berwakafCount._sum.berwakafCount,
     income: income._sum.amount,
+    berwakafCount,
     activeCampaign,
     disabledCampaign,
     reachedCampaign

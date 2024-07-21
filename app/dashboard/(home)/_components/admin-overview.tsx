@@ -1,16 +1,12 @@
 import React from 'react'
 import { BsCashCoin, BsCurrencyDollar } from "react-icons/bs"
 import { FaHandHoldingUsd } from 'react-icons/fa'
-import { HiOutlineTrophy } from "react-icons/hi2"
-import { MdCampaign } from "react-icons/md"
+import { MdCampaign, MdDisabledVisible } from "react-icons/md"
 import CardOverview from '../../../../components/shared/overview-card'
 import { LuUser2 } from 'react-icons/lu'
 import { formatRupiah, numberPrefixer } from '@/lib/utils'
 import { getAdminOverview } from '@/data/overview'
-
-interface IProps {
-  adminId: string;
-}
+import { AiOutlineFileDone } from 'react-icons/ai'
 
 async function AdminOverview() {
   const data = await getAdminOverview();
@@ -43,12 +39,12 @@ async function AdminOverview() {
         value={`${data.activeCampaign}`}
       />
       <CardOverview
-        Icon={HiOutlineTrophy}
+        Icon={AiOutlineFileDone}
         title="Kampanye Selesai"
         value={`${data.reachedCampaign}`}
       />
       <CardOverview
-        Icon={HiOutlineTrophy}
+        Icon={MdDisabledVisible}
         title="Kampanye Dinonaktifkan"
         value={`${data.disabledCampaign}`}
       />

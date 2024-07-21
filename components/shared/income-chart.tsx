@@ -40,7 +40,7 @@ const IncomeChart = () => {
     },
   };
   return (
-    <div id="chartOne" className="relative -ml-5">
+    <div id="chartOne" className="relative -ml-4">
       {loading && (
         <div className="absolute inset-0 flex justify-center items-center bg-background/50 backdrop-blur z-[1]">
           <BiLoaderAlt className="w-4 h-4 animate-spin" />
@@ -51,7 +51,7 @@ const IncomeChart = () => {
         series={series}
         type="area"
         height={450}
-        width={"100%"}
+        width="100%"
       />
     </div>
   );
