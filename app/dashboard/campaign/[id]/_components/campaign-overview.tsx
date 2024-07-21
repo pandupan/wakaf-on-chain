@@ -124,7 +124,7 @@ function CampaignOverview({ className, data, role }: IProps) {
           <div className="sm:col-span-2">
             {data.status !== "RUNNING" && (
               <p className="text-xs p-2 bg-destructive/10 text-destructive rounded">
-                Kampanye yang sudah selesai atau ditutup tidak bisa berdonasi.
+                Kampanye yang sudah selesai atau ditutup tidak bisa melakukan wakaf.
                 Silahkan pilih kampanye lain:)
               </p>
             )}
@@ -161,7 +161,7 @@ function CampaignOverview({ className, data, role }: IProps) {
                   className="inline-block flex-1"
                 >
                   <Button variant="secondary" className="relative w-full">
-                    Donasi sekarang
+                    Berwakaf sekarang
                     <span className="absolute -top-1.5 -right-1.5 bg-sky-200 text-secondary rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold">
                       💰
                     </span>
@@ -181,7 +181,7 @@ function CampaignOverview({ className, data, role }: IProps) {
                     }
                   }}
                 >
-                  Donasi sekarang
+                  Berwakaf sekarang
                   <span className="absolute -top-1.5 -right-1.5 bg-sky-200 text-secondary rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold">
                     💰
                   </span>

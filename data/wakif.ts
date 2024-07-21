@@ -26,6 +26,7 @@ export const getWakifListTransaction = async (campaignId: number) => {
           amount: true,
           name: true,
           isHiddenName: true,
+          message: true,
           user: {
             select: {
               id: true,

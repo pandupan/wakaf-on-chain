@@ -61,7 +61,7 @@ export async function POST(req: Request, { params }: { params: IParams }) {
         berwakafTotal: {
           increment: amount
         },
-        largestWakaf: amount > largestWakaf ? amount : largestWakaf
+        largestWakaf: largestWakaf >= amount ? largestWakaf : amount
       }
     });
 

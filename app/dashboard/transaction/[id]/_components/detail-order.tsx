@@ -137,7 +137,7 @@ function DetailOrder({
       {status === 'COMPLETED' && (
         <Link href="/dashboard/campaign" className="block">
           <Button variant="secondary" className="w-full">
-            Donasi lagi
+            Berwakaf lagi
           </Button>
         </Link>
       )}
@@ -148,7 +148,7 @@ function DetailOrder({
               <Button
                 variant="destructive"
                 className="w-full gap-2"
-                disabled={canceling}
+                disabled={canceling || paying}
               >
                 Batalkan
               </Button>
@@ -179,7 +179,7 @@ function DetailOrder({
           <Button
             variant="secondary"
             className="w-full gap-2"
-            disabled={canceling}
+            disabled={canceling || paying}
             onClick={() => {
               toast.promise(handlePay, {
                 loading: 'Sedang membayar...',

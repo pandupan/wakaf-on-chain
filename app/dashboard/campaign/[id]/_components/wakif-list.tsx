@@ -14,6 +14,7 @@ interface IProps {
     name: string;
     isHiddenName: boolean;
     amount: number;
+    message: string | null;
   }[];
   totalWakif: number;
 }
@@ -30,7 +31,7 @@ const WakifList: React.FC<IProps> = ({ campaignId, data, totalWakif }) => {
         </span>
       </div>
       <div className="space-y-4">
-        {data.map((wakif) => (
+        {data.length > 0 && data.map((wakif) => (
           <div
             key={wakif.id}
             className="flex items-center gap-4 bg-gray-50 border px-4 py-3 rounded-lg shadow-sm"
@@ -49,12 +50,22 @@ const WakifList: React.FC<IProps> = ({ campaignId, data, totalWakif }) => {
               <h5 className="text-gray-600 text-sm sm:text-base font-semibold text-secondary tracking-wide">
                 {formatRupiah(wakif.amount)}
               </h5>
+              {wakif.message && (
+                <p className="text-xs sm:text-sm italic">
+                  {`"${wakif.message}"`}
+                </p>
+              )}
               <span className="block text-gray-400 text-xs sm:text-sm">
                 {indonesiaRelativeTime(new Date(wakif.updatedAt))}
               </span>
             </div>
           </div>
         ))}
+        {data.length === 0 && (
+          <p className="text-center mb-4">
+            Belum ada wakif, ayo jadi yang pertama!
+          </p>
+        )}
       </div>
     </div>
   );
