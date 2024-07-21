@@ -1,7 +1,6 @@
 import { auth } from "@/auth"
 import { getUserById } from "@/data/user"
 import { db } from "@/lib/db"
-import { CampaignStatus } from "@prisma/client";
 import { NextResponse } from "next/server"
 
 interface IParams {

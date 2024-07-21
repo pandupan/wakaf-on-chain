@@ -5,40 +5,52 @@ import { HiOutlineTrophy } from "react-icons/hi2"
 import { MdCampaign } from "react-icons/md"
 import CardOverview from '../../../../components/shared/overview-card'
 import { LuUser2 } from 'react-icons/lu'
-import { numberPrefixer } from '@/lib/utils'
+import { formatRupiah, numberPrefixer } from '@/lib/utils'
+import { getAdminOverview } from '@/data/overview'
 
-function AdminOverview() {
+interface IProps {
+  adminId: string;
+}
+
+async function AdminOverview() {
+  const data = await getAdminOverview();
+
   return (
     <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <CardOverview
         Icon={LuUser2}
         title="Total Pengguna"
-        value={numberPrefixer(2000)}
+        value={numberPrefixer(data.usersCount)}
       />
       <CardOverview
         Icon={FaHandHoldingUsd}
-        title="Total Berwakaf"
-        value="170x"
+        title="Pengguna Berwakaf"
+        value={`${numberPrefixer(data.berwakafCount || 0)}x`}
       />
       <CardOverview
         Icon={BsCashCoin}
         title="Total Pemasukan"
-        value="Rp1.200.000"
+        value={formatRupiah(data.income || 0)}
       />
       <CardOverview
         Icon={BsCurrencyDollar}
-        title="Wakaf Tersisa"
+        title="Wakaf tersedia"
         value="Rp200.000"
       />
       <CardOverview
         Icon={MdCampaign}
         title="Kampanye Aktif"
-        value="3"
+        value={`${data.activeCampaign}`}
       />
       <CardOverview
         Icon={HiOutlineTrophy}
         title="Kampanye Selesai"
-        value="7"
+        value={`${data.reachedCampaign}`}
+      />
+      <CardOverview
+        Icon={HiOutlineTrophy}
+        title="Kampanye Dinonaktifkan"
+        value={`${data.disabledCampaign}`}
       />
     </div>
   );

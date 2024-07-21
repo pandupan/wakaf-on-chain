@@ -43,6 +43,7 @@ model User {
   role          UserRole  @default(USER)
   berwakafTotal Int       @default(0)
   berwakafCount Int       @default(0)
+  largestWakaf  Int       @default(0)
 
   accounts    Account[]
   campaigns   Campaign[]

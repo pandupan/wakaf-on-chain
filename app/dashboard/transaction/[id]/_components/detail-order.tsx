@@ -17,6 +17,7 @@ import useAxiosErrorToast from "@/hooks/useAxiosErrorToast"
 import { formatRupiah } from "@/lib/utils"
 import { TransactionStatus, User } from "@prisma/client"
 import axios, { AxiosError } from "axios"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 import { VscLoading } from "react-icons/vsc"
@@ -45,11 +46,12 @@ function DetailOrder({
   status,
   isHiddenName
 }: IProps) {
-  const [cancelDisplay, setCancelDisplay] = useState(false);
+  const [cancelDisplay, setCancelDisplay] = useState(false)
   const [canceling, setCanceling] = useState(false)
-  const navigate = useRouter();
+  const [paying, setPaying] = useState(false);
+  const navigate = useRouter()
 
-  const { handleAxiosErrorToast } = useAxiosErrorToast();
+  const { handleAxiosErrorToast } = useAxiosErrorToast()
 
   const handleCancelTransaction = () => {
     setCanceling(true);
@@ -66,6 +68,24 @@ function DetailOrder({
           toast.error('Internal Error');
         }
       });
+  }
+
+  const handlePay = () => {
+    setPaying(true);
+
+    return new Promise((resolve, reject) => {
+      axios.post(`/api/user/transaction/${id}/completed`)
+        .then(() => {
+          setTimeout(() => {
+            navigate.refresh();
+          }, 2000);
+          resolve('Anda berhasil melakukan serah terima!');
+        })
+        .catch((error) => {
+          setPaying(false);
+          reject(error);
+        });
+    })
   }
 
   return (
@@ -115,9 +135,11 @@ function DetailOrder({
         </div>
       </div>
       {status === 'COMPLETED' && (
-        <Button variant="secondary" className="w-full">
-          Donasi lagi
-        </Button>
+        <Link href="/dashboard/campaign" className="block">
+          <Button variant="secondary" className="w-full">
+            Donasi lagi
+          </Button>
+        </Link>
       )}
       {status === 'PENDING' && (
         <div className="w-full flex justify-between gap-2">
@@ -156,9 +178,19 @@ function DetailOrder({
           </AlertDialog>
           <Button
             variant="secondary"
-            className="w-full"
+            className="w-full gap-2"
             disabled={canceling}
+            onClick={() => {
+              toast.promise(handlePay, {
+                loading: 'Sedang membayar...',
+                success: (message) => {
+                  return `${message}`;
+                },
+                error: 'Terjadi kesalahan! Coba lagi nanti.'
+              });
+            }}
           >
+            {paying && <VscLoading className="animate-spin" />}
             Bayar
           </Button>
         </div>

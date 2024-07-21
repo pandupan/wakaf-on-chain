@@ -30,7 +30,7 @@ async function TransactionPage({ params }: { params: IParams }) {
             Terima kasih!
           </h1>
           <p className="text-white">
-            Donasimu telah diterima dan akan segera disalurkan
+            Donasimu telah diterima dan akan segera disalurkan.
           </p>
         </div>
       )}

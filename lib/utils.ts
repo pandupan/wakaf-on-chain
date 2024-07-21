@@ -17,10 +17,10 @@ export function abbreviateName(name: string): string {
   return `${firstName} ${abbreviated}`;
 }
 
-export const numberPrefixer = (num: number) => {
-  if (num >= 1000000000) return (num / 1000000000).toFixed(1) + 'm';
-  if (num >= 1000000) return (num / 1000000).toFixed(1) + 'jt';
-  if (num >= 1000) return (num / 1000).toFixed(1) + 'rb';
+export const numberPrefixer = (num: number, toFixed = 1) => {
+  if (num >= 1000000000) return (num / 1000000000).toFixed(toFixed) + 'm';
+  if (num >= 1000000) return (num / 1000000).toFixed(toFixed) + 'jt';
+  if (num >= 1000) return (num / 1000).toFixed(toFixed) + 'rb';
   return num.toString();
 };
 

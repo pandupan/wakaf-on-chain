@@ -4,7 +4,11 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import Campaign from '../_components/campaign'
 
-const UserLayout = async () => {
+interface IProps {
+  userId: string;
+}
+
+const UserLayout: React.FC<IProps> = async ({ userId }) => {
   return (
     <div className="space-y-4">
       <Link href="/dashboard/berwakaf">
@@ -12,7 +16,7 @@ const UserLayout = async () => {
           Ayo Berwakaf
         </Button>
       </Link>
-      <UserOverview />
+      <UserOverview userId={userId} />
       <Campaign />
     </div>
   )
