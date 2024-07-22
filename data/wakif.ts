@@ -1,7 +1,10 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db"
 
-export const getWakifListTransaction = async (campaignId: number) => {
+export const getWakifListTransaction = async (campaignId: number, config?: {
+  limit?: number;
+  cursor?: string | undefined;
+}) => {
   const wakifCount = await db.transaction.count({
     where: {
       campaignId: campaignId,
@@ -16,7 +19,9 @@ export const getWakifListTransaction = async (campaignId: number) => {
         where: {
           status: 'COMPLETED'
         },
-        take: 10,
+        take: config?.limit || 10,
+        skip: config?.cursor ? 1 : 0,
+        cursor: config?.cursor ? { id: config.cursor } : undefined,
         orderBy: {
           createdAt: 'desc'
         },
