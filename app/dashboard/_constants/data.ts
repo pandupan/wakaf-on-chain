@@ -4,7 +4,7 @@ import { LuUser2 } from "react-icons/lu"
 import { LiaDonateSolid } from "react-icons/lia"
 import { MdOutlineCampaign } from 'react-icons/md'
 import { PiHandCoins } from "react-icons/pi"
-import { BiNotepad } from 'react-icons/bi'
+import { BiNotepad, BiUser, BiWallet } from 'react-icons/bi'
 import { IoWalletOutline } from 'react-icons/io5'
 
 import { SidebarNavItems } from '@/lib/types'
@@ -20,6 +20,18 @@ export const sidebarNavItems: SidebarNavItems[] = [
     href: "/dashboard/management",
     icon: BiNotepad,
     text: "Kelola Kampanye",
+    role: 'ADMIN'
+  },
+  {
+    href: "/dashboard/request-withdrawal",
+    icon: BiWallet,
+    text: "Kelola Penarikan",
+    role: 'ADMIN'
+  },
+  {
+    href: "/dashboard/manage-admin",
+    icon: BiUser,
+    text: "Kelola Admin",
     role: 'ADMIN'
   },
   {
