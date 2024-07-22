@@ -105,6 +105,7 @@ model Transaction {
   message            String?
   userId             String
   campaignId         Int
+  statementVerified  Boolean           @default(false)
 
   user     User?    @relation(fields: [userId], references: [id])
   campaign Campaign @relation(fields: [campaignId], references: [id])

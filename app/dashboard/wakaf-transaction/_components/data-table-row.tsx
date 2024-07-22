@@ -43,7 +43,9 @@ function DataTableRow({ data, onClickMessage }: IProps) {
         {data.campaign?.title}
       </TableCell>
       <TableCell>
-        <Badge variant="outline" className="text-[10px] sm:text-xs">Belum</Badge>
+        <Badge variant="outline" className="text-[10px] sm:text-xs">
+          {data.statementVerified ? 'Sudah' : 'Belum'}
+        </Badge>
       </TableCell>
       <TableCell>
         {formatIndonesianDate(new Date(data.createdAt), {

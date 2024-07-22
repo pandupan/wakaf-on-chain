@@ -8,7 +8,7 @@ const merriweather = Merriweather({
   variable: "--font-merriweather",
 });
 
-const SuratPernyataan = () => {
+const WakafStatement = () => {
   return (
     <div className={`${merriweather.className} w-full py-8 px-4 bg-gray-100`}>
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
@@ -149,4 +149,4 @@ const SuratPernyataan = () => {
   );
 };
 
-export default SuratPernyataan;
+export default WakafStatement;
