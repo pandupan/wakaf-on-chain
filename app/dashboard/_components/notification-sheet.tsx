@@ -5,12 +5,16 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
+} from "@/components/ui/sheet"
+import NotificationList from "./notification-list"
+import useSidebarStore from "../_stores/useSidebarStore"
+import { Notification } from "@prisma/client"
 
-import useSidebarStore from "../_stores/useSidebarStore";
-import NotificationList from "./notification-list";
+interface IProps {
+  data: Notification[];
+}
 
-const NotificationSheet: React.FC = () => {
+const NotificationSheet: React.FC<IProps> = ({ data }) => {
   const { notificationDisplay, onOpenNotification } = useSidebarStore();
 
   return (
@@ -19,7 +23,13 @@ const NotificationSheet: React.FC = () => {
         <SheetHeader className="text-left">
           <SheetTitle className="border-b pb-2">Notifikasi</SheetTitle>
         </SheetHeader>
-        <NotificationList />
+        {data.length > 0 ? (
+          <NotificationList data={data} />
+        ) : (
+          <div className="h-[100px] flex justify-center items-center">
+            <p className="text-sm sm:text-base">Tidak ada notifikasi.</p>
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   );

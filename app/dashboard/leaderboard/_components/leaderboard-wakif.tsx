@@ -112,7 +112,7 @@ const LeaderboardWakif = async () => {
                   </div>
                 </TableCell>
                 <TableCell colSpan={4} className="font-bold rounded-r-lg">
-                  Posisi Anda saat ini
+                  Posisi anda saat ini
                 </TableCell>
               </TableRow>
             )}

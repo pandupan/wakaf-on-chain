@@ -68,7 +68,9 @@ function FormBerwakaf({ data, initialForm, user, campaignId }: IProps) {
         campaignId
       })
         .then((res) => {
-          navigate.push(`/dashboard/transaction/${res.data.id}`);
+          setTimeout(() => {
+            navigate.push(`/dashboard/transaction/${res.data.id}`);
+          }, 1000);
         })
         .catch((error: AxiosError) => {
           setLoading(false);

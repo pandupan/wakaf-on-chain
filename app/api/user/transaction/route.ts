@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { getAllTransactions } from "@/data/transaction";
 import { getUserById } from "@/data/user";
 import { db } from "@/lib/db";
+import { formatRupiah } from "@/lib/utils";
 import { transactionSchema } from "@/schemas";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -60,6 +61,24 @@ export async function POST(req: Request) {
         isHiddenName
       },
     });
+
+    await db.notification.create({
+      data: {
+        userId: newTransaction.userId,
+        title: 'Lakukan pembayaran',
+        type: 'PENDING',
+        message: `
+          Segera lakukan pembayaran transaksi wakaf pada kampanye  
+          <b>${campaign.title}</b> 
+          dengan nominal ${formatRupiah(newTransaction.amount)}. 
+          Transaksi ini hanya berlaku untuk 1 jam kedepan, 
+          jika melebihi transaksi secara otomatis dibatalkan. Lakukan pembayaran di 
+          <a href="/wakaf-statement/${newTransaction.id}" target="_blank" rel="noopener noreferrer">
+            halaman transaksi
+          </a>.
+        `
+      }
+    })
 
     return NextResponse.json(newTransaction, {
       status: 201

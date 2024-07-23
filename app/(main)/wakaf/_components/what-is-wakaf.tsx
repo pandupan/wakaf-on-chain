@@ -12,7 +12,7 @@ const WhatIsWakaf = () => {
           </h1>
           <p className="mt-4 sm:text-lg text-gray-600 sm:mx-10">
             Wakaf adalah amal jariyah yang pahalanya terus mengalir tanpa henti.
-            Melalui wakaf, Anda dapat memberikan manfaat yang berkelanjutan bagi
+            Melalui wakaf, anda dapat memberikan manfaat yang berkelanjutan bagi
             umat dan lingkungan sekitar.
           </p>
         </div>

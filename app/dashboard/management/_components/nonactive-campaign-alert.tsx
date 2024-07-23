@@ -72,7 +72,7 @@ export function NonactiveCampaignAlert({
         <AlertDialogHeader>
           <AlertDialogTitle>Apakah kamu yakin?</AlertDialogTitle>
           <AlertDialogDescription>
-            Aksi ini akan menonaktifkan kampanye sementara dan user tidak akan bisa berwakaf. Jangan khawatir, Anda bisa mengaktifkannya kembali kapanpun!
+            Aksi ini akan menonaktifkan kampanye sementara dan user tidak akan bisa berwakaf. Jangan khawatir, anda bisa mengaktifkannya kembali kapanpun!
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -1,6 +1,7 @@
 import { auth } from "@/auth"
 import { getUserById } from "@/data/user"
 import { db } from "@/lib/db"
+import { formatRupiah } from "@/lib/utils";
 import { NextResponse } from "next/server"
 
 interface IParams {
@@ -27,7 +28,19 @@ export async function POST(req: Request, { params }: { params: IParams }) {
 
     const transaction = await db.transaction.findUnique({ where: { id } });
 
-    if (!transaction || (transaction.userId !== currentUser.id) || (transaction.status !== 'PENDING')) {
+    if (
+      !transaction ||
+      (transaction.status !== 'PENDING') ||
+      (transaction.userId !== currentUser.id)
+    ) {
+      return new NextResponse('Invalid input', { status: 400 });
+    }
+
+    const campaign = await db.campaign.findUnique({
+      where: { id: transaction.campaignId }
+    })
+
+    if (!campaign) {
       return new NextResponse('Invalid input', { status: 400 });
     }
 
@@ -37,6 +50,24 @@ export async function POST(req: Request, { params }: { params: IParams }) {
         status: 'FAILED'
       }
     });
+
+    await db.notification.create({
+      data: {
+        userId: transaction.userId,
+        title: 'Transaksi wakaf gagal',
+        type: 'ERROR',
+        message: `
+          Serah terima wakaf pada kampanye  
+          <b>${campaign.title}</b> 
+          dengan nominal ${formatRupiah(transaction.amount)} gagal dilakukan. 
+          Hal ini terjadi karena batas pembayaran wakaf telah kadaluarsa 
+          atau anda membatalkannya dihalaman transaksi detail. Lihat lebih rinci di  
+          <a href="/wakaf-statement/${transaction.id}" target="_blank" rel="noopener noreferrer">
+            halaman transaksi
+          </a>.
+        `
+      }
+    })
 
     return NextResponse.json(updatedTransaction, {
       status: 201

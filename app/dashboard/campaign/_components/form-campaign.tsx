@@ -486,7 +486,7 @@ function FormCampaign(props: PropTypes) {
                     />
                   </FormControl>
                   <FormDescription>
-                    Deksripsi harus jelas kenapa Anda membuat kampanye ini.
+                    Deksripsi harus jelas kenapa anda membuat kampanye ini.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

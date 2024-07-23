@@ -1,6 +1,7 @@
 import { auth } from "@/auth"
 import { getUserById } from "@/data/user"
 import { db } from "@/lib/db"
+import { formatRupiah } from "@/lib/utils";
 import { NextResponse } from "next/server"
 
 interface IParams {
@@ -90,6 +91,24 @@ export async function POST(req: Request, { params }: { params: IParams }) {
         }
       })
     }
+
+    // Notifikasi pembayaran berhasil
+    await db.notification.create({
+      data: {
+        userId: transaction.userId,
+        title: 'Yayy... transaksi wakaf berhasil',
+        type: 'SUCCESS',
+        message: `
+          Serah terima wakaf pada kampanye  
+          <b>${campaign.title}</b> 
+          dengan nominal ${formatRupiah(transaction.amount)} berhasil dilakukan. 
+          Terima kasih atas bantuan anda, wakaf akan segera disalurkan💖. Lihat lebih rinci di 
+          <a href="/wakaf-statement/${transaction.id}" target="_blank" rel="noopener noreferrer">
+            halaman transaksi
+          </a>.
+        `
+      }
+    })
 
     return NextResponse.json(updatedTransaction, {
       status: 201

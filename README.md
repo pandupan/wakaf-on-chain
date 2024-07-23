@@ -71,7 +71,7 @@
 
 ## Kontribusi
 
-Silakan buat _issue_ atau _pull request_ untuk kontribusi. Pastikan Anda mengikuti pedoman kontribusi dan kode etik.
+Silakan buat _issue_ atau _pull request_ untuk kontribusi. Pastikan anda mengikuti pedoman kontribusi dan kode etik.
 
 ## Lisensi
 

@@ -57,13 +57,13 @@ export async function POST(req: Request, { params }: { params: IParams }) {
     await db.notification.create({
       data: {
         userId: body.userId,
-        title: 'Verifikasi wakaf berhasil.',
+        title: 'Verifikasi wakaf berhasil',
         type: 'VERIFIED',
         message: `
           Selamat wakaf anda pada kampanye 
           <b>${campaign.title}</b> 
           dengan nominal ${formatRupiah(transaction.amount)} telah berhasil diverifikasi. 
-          Anda mendapatkan surat pernyataan resmi dengan klik tombol 
+          anda mendapatkan surat pernyataan resmi dengan klik tombol 
           <a href="/wakaf-statement/${transaction.id}" target="_blank" rel="noopener noreferrer">
             lihat surat pernyataan
           </a>.

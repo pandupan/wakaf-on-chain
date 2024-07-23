@@ -18,7 +18,7 @@ async function Campaign() {
             Kampanye Wakaf
           </h1>
           <p className="text-center max-w-3xl mx-auto sm:text-base text-sm">
-            Berikut adalah berbagai kampanye wakaf yang dapat Anda dukung. Setiap kampanye bertujuan untuk memberikan manfaat yang besar bagi penerima dan lingkungan sekitar.
+            Berikut adalah berbagai kampanye wakaf yang dapat anda dukung. Setiap kampanye bertujuan untuk memberikan manfaat yang besar bagi penerima dan lingkungan sekitar.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-10">
