@@ -10,7 +10,12 @@ const campaignSchemaResponse = z.object({
   ...campaignSchemaRaw,
   image: z.string().min(1, {
     message: 'Gambar harus diisi.'
-  })
+  }),
+  imageDetail1: z.string().optional(),
+  imageDetail2: z.string().optional(),
+  imageDetail3: z.string().optional(),
+  imageDetail4: z.string().optional(),
+  imageDetail5: z.string().optional(),
 })
 
 export async function POST(req: Request) {
@@ -40,12 +45,22 @@ export async function POST(req: Request) {
       image,
       phone,
       target,
-      title
+      title,
+      imageDetail1,
+      imageDetail2,
+      imageDetail3,
+      imageDetail4,
+      imageDetail5
     } = validatedFields.data;
 
     const newCampaign = await db.campaign.create({
       data: {
         image,
+        imageDetail1: imageDetail1,
+        imageDetail2: imageDetail2,
+        imageDetail3: imageDetail3,
+        imageDetail4: imageDetail4,
+        imageDetail5: imageDetail5,
         title,
         target: +target,
         category,
@@ -94,6 +109,11 @@ export async function PUT(req: Request) {
       phone,
       target,
       title,
+      imageDetail1,
+      imageDetail2,
+      imageDetail3,
+      imageDetail4,
+      imageDetail5
     } = validatedFields.data;
 
     const campaign = await db.campaign.findUnique({
@@ -110,6 +130,11 @@ export async function PUT(req: Request) {
       },
       data: {
         image,
+        imageDetail1,
+        imageDetail2,
+        imageDetail3,
+        imageDetail4,
+        imageDetail5,
         title,
         target: +target,
         category,

@@ -23,12 +23,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { VscLoading } from 'react-icons/vsc'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
-import { MdDelete } from 'react-icons/md'
+import { MdAdd, MdDelete } from 'react-icons/md'
 import Image from 'next/image'
-import { campaignSchema, campaignSchemaRaw } from '@/schemas'
+import { campaignSchemaRaw } from '@/schemas'
 import { addThousandSeparatorNumber, formatRupiah } from '@/lib/utils'
 import { wakafCategories } from '@/app/dashboard/_constants/data'
 import { toast } from 'sonner'
@@ -37,6 +37,7 @@ import { useRouter } from 'next/navigation'
 import useCompressImage from '@/hooks/useCompressImage'
 import useAxiosErrorToast from '@/hooks/useAxiosErrorToast'
 import { Campaign } from '@prisma/client'
+import { IoMdCloseCircleOutline } from 'react-icons/io'
 
 interface EditProps {
   mode: 'edit';
@@ -51,6 +52,7 @@ type PropTypes = EditProps | CreateProps;
 
 function FormCampaign(props: PropTypes) {
   const { mode } = props;
+  const [imageDetailCount, setImageDetailCount] = useState(1);
   const [loading, setLoading] = useState(false);
   const dynamicCampaignSchema = z.object({
     ...campaignSchemaRaw,
@@ -76,24 +78,46 @@ function FormCampaign(props: PropTypes) {
       phone: '',
       target: '',
       title: '',
+      imageDetail1: undefined,
+      imageDetail2: undefined,
+      imageDetail3: undefined,
+      imageDetail4: undefined,
+      imageDetail5: undefined,
     }
   });
 
   const { handleAxiosErrorToast } = useAxiosErrorToast();
-  const { uploadAndCompressImage } = useCompressImage();
+  const { bulkCompressImages } = useCompressImage();
   const navigate = useRouter();
+
+  const watch = form.watch;
+  const detailImageInputRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = async (data: z.infer<typeof dynamicCampaignSchema>) => {
     // Gambar di create pasti dalam bentuk file bukan string
     if (mode === 'create' && typeof data.image === 'object') {
       setLoading(true);
-      const compressImage = await uploadAndCompressImage(data.image!, 400, 300);
+      const images = [
+        data.image,
+        data.imageDetail1,
+        data.imageDetail2,
+        data.imageDetail3,
+        data.imageDetail4,
+        data.imageDetail5,
+      ].filter((img) => typeof img === 'object');
+
+      const compressedImages = (await bulkCompressImages(images as File[], 400, 300)) as (string)[];
 
       axios('/api/admin/campaign', {
         method: 'POST',
         data: {
           ...data,
-          image: `data:image/png;base64,${compressImage}`
+          image: compressedImages[0],
+          imageDetail1: compressedImages[1],
+          imageDetail2: compressedImages[2],
+          imageDetail3: compressedImages[3],
+          imageDetail4: compressedImages[4],
+          imageDetail5: compressedImages[5],
         },
       })
         .then(() => {
@@ -111,18 +135,50 @@ function FormCampaign(props: PropTypes) {
 
       return;
     } else if (mode === 'edit') {
-      setLoading(true);
       const { data: { id } } = props;
-      const compressImage =
-        typeof data.image === 'string' ?
-          data.image.replaceAll('data:image/png;base64,', '') :
-          await uploadAndCompressImage(data.image!, 400, 300);
+      setLoading(true);
+
+      let images: (string | File | undefined)[] = [
+        data.image,
+        data.imageDetail1,
+        data.imageDetail2,
+        data.imageDetail3,
+        data.imageDetail4,
+        data.imageDetail5,
+      ]
+
+      const fileImages = images.filter((img) => typeof img === 'object');
+
+      // Cek jika ada gambar yang diubah
+      if (fileImages.length > 0) {
+        const compressedImages = (await bulkCompressImages(fileImages as File[], 400, 300)) as string[];
+
+        // Simpan hasil kompress di variabel images dengan menggantikan data yang tipenya File
+        let fileIndex = 0;
+        compressedImages.forEach((cImg) => {
+          // Temukan elemen yang bertipe File dan gantikan dengan gambar terkompresi
+          for (let i = 0; i < images.length; i++) {
+            if (typeof images[i] === 'object') {
+              images[i] = cImg;
+              fileIndex++;
+              break;
+            }
+          }
+        });
+      }
+
+      console.log(images)
 
       axios('/api/admin/campaign', {
         method: 'PUT',
         data: {
           ...data,
-          image: `data:image/png;base64,${compressImage}`,
+          image: images[0],
+          imageDetail1: images[1],
+          imageDetail2: images[2],
+          imageDetail3: images[3],
+          imageDetail4: images[4],
+          imageDetail5: images[5],
           id
         },
       })
@@ -152,6 +208,25 @@ function FormCampaign(props: PropTypes) {
       form.setValue('phone', data.phone);
       form.setValue('target', addThousandSeparatorNumber(data.target));
       form.setValue('description', data.description);
+
+      const detailImages = [
+        data.imageDetail1,
+        data.imageDetail2,
+        data.imageDetail3,
+        data.imageDetail4,
+        data.imageDetail5,
+      ]
+
+      let countImages = 1;
+      detailImages.forEach((image, index) => {
+        if (image) {
+          // @ts-expect-error
+          form.setValue(`imageDetail${index + 1}`, image);
+          countImages++;
+        };
+      });
+
+      setImageDetailCount(countImages);
     }
   }, [mode]);
 
@@ -244,6 +319,75 @@ function FormCampaign(props: PropTypes) {
                 </FormItem>
               )}
             />
+            <div className="space-y-2 sm:col-span-2">
+              <h4 className="text-sm font-semibold">Gambar Detail</h4>
+              <div className="w-full overflow-x-auto">
+                <div className="flex w-max gap-2">
+                  {Array.from({ length: imageDetailCount }).map((_, index, arr) => {
+                    // @ts-expect-error
+                    const value: string | File | undefined = watch(`imageDetail${index + 1}`);
+                    if (!value) return null;
+
+                    return (
+                      <div
+                        key={`img-d-${index}`}
+                        className="relative w-[100px] sm:w-[150px] aspect-[4/3] rounded-md overflow-hidden border"
+                      >
+                        {index === arr.length - 2 && (
+                          <button
+                            className="absolute top-1 right-1 text-destructive bg-white/50 backdrop-blur rounded-full"
+                            onClick={() => {
+                              // @ts-expect-error
+                              form.setValue(`imageDetail${index + 1}`, undefined);
+                              setImageDetailCount((prev) => prev - 1);
+                            }}
+                          >
+                            <IoMdCloseCircleOutline />
+                          </button>
+                        )}
+                        <img
+                          src={typeof value === 'string' ? value : URL.createObjectURL(value)}
+                          alt={`image detail ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )
+                  })}
+                  {imageDetailCount <= 5 && (
+                    <label
+                      role="button"
+                      className="flex justify-center items-center w-[100px] sm:w-[150px] aspect-[4/3] rounded-md overflow-hidden border-2 border-dashed"
+                    >
+                      <input
+                        ref={detailImageInputRef}
+                        id="detail-image"
+                        accept="image/*"
+                        type="file"
+                        className="w-0 h-0"
+                        name="detail-image"
+                        disabled={loading}
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files.length > 0) {
+                            const file = e.target.files[0];
+
+                            if (file && detailImageInputRef.current) {
+                              // @ts-expect-error
+                              form.setValue(`imageDetail${imageDetailCount}`, file);
+                              detailImageInputRef.current.value = '';
+                              setImageDetailCount((prev) => prev + 1)
+                            }
+                          }
+                        }}
+                      />
+                      <div className="text-gray-500 text-center space-y-1">
+                        <MdAdd className="mx-auto" />
+                        <span className="text-xs">Tambah</span>
+                      </div>
+                    </label>
+                  )}
+                </div>
+              </div>
+            </div>
             <FormField
               control={form.control}
               name="category"

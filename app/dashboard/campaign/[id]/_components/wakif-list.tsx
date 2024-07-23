@@ -132,7 +132,7 @@ const WakifList: React.FC<IProps> = ({ campaignId, data, totalWakif, limit }) =>
             <VscLoading fontSize={20} className="animate-spin mx-auto" />
           </div>
         )}
-        {!hasMore && (
+        {data.length > 0 && !hasMore && (
           <div className="p-4 text-center text-xs sm:text-sm text-gray-500">
             Tidak ada lagi wakif
           </div>

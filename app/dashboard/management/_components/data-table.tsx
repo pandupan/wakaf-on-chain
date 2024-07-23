@@ -20,8 +20,9 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { NonactiveCampaignAlert } from "./nonactive-campaign-alert"
 import { FinishCampaignAlert } from "./finish-campaign-alert"
+import { CampaignListItem } from "@/types"
 
-export type CampaignItem = Omit<Campaign, 'description'> & {
+export type CampaignItem = CampaignListItem & {
   creator?: User;
 }
 

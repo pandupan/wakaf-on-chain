@@ -7,7 +7,14 @@ import { Campaign } from '@prisma/client';
 
 interface IProps {
   className?: string;
-  data: Omit<Campaign, 'description'>;
+  data: Omit<Campaign,
+    'description' |
+    'imageDetail1' |
+    'imageDetail2' |
+    'imageDetail3' |
+    'imageDetail4' |
+    'imageDetail5'
+  >;
   onlyView?: boolean;
 }
 

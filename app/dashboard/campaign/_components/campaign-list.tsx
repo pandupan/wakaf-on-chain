@@ -10,7 +10,14 @@ import { VscLoading } from 'react-icons/vsc'
 import useAxiosErrorToast from '@/hooks/useAxiosErrorToast'
 
 interface IProps {
-  data: Omit<Campaign, 'description'>[];
+  data: Omit<Campaign,
+    'description' |
+    'imageDetail1' |
+    'imageDetail2' |
+    'imageDetail3' |
+    'imageDetail4' |
+    'imageDetail5'
+  >[];
   limit: number;
 }
 

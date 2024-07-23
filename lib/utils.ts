@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { formatDistanceToNow } from 'date-fns'
 import { id } from 'date-fns/locale'
+import { UserRole } from "@prisma/client"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -96,4 +97,8 @@ export function anonymizeName(name: string) {
       return word;
     }
   }).join(' ');
+}
+
+export function isAdmin(role: UserRole) {
+  return (role === 'ADMIN') || (role === 'SUPER_ADMIN');
 }

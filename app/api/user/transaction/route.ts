@@ -92,16 +92,16 @@ export async function GET(req: Request) {
     const parsedCursor = cursor || '';
     const parsedLimit = limit && !isNaN(+limit) ? parseInt(limit, 10) : 9;
 
-    const campaigns = await getAllTransactions({
+    const transactions = await getAllTransactions({
       cursor: parsedCursor,
       limit: parsedLimit,
       search,
       userId: currentUser.id
     });
 
-    if (campaigns === null) throw new Error('Error when get transactions');
+    if (transactions === null) throw new Error('Error when get transactions');
 
-    return NextResponse.json(campaigns, {
+    return NextResponse.json(transactions, {
       status: 200
     })
   } catch (error: any) {

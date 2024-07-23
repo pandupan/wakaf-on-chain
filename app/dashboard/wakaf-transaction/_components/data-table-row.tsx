@@ -1,16 +1,39 @@
 import { TableCell } from '@/components/core/table'
 import { Badge } from '@/components/ui/badge'
-import React from 'react'
+import React, { useState } from 'react'
 import RowAction from './row-action'
 import { TransactionType } from './data-table'
-import { abbreviateName, formatIndonesianDate, formatRupiah } from '@/lib/utils'
+import { abbreviateName, cn, formatIndonesianDate, formatRupiah } from '@/lib/utils'
+import axios from 'axios'
+import { toast } from 'sonner'
 
 interface IProps {
   data: TransactionType;
   onClickMessage: (message: string | null) => void;
+  onSuccessVerify: (transactionId: string) => void;
 }
 
-function DataTableRow({ data, onClickMessage }: IProps) {
+function DataTableRow({ data, onClickMessage, onSuccessVerify }: IProps) {
+  const [verifying, setVerifying] = useState(false)
+
+  const handleClickVerifyTransaction = () => {
+    setVerifying(true);
+    const promise = axios.post(`/api/user/transaction/${data.id}/verify`, {
+      campaignId: data.campaignId,
+      userId: data.userId,
+    })
+
+    toast.promise(promise, {
+      loading: 'Sedang memverifikasi transaksi...',
+      success: () => {
+        onSuccessVerify(data.id);
+        return 'Transaksi berhasil diverifikasi!';
+      },
+      error: 'Transaksi gagal diverifikasi!.',
+      finally: () => setVerifying(false),
+    })
+  }
+
   return (
     <>
       <TableCell className="rounded-l-lg">
@@ -43,7 +66,13 @@ function DataTableRow({ data, onClickMessage }: IProps) {
         {data.campaign?.title}
       </TableCell>
       <TableCell>
-        <Badge variant="outline" className="text-[10px] sm:text-xs">
+        <Badge
+          variant="outline"
+          className={cn(
+            'text-[10px] sm:text-xs',
+            data.statementVerified ? 'text-emerald-500 border-emerald-500' : ''
+          )}
+        >
           {data.statementVerified ? 'Sudah' : 'Belum'}
         </Badge>
       </TableCell>
@@ -54,7 +83,10 @@ function DataTableRow({ data, onClickMessage }: IProps) {
       </TableCell>
       <TableCell className="text-center rounded-r-lg">
         <RowAction
+          isVerified={data.statementVerified}
+          verifying={verifying}
           disabled={data.status !== 'COMPLETED'}
+          onClickVerifyTransaction={handleClickVerifyTransaction}
           onClickMessage={() => {
             onClickMessage(data.message);
           }}

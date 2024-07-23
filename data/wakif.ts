@@ -69,6 +69,7 @@ export const getTopWakif = async (take = 10, config?: {
 
   if (config && config.getYourRank) {
     const topUsers = await db.user.findMany({
+      where: { role: 'USER' },
       orderBy: { berwakafTotal: 'desc' },
       select: { id: true },
       take: 99,
