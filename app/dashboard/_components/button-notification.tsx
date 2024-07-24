@@ -2,20 +2,29 @@
 
 import { IoMdNotificationsOutline } from 'react-icons/io'
 import useSidebarStore from '../_stores/useSidebarStore'
+import { useEffect } from 'react';
 
 interface IProps {
   unread: number;
 }
 
 function ButtonNotification({ unread }: IProps) {
-  const { toggleNotification } = useSidebarStore()
+  const {
+    toggleNotification,
+    setUnreadNotification,
+    unreadNotification
+  } = useSidebarStore()
+
+  useEffect(() => {
+    setUnreadNotification(unread);
+  }, [])
 
   return (
     <button
       className="relative p-1 rounded-full text-lg hover:bg-muted transition"
       onClick={toggleNotification}
     >
-      {!!unread && (
+      {!!unreadNotification && (
         <span
           className="
             absolute 
@@ -32,7 +41,7 @@ function ButtonNotification({ unread }: IProps) {
             rounded-full
           "
         >
-          {unread > 99 ? 99 : unread}
+          {unreadNotification > 99 ? 99 : unreadNotification}
         </span>
       )}
       <IoMdNotificationsOutline />

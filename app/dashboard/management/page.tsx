@@ -5,6 +5,7 @@ import { getUserByEmail } from "@/data/user"
 import { User } from "@prisma/client"
 import { redirect } from "next/navigation"
 import { getAllCampaigns } from "@/data/campaign"
+import { isAdmin } from "@/lib/utils"
 
 const LIMIT = 9;
 
@@ -14,7 +15,7 @@ const CampaignManagementPage = async () => {
 
   if (!!session?.user.email!) {
     user = await getUserByEmail(session?.user.email!);
-    if (!user || user.role !== 'ADMIN') redirect('/404');
+    if (!user || !isAdmin(user.role)) redirect('/404');
   }
 
   const campaigns = await getAllCampaigns({

@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { getCampaignById } from '@/data/campaign';
 import { User } from '@prisma/client';
 import { getUserByEmail } from '@/data/user';
+import { isAdmin } from '@/lib/utils';
 
 interface IParams {
   id: string;
@@ -16,7 +17,7 @@ async function EditPage({ params }: { params: IParams }) {
 
   if (!!session?.user.email!) {
     user = await getUserByEmail(session?.user.email!);
-    if (!user || user.role !== 'ADMIN') redirect('/404');
+    if (!user || !isAdmin(user.role)) redirect('/404');
   }
 
   if (isNaN(+params.id)) redirect('/404');

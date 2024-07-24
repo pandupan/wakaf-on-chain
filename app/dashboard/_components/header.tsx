@@ -18,7 +18,8 @@ interface IProps {
 const LIMIT = 15;
 
 async function Header({ user }: IProps) {
-  const notifications = !!user ? await getAllNotifications(user.id, { limit: LIMIT }) : null;
+  const notifications = !!user ?
+    await getAllNotifications(user.id, { role: user.role, limit: LIMIT }) : null;
 
   return (
     <div className="flex flex-col-reverse md:flex-row md:items-end gap-x-2 gap-y-4 justify-between pb-4">
@@ -45,7 +46,10 @@ async function Header({ user }: IProps) {
         <ButtonSidebar />
       </div>
       {notifications !== null && (
-        <NotificationSheet data={notifications.notifications} />
+        <NotificationSheet
+          data={notifications.notifications}
+          limit={LIMIT}
+        />
       )}
     </div>
   )

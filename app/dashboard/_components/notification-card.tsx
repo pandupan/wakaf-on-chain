@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger
 } from '@/components/ui/accordion'
-import { formatIndonesianDate, indonesiaRelativeTime } from '@/lib/utils'
+import { cn, formatIndonesianDate, indonesiaRelativeTime } from '@/lib/utils'
 import { Notification } from '@prisma/client'
 import { forwardRef } from 'react'
 import { FaCheck, FaExclamation, FaRegClock } from 'react-icons/fa6'
@@ -14,9 +14,10 @@ import { GoVerified } from "react-icons/go"
 
 interface IProps {
   data: Notification;
+  onClick: (id: string) => void;
 }
 
-const NotificationCard = forwardRef<HTMLDivElement, IProps>(({ data }, ref) => {
+const NotificationCard = forwardRef<HTMLDivElement, IProps>(({ data, onClick }, ref) => {
   const renderIcon = () => {
     switch (data.type) {
       case 'VERIFIED':
@@ -60,8 +61,17 @@ const NotificationCard = forwardRef<HTMLDivElement, IProps>(({ data }, ref) => {
   }
 
   return (
-    <AccordionItem ref={ref} value={data.id}>
-      <AccordionTrigger className="hover:no-underline">
+    <AccordionItem
+      ref={ref}
+      value={data.id}
+      className={cn('px-6', !data.isRead && 'bg-gray-100')}
+    >
+      <AccordionTrigger
+        className="hover:no-underline"
+        onClick={() => {
+          if (!data.isRead) onClick(data.id);
+        }}
+      >
         <div className="flex items-center space-x-3 w-full rounded-lg">
           <div className="relative">
             {renderIcon()}

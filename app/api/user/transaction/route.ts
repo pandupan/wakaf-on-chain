@@ -73,7 +73,7 @@ export async function POST(req: Request) {
           dengan nominal ${formatRupiah(newTransaction.amount)}. 
           Transaksi ini hanya berlaku untuk 1 jam kedepan, 
           jika melebihi transaksi secara otomatis dibatalkan. Lakukan pembayaran di 
-          <a href="/wakaf-statement/${newTransaction.id}" target="_blank" rel="noopener noreferrer">
+          <a href="/dashboard/transaction/${newTransaction.id}" target="_blank" rel="noopener noreferrer">
             halaman transaksi
           </a>.
         `

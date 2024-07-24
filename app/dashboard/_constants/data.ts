@@ -26,13 +26,13 @@ export const sidebarNavItems: SidebarNavItems[] = [
     href: "/dashboard/request-withdrawal",
     icon: BiWallet,
     text: "Kelola Penarikan",
-    role: 'ADMIN'
+    role: 'SUPER_ADMIN'
   },
   {
     href: "/dashboard/manage-admin",
     icon: BiUser,
     text: "Kelola Admin",
-    role: 'ADMIN'
+    role: 'SUPER_ADMIN'
   },
   {
     href: "/dashboard/wakaf-transaction",

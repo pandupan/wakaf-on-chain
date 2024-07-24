@@ -32,19 +32,20 @@ enum TransactionStatus {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  phoneNumber   String?
-  institution   String?
-  address       String?
-  role          UserRole  @default(USER)
-  berwakafTotal Int       @default(0)
-  berwakafCount Int       @default(0)
-  largestWakaf  Int       @default(0)
+  id               String    @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  emailVerified    DateTime?
+  image            String?
+  password         String?
+  phoneNumber      String?
+  institution      String?
+  address          String?
+  role             UserRole  @default(USER)
+  berwakafTotal    Int       @default(0)
+  berwakafCount    Int       @default(0)
+  largestWakaf     Int       @default(0)
+  adminRecruitedAt DateTime?
 
   accounts     Account[]
   campaigns    Campaign[]

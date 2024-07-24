@@ -22,9 +22,10 @@ export async function GET(req: Request) {
     }
 
     const parsedCursor = cursor || '';
-    const parsedLimit = limit && !isNaN(+limit) ? parseInt(limit, 10) : 9;
+    const parsedLimit = limit && !isNaN(+limit) ? parseInt(limit, 10) : 10;
 
     const notifications = await getAllNotifications(currentUser.id, {
+      role: currentUser.role,
       cursor: parsedCursor,
       limit: parsedLimit,
     });

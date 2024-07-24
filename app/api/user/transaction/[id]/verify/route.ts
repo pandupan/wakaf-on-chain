@@ -72,7 +72,7 @@ export async function POST(req: Request, { params }: { params: IParams }) {
     })
 
     return NextResponse.json(updatedTransaction, {
-      status: 201
+      status: 200
     });
 
   } catch (error: any) {

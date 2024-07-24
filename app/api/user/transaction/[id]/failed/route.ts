@@ -62,7 +62,7 @@ export async function POST(req: Request, { params }: { params: IParams }) {
           dengan nominal ${formatRupiah(transaction.amount)} gagal dilakukan. 
           Hal ini terjadi karena batas pembayaran wakaf telah kadaluarsa 
           atau anda membatalkannya dihalaman transaksi detail. Lihat lebih rinci di  
-          <a href="/wakaf-statement/${transaction.id}" target="_blank" rel="noopener noreferrer">
+          <a href="/dashboard/transaction/${transaction.id}" target="_blank" rel="noopener noreferrer">
             halaman transaksi
           </a>.
         `
@@ -70,7 +70,7 @@ export async function POST(req: Request, { params }: { params: IParams }) {
     })
 
     return NextResponse.json(updatedTransaction, {
-      status: 201
+      status: 200
     });
 
   } catch (error: any) {

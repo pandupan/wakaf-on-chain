@@ -4,6 +4,7 @@ import { auth } from '@/auth';
 import { User } from '@prisma/client';
 import { getUserByEmail } from '@/data/user';
 import { redirect } from 'next/navigation';
+import { isAdmin } from '@/lib/utils';
 
 async function AddCampaignPage() {
   const session = await auth();
@@ -11,7 +12,7 @@ async function AddCampaignPage() {
 
   if (!!session?.user.email!) {
     user = await getUserByEmail(session?.user.email!);
-    if (!user || user.role !== 'ADMIN') redirect('/404');
+    if (!user || !isAdmin(user.role)) redirect('/404');
   }
 
   return (

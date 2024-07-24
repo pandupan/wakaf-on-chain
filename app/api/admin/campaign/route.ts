@@ -2,6 +2,7 @@ import { auth } from "@/auth"
 import { getAllCampaigns } from "@/data/campaign"
 import { getUserById } from "@/data/user"
 import { db } from "@/lib/db"
+import { isAdmin } from "@/lib/utils"
 import { campaignSchemaRaw } from "@/schemas"
 import { NextResponse } from "next/server"
 import { z } from "zod"
@@ -27,7 +28,7 @@ export async function POST(req: Request) {
 
     const currentUser = await getUserById(session.user.id!);
 
-    if (!currentUser?.id || !currentUser?.email || currentUser.role !== 'ADMIN') {
+    if (!currentUser?.id || !currentUser?.email || !isAdmin(currentUser.role)) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -90,7 +91,7 @@ export async function PUT(req: Request) {
 
     const currentUser = await getUserById(session.user.id!);
 
-    if (!currentUser?.id || !currentUser?.email || currentUser.role !== 'ADMIN') {
+    if (!currentUser?.id || !currentUser?.email || !isAdmin(currentUser.role)) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -169,7 +170,7 @@ export async function GET(req: Request) {
 
     const currentUser = await getUserById(session.user.id!);
 
-    if (!currentUser?.id || !currentUser?.email || currentUser.role !== 'ADMIN') {
+    if (!currentUser?.id || !currentUser?.email || !isAdmin(currentUser.role)) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 

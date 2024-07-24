@@ -90,6 +90,23 @@ export async function POST(req: Request, { params }: { params: IParams }) {
           status: 'REACHED'
         }
       })
+
+      await db.notification.create({
+        data: {
+          campaignId: campaign.id,
+          title: 'Hore... kampanye sudah mencapai target😍',
+          type: 'SUCCESS',
+          role: 'ADMIN',
+          message: `
+            Kampanye dengan judul <b>${campaign.title}</b> telah berhasil mencapai 
+            target dengan wakaf terkumpul sebesar ${formatRupiah(campaign.collected)}. 
+            Anda dapat melihat detail kampanye tersebut di 
+            <a href="/dashboard/campaign/${campaign.id}" target="_blank" rel="noopener noreferrer">
+              halaman detail
+            </a>.
+          `
+        }
+      })
     }
 
     // Notifikasi pembayaran berhasil
@@ -103,7 +120,7 @@ export async function POST(req: Request, { params }: { params: IParams }) {
           <b>${campaign.title}</b> 
           dengan nominal ${formatRupiah(transaction.amount)} berhasil dilakukan. 
           Terima kasih atas bantuan anda, wakaf akan segera disalurkan💖. Lihat lebih rinci di 
-          <a href="/wakaf-statement/${transaction.id}" target="_blank" rel="noopener noreferrer">
+          <a href="/dashboard/transaction/${transaction.id}" target="_blank" rel="noopener noreferrer">
             halaman transaksi
           </a>.
         `
@@ -111,7 +128,7 @@ export async function POST(req: Request, { params }: { params: IParams }) {
     })
 
     return NextResponse.json(updatedTransaction, {
-      status: 201
+      status: 200
     });
 
   } catch (error: any) {

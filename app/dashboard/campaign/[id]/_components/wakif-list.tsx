@@ -55,8 +55,8 @@ const WakifList: React.FC<IProps> = ({ campaignId, data, totalWakif, limit }) =>
         cancelToken: source.token,
       })
       .then((res) => {
-        if (res.data.length === limit) {
-          setCursor(res.data[res.data.length - 1].id);
+        if (res.data.wakif.length === limit) {
+          setCursor(res.data.wakif[res.data.wakif.length - 1].id);
           if (!hasMore) setHasMore(true);
         } else {
           setHasMore(false);

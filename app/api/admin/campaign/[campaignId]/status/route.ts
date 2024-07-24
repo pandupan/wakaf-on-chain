@@ -1,6 +1,7 @@
 import { auth } from "@/auth"
 import { getUserById } from "@/data/user"
 import { db } from "@/lib/db"
+import { formatRupiah, isAdmin } from "@/lib/utils";
 import { CampaignStatus } from "@prisma/client";
 import { NextResponse } from "next/server"
 
@@ -18,7 +19,7 @@ export async function PATCH(req: Request, { params }: { params: IParams }) {
 
     const currentUser = await getUserById(session.user.id!);
 
-    if (!currentUser?.id || !currentUser?.email || currentUser.role !== 'ADMIN') {
+    if (!currentUser?.id || !currentUser?.email || !isAdmin(currentUser.role)) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -41,6 +42,58 @@ export async function PATCH(req: Request, { params }: { params: IParams }) {
         status
       }
     });
+
+    if (status === 'CLOSED') {
+      await db.notification.create({
+        data: {
+          campaignId: campaign.id,
+          title: 'Kampanye dinonaktifkan sementara',
+          type: 'WARNING',
+          role: 'ADMIN',
+          message: `
+            Kampanye dengan judul <b>${campaign.title}</b> di nonaktifkan 
+            sementara oleh <b>${currentUser.name}</b>. Admin dapat mengaktifkan kapan 
+            saja kampanye tersebut menjadi aktif kembali di halaman 
+            <a href="/dashboard/management" target="_blank" rel="noopener noreferrer">
+              kelola kampanye
+            </a>.
+          `
+        }
+      })
+    } else if (status === 'RUNNING') {
+      await db.notification.create({
+        data: {
+          campaignId: campaign.id,
+          title: 'Kampanye diaktifkan kembali',
+          type: 'PENDING',
+          role: 'ADMIN',
+          message: `
+            Kampanye dengan judul <b>${campaign.title}</b> di aktifkan 
+            kembali oleh <b>${currentUser.name}</b>. Anda dapat melihat detail kampanye tersebut di  
+            <a href="/dashboard/campaign/${campaign.id}" target="_blank" rel="noopener noreferrer">
+              halaman detail
+            </a>.
+          `
+        }
+      })
+    } else {
+      await db.notification.create({
+        data: {
+          campaignId: campaign.id,
+          title: 'Hore... kampanye sudah mencapai target😍',
+          type: 'SUCCESS',
+          role: 'ADMIN',
+          message: `
+            Kampanye dengan judul <b>${campaign.title}</b> telah dianggap mencapai 
+            target oleh <b>${currentUser.name}</b> dengan wakaf terkumpul sebesar 
+            ${formatRupiah(updatedCampaign.collected)}. Anda dapat melihat detail kampanye tersebut di  
+            <a href="/dashboard/campaign/${campaign.id}" target="_blank" rel="noopener noreferrer">
+              halaman detail
+            </a>. Silahkan hubungi admin tersebut jika ada masalah atau kendala mengenai hal ini.
+          `
+        }
+      })
+    }
 
     return NextResponse.json(updatedCampaign, {
       status: 201

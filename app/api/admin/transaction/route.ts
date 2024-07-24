@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { getAllTransactions } from "@/data/transaction";
 import { getUserById } from "@/data/user";
+import { isAdmin } from "@/lib/utils";
 import { TransactionStatus } from "@prisma/client";
 import { NextResponse } from "next/server";
 
@@ -20,7 +21,7 @@ export async function GET(req: Request) {
 
     const currentUser = await getUserById(session.user.id!);
 
-    if (!currentUser?.id || !currentUser?.email || currentUser.role !== 'ADMIN') {
+    if (!currentUser?.id || !currentUser?.email || !isAdmin(currentUser.role)) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 

@@ -5,6 +5,7 @@ import { User } from '@prisma/client';
 import { getUserByEmail } from '@/data/user';
 import { redirect } from 'next/navigation';
 import { getAllTransactions } from '@/data/transaction';
+import { isAdmin } from '@/lib/utils';
 
 const LIMIT = 9;
 
@@ -14,7 +15,7 @@ async function WakifPage() {
 
   if (!!session?.user.email!) {
     user = await getUserByEmail(session?.user.email!);
-    if (!user || user.role !== 'ADMIN') redirect('/404');
+    if (!user || !isAdmin(user.role)) redirect('/404');
   }
 
   const transactions = await getAllTransactions({

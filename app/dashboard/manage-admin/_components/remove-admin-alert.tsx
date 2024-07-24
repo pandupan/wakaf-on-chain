@@ -9,44 +9,32 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button";
 import useAxiosErrorToast from "@/hooks/useAxiosErrorToast";
-import { CampaignStatus } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { VscLoading } from "react-icons/vsc";
 import { toast } from "sonner";
 
 interface IProps {
-  status: CampaignStatus | undefined;
+  adminId: string | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onCancel: () => void;
-  campaignId: number | null;
-  onSuccessAction: () => void;
 }
 
-export function NonactiveCampaignAlert({
-  onOpenChange,
-  open,
-  onCancel,
-  campaignId,
-  onSuccessAction,
-  status
-}: IProps) {
+function RemoveAdminAlert({ adminId, onCancel, onOpenChange, open }: IProps) {
   const [loading, setLoading] = useState(false)
   const { handleAxiosErrorToast } = useAxiosErrorToast()
 
   const handleNonactiveCampaign = () => {
-    if (campaignId) {
+    if (adminId) {
       setLoading(true);
       axios
-        .patch(`/api/admin/campaign/${campaignId}/status`, {
-          status: status === 'RUNNING' ? 'CLOSED' : status === 'CLOSED' ? 'RUNNING' : undefined
-        })
+        .delete(`/api/admin/${adminId}`)
         .then(() => {
-          toast.success('Kampanye berhasil di nonaktifkan sementara');
-          onOpenChange(false);
-          onSuccessAction();
-          onCancel();
+          toast.warning('Admin berhasil dihapus!');
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000)
         })
         .catch((error: AxiosError) => {
           setLoading(false);
@@ -56,7 +44,6 @@ export function NonactiveCampaignAlert({
             toast.error('Internal Error');
           }
         })
-        .finally(() => setLoading(false));
     }
   }
 
@@ -72,23 +59,25 @@ export function NonactiveCampaignAlert({
         <AlertDialogHeader>
           <AlertDialogTitle>Apakah kamu yakin?</AlertDialogTitle>
           <AlertDialogDescription>
-            {status === 'RUNNING' && 'Aksi ini akan menonaktifkan kampanye sementara dan user tidak akan bisa berwakaf. Jangan khawatir, anda bisa mengaktifkannya kembali kapanpun!'}
-            {status === 'CLOSED' && 'Aksi ini akan mengaktifkan kembali kampanye yang sementara dinonaktifkan.'}
+            Aksi ini akan menghapus admin yang sedang beroperasi saat ini.
+            Jangan khawatir pengguna dapat di jadikan admin kembali.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
           <Button
-            variant="secondary"
+            variant="destructive"
             onClick={handleNonactiveCampaign}
             disabled={loading}
             className="gap-2"
           >
             {loading && <VscLoading className="animate-spin" />}
-            {status === 'RUNNING' ? 'Nonaktifkan' : 'Aktifkan'}
+            Konfirmasi
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   )
 }
+
+export default RemoveAdminAlert
