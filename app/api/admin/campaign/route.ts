@@ -2,7 +2,7 @@ import { auth } from "@/auth"
 import { getAllCampaigns } from "@/data/campaign"
 import { getUserById } from "@/data/user"
 import { db } from "@/lib/db"
-import { isAdmin } from "@/lib/utils"
+import { formatRupiah, isAdmin } from "@/lib/utils"
 import { campaignSchemaRaw } from "@/schemas"
 import { NextResponse } from "next/server"
 import { z } from "zod"
@@ -71,6 +71,23 @@ export async function POST(req: Request) {
         creatorId: currentUser.id,
       },
     });
+
+    await db.notification.create({
+      data: {
+        campaignId: newCampaign.id,
+        title: 'Pembuatan kampanye berhasil',
+        type: 'PENDING',
+        role: 'ADMIN',
+        message: `
+          Admin ${currentUser.name} telah membuat kampanye dengan judul 
+          <b>${newCampaign.title}</b> dengan target sebesar ${formatRupiah(newCampaign.target)}. 
+          Kampanye sedang berjalan dan anda dapat melihat detail kampanye tersebut di  
+          <a href="/dashboard/campaign/${newCampaign.id}" target="_blank" rel="noopener noreferrer">
+            halaman detail
+          </a>.
+        `
+      }
+    })
 
     return NextResponse.json(newCampaign, {
       status: 201
