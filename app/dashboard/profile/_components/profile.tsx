@@ -62,7 +62,7 @@ const Profile: React.FC<IProps> = ({ data }) => {
       method: 'PUT',
       data: {
         ...data,
-        image: `data:image/png;base64,${compressImage}`
+        image: compressImage
       },
     })
       .then((res) => {

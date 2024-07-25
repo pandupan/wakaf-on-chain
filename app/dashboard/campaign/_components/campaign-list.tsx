@@ -3,14 +3,14 @@
 import React, { useCallback, useRef, useState } from 'react'
 import InputSearch from '@/components/shared/input-search'
 import CardCampaign from '@/components/shared/card-campaign'
-import { Campaign } from '@prisma/client'
 import axios, { AxiosError, CancelTokenSource } from 'axios'
 import { toast } from 'sonner'
 import { VscLoading } from 'react-icons/vsc'
 import useAxiosErrorToast from '@/hooks/useAxiosErrorToast'
+import { CampaignListItem } from '@/types'
 
 interface IProps {
-  data: Omit<Campaign, 'description'>[];
+  data: CampaignListItem[];
   limit: number;
 }
 

@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { getAllTransactions } from "@/data/transaction";
 import { getUserById } from "@/data/user";
 import { db } from "@/lib/db";
+import { formatRupiah } from "@/lib/utils";
 import { transactionSchema } from "@/schemas";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -61,6 +62,24 @@ export async function POST(req: Request) {
       },
     });
 
+    await db.notification.create({
+      data: {
+        userId: newTransaction.userId,
+        title: 'Lakukan pembayaran',
+        type: 'PENDING',
+        message: `
+          Segera lakukan pembayaran transaksi wakaf pada kampanye  
+          <b>${campaign.title}</b> 
+          dengan nominal ${formatRupiah(newTransaction.amount)}. 
+          Transaksi ini hanya berlaku untuk 1 jam kedepan, 
+          jika melebihi transaksi secara otomatis dibatalkan. Lakukan pembayaran di 
+          <a href="/dashboard/transaction/${newTransaction.id}" target="_blank" rel="noopener noreferrer">
+            halaman transaksi
+          </a>.
+        `
+      }
+    })
+
     return NextResponse.json(newTransaction, {
       status: 201
     });
@@ -92,16 +111,16 @@ export async function GET(req: Request) {
     const parsedCursor = cursor || '';
     const parsedLimit = limit && !isNaN(+limit) ? parseInt(limit, 10) : 9;
 
-    const campaigns = await getAllTransactions({
+    const transactions = await getAllTransactions({
       cursor: parsedCursor,
       limit: parsedLimit,
       search,
       userId: currentUser.id
     });
 
-    if (campaigns === null) throw new Error('Error when get transactions');
+    if (transactions === null) throw new Error('Error when get transactions');
 
-    return NextResponse.json(campaigns, {
+    return NextResponse.json(transactions, {
       status: 200
     })
   } catch (error: any) {

@@ -1,6 +1,7 @@
 import { auth } from "@/auth"
 import { getUserById } from "@/data/user"
 import { db } from "@/lib/db"
+import { formatRupiah } from "@/lib/utils";
 import { NextResponse } from "next/server"
 
 interface IParams {
@@ -89,10 +90,45 @@ export async function POST(req: Request, { params }: { params: IParams }) {
           status: 'REACHED'
         }
       })
+
+      await db.notification.create({
+        data: {
+          campaignId: campaign.id,
+          title: 'Hore... kampanye sudah mencapai target😍',
+          type: 'SUCCESS',
+          role: 'ADMIN',
+          message: `
+            Kampanye dengan judul <b>${campaign.title}</b> telah berhasil mencapai 
+            target dengan wakaf terkumpul sebesar ${formatRupiah(campaign.collected)}. 
+            Anda dapat melihat detail kampanye tersebut di 
+            <a href="/dashboard/campaign/${campaign.id}" target="_blank" rel="noopener noreferrer">
+              halaman detail
+            </a>.
+          `
+        }
+      })
     }
 
+    // Notifikasi pembayaran berhasil
+    await db.notification.create({
+      data: {
+        userId: transaction.userId,
+        title: 'Yayy... transaksi wakaf berhasil',
+        type: 'SUCCESS',
+        message: `
+          Serah terima wakaf pada kampanye  
+          <b>${campaign.title}</b> 
+          dengan nominal ${formatRupiah(transaction.amount)} berhasil dilakukan. 
+          Terima kasih atas bantuan anda, wakaf akan segera disalurkan💖. Lihat lebih rinci di 
+          <a href="/dashboard/transaction/${transaction.id}" target="_blank" rel="noopener noreferrer">
+            halaman transaksi
+          </a>.
+        `
+      }
+    })
+
     return NextResponse.json(updatedTransaction, {
-      status: 201
+      status: 200
     });
 
   } catch (error: any) {

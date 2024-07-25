@@ -134,7 +134,7 @@ function DetailOrder({
           </p>
         </div>
       </div>
-      {status === 'COMPLETED' && (
+      {status !== 'PENDING' && (
         <Link href="/dashboard/campaign" className="block">
           <Button variant="secondary" className="w-full">
             Berwakaf lagi
@@ -155,7 +155,7 @@ function DetailOrder({
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Apakah Anda yakin?</AlertDialogTitle>
+                <AlertDialogTitle>Apakah anda yakin?</AlertDialogTitle>
                 <AlertDialogDescription>
                   Aksi ini akan membatalkan transaksi serah terima wakaf yang telah anda lakukan.
                 </AlertDialogDescription>

@@ -14,6 +14,7 @@ import { auth } from '@/auth';
 
 const LeaderboardWakif = async () => {
   const session = await auth();
+  const role = session?.user.role!;
   const data = await getTopWakif(20, {
     getYourRank: true,
     userId: session?.user.id!
@@ -100,7 +101,7 @@ const LeaderboardWakif = async () => {
                 </TableCell>
               </TableRow>
             ))}
-            {data.yourRank && (
+            {role === 'USER' && data.yourRank && (
               <TableRow className="bg-secondary/20 hover:bg-secondary/20">
                 <TableCell className="rounded-l-lg">
                   <div className="flex items-center">
@@ -111,18 +112,24 @@ const LeaderboardWakif = async () => {
                   </div>
                 </TableCell>
                 <TableCell colSpan={4} className="font-bold rounded-r-lg">
-                  Posisi Anda saat ini
+                  Posisi anda saat ini
                 </TableCell>
               </TableRow>
             )}
           </>
         ) : (
-          <TableCell colSpan={5} className="text-center space-y-4">
-            <p>Peringkat masih kosong. Ayo jadilah yang pertama!</p>
-            <Button size="sm" variant="secondary" className="text-xs">
-              Mulai berwakaf
-            </Button>
-          </TableCell>
+          <TableRow>
+            <TableCell colSpan={5} className="text-center space-y-4">
+              <p>
+                Peringkat masih kosong. {role === 'USER' && 'Ayo jadilah yang pertama!'}
+              </p>
+              {role === 'USER' && (
+                <Button size="sm" variant="secondary" className="text-xs">
+                  Mulai berwakaf
+                </Button>
+              )}
+            </TableCell>
+          </TableRow>
         )}
       </TableBody>
     </Table>

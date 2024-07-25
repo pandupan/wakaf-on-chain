@@ -14,6 +14,7 @@ datasource db {
 }
 
 enum UserRole {
+  SUPER_ADMIN
   ADMIN
   USER
 }
@@ -31,23 +32,25 @@ enum TransactionStatus {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  phoneNumber   String?
-  institution   String?
-  address       String?
-  role          UserRole  @default(USER)
-  berwakafTotal Int       @default(0)
-  berwakafCount Int       @default(0)
-  largestWakaf  Int       @default(0)
+  id               String    @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  emailVerified    DateTime?
+  image            String?
+  password         String?
+  phoneNumber      String?
+  institution      String?
+  address          String?
+  role             UserRole  @default(USER)
+  berwakafTotal    Int       @default(0)
+  berwakafCount    Int       @default(0)
+  largestWakaf     Int       @default(0)
+  adminRecruitedAt DateTime?
 
-  accounts    Account[]
-  campaigns   Campaign[]
-  transaction Transaction[]
+  accounts     Account[]
+  campaigns    Campaign[]
+  transaction  Transaction[]
+  Notification Notification[]
 }
 
 model Account {
@@ -69,9 +72,44 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+model Notification {
+  id            String           @id @default(cuid())
+  userId        String?
+  campaignId    Int?
+  transactionId String?
+  role          UserRole         @default(USER)
+  type          NotificationType
+  title         String
+  message       String           @db.Text
+  isRead        Boolean          @default(false)
+  createdAt     DateTime         @default(now())
+
+  user        User?        @relation(fields: [userId], references: [id])
+  campaign    Campaign?    @relation(fields: [campaignId], references: [id])
+  transaction Transaction? @relation(fields: [transactionId], references: [id])
+
+  @@index([userId])
+  @@index([campaignId])
+  @@index([transactionId])
+}
+
+enum NotificationType {
+  SUCCESS
+  PENDING
+  WARNING
+  ERROR
+  VERIFIED
+  GENERAL
+}
+
 model Campaign {
   id            Int            @id @default(autoincrement())
-  image         String
+  image         String         @db.Text
+  imageDetail1  String?        @db.Text
+  imageDetail2  String?        @db.Text
+  imageDetail3  String?        @db.Text
+  imageDetail4  String?        @db.Text
+  imageDetail5  String?        @db.Text
   title         String
   status        CampaignStatus @default(RUNNING)
   numberOfWakif Int            @default(0)
@@ -85,9 +123,10 @@ model Campaign {
 
   creator User @relation(fields: [creatorId], references: [id])
 
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  transaction Transaction[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  transaction  Transaction[]
+  Notification Notification[]
 }
 
 model Transaction {
@@ -105,9 +144,11 @@ model Transaction {
   message            String?
   userId             String
   campaignId         Int
+  statementVerified  Boolean           @default(false)
 
-  user     User?    @relation(fields: [userId], references: [id])
-  campaign Campaign @relation(fields: [campaignId], references: [id])
+  user         User?          @relation(fields: [userId], references: [id])
+  campaign     Campaign       @relation(fields: [campaignId], references: [id])
+  Notification Notification[]
 
   @@index([userId])
   @@index([campaignId])

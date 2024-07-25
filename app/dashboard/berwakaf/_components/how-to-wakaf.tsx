@@ -11,7 +11,7 @@ function HowToWakaf({ className }: IProps) {
       <h2 className="font-extrabold tracking-wide">Cara berwakaf</h2>
       <ol className="text-sm list-decimal space-y-1 pl-4">
         <li>
-          Masukkan jumlah uang yang ingin Anda wakafkan.
+          Masukkan jumlah uang yang ingin anda wakafkan.
         </li>
         <li>
           Pilih metode pembayaran yang tersedia.
@@ -29,7 +29,7 @@ function HowToWakaf({ className }: IProps) {
           Setelah melakukan serah terima, admin akan melakukan konfirmasi serah terima wakaf.
         </li>
         <li>
-          Anda akan menerima sertifikat dan wakaf Anda telah tersalurkan.
+          anda akan menerima sertifikat dan wakaf anda telah tersalurkan.
         </li>
       </ol>
     </div>

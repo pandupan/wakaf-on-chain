@@ -19,7 +19,7 @@ const CardWakifList = forwardRef<HTMLDivElement, IProps>(({ data }, ref) => {
           className="w-full h-full object-cover"
         />
       </div>
-      <div>
+      <div className="w-full">
         <h3 className="text-sm sm:text-base font-bold">
           {data.isHiddenName ? 'Anonim' : data.name}
         </h3>

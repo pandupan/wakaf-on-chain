@@ -24,10 +24,11 @@ function CampaignOverview({ className, data, role }: IProps) {
 
   const detailImages = [
     data.image,
-    "https://fastly.picsum.photos/id/83/1600/900.jpg?hmac=R9BQdLAPaGw27suOHRBe6G6xb7m1XzQlbsx7as1N7-s",
-    "https://fastly.picsum.photos/id/83/1600/900.jpg?hmac=R9BQdLAPaGw27suOHRBe6G6xb7m1XzQlbsx7as1N7-s",
-    "https://fastly.picsum.photos/id/83/1600/900.jpg?hmac=R9BQdLAPaGw27suOHRBe6G6xb7m1XzQlbsx7as1N7-s",
-    "https://fastly.picsum.photos/id/83/1600/900.jpg?hmac=R9BQdLAPaGw27suOHRBe6G6xb7m1XzQlbsx7as1N7-s",
+    data.imageDetail1,
+    data.imageDetail2,
+    data.imageDetail3,
+    data.imageDetail4,
+    data.imageDetail5,
   ];
 
   const [mainImage, setMainImage] = useState(data.image);
@@ -81,19 +82,21 @@ function CampaignOverview({ className, data, role }: IProps) {
           <div className="sm:space-y-2">
             <div className="w-full overflow-x-auto pb-1">
               <div className="w-max flex gap-2">
-                {detailImages.map((image, index) => (
-                  <div
-                    key={index}
-                    className="relative w-[80px] aspect-[4/3] rounded-md border bg-muted overflow-hidden"
-                  >
-                    <img
-                      src={image}
-                      className="w-full h-full object-cover cursor-pointer"
-                      alt={`Detail Image ${index + 1}`}
-                      onClick={() => setMainImage(image)}
-                    />
-                  </div>
-                ))}
+                {detailImages
+                  .filter((img) => !!img)
+                  .map((image, index) => (
+                    <div
+                      key={index}
+                      className="relative w-[80px] aspect-[4/3] rounded-md border bg-muted overflow-hidden active:scale-95 transition"
+                    >
+                      <img
+                        src={image!}
+                        className="w-full h-full object-cover cursor-pointer"
+                        alt={`Detail Image ${index + 1}`}
+                        onClick={() => setMainImage(image!)}
+                      />
+                    </div>
+                  ))}
               </div>
             </div>
             <h2 className="text-sm sm:text-lg font-semibold leading-tight mt-2 sm:mt-0 sm:mb-4">

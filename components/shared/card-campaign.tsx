@@ -3,11 +3,11 @@ import { Progress } from '../ui/progress'
 import { cn, formatRupiah } from '@/lib/utils';
 import Link from 'next/link';
 import { Badge } from '../ui/badge';
-import { Campaign } from '@prisma/client';
+import { CampaignListItem } from '@/types';
 
 interface IProps {
   className?: string;
-  data: Omit<Campaign, 'description'>;
+  data: CampaignListItem;
   onlyView?: boolean;
 }
 

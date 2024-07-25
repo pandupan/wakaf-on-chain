@@ -44,7 +44,7 @@ async function TransactionPage({ params }: { params: IParams }) {
           <OverviewCampaign data={transaction.campaign} />
           <div className="p-4 rounded-md bg-muted">
             <p className="text-xs">
-              <b>Untuk orang baik:</b> Terima kasih banyak atas wakaf uang yang Anda berikan. Kontribusi Anda sangat berarti dan akan membantu banyak orang. Semoga kebaikan Anda dibalas dengan berlipat ganda.
+              <b>Untuk orang baik:</b> Terima kasih banyak atas wakaf uang yang anda berikan. Kontribusi anda sangat berarti dan akan membantu banyak orang. Semoga kebaikan anda dibalas dengan berlipat ganda.
             </p>
           </div>
           <ContactCampaign

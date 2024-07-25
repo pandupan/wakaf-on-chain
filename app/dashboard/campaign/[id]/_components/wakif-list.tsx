@@ -55,8 +55,8 @@ const WakifList: React.FC<IProps> = ({ campaignId, data, totalWakif, limit }) =>
         cancelToken: source.token,
       })
       .then((res) => {
-        if (res.data.length === limit) {
-          setCursor(res.data[res.data.length - 1].id);
+        if (res.data.wakif.length === limit) {
+          setCursor(res.data.wakif[res.data.wakif.length - 1].id);
           if (!hasMore) setHasMore(true);
         } else {
           setHasMore(false);
@@ -132,7 +132,7 @@ const WakifList: React.FC<IProps> = ({ campaignId, data, totalWakif, limit }) =>
             <VscLoading fontSize={20} className="animate-spin mx-auto" />
           </div>
         )}
-        {!hasMore && (
+        {data.length > 0 && !hasMore && (
           <div className="p-4 text-center text-xs sm:text-sm text-gray-500">
             Tidak ada lagi wakif
           </div>

@@ -16,7 +16,7 @@ const Hero = () => {
               Manfaatkan hartamu untuk kebaikan
             </h3>
             <p className="text-sm sm:text-base text-gray-500 max-w-xl leading-relaxed">
-              Wakaf adalah amalan yang tidak akan terputus pahalanya. Melalui wakaf, Anda bisa memberikan manfaat yang terus mengalir bagi umat dan lingkungan sekitar.
+              Wakaf adalah amalan yang tidak akan terputus pahalanya. Melalui wakaf, anda bisa memberikan manfaat yang terus mengalir bagi umat dan lingkungan sekitar.
             </p>
           </div>
           <div className="w-full sm:flex sm:items-center sm:gap-3 pt-4">

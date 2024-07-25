@@ -22,7 +22,11 @@ function SidebarNav({ role }: IProps) {
       {sidebarNavItems.map((item, index) =>
         isDivider(item) ? (
           <hr key={index} className="border-gray-200 dark:border-gray-600" />
-        ) : (item.role === role || item.role === 'PUBLIC' || (!!role && item.role === 'BOTH')) ? (
+        ) : (item.role === role ||
+          item.role === 'PUBLIC' ||
+          (!!role && item.role === 'BOTH') ||
+          (role === 'SUPER_ADMIN' && item.role === 'ADMIN')
+        ) ? (
           <Link
             key={index}
             className={cn(

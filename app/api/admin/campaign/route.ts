@@ -2,6 +2,7 @@ import { auth } from "@/auth"
 import { getAllCampaigns } from "@/data/campaign"
 import { getUserById } from "@/data/user"
 import { db } from "@/lib/db"
+import { formatRupiah, isAdmin } from "@/lib/utils"
 import { campaignSchemaRaw } from "@/schemas"
 import { NextResponse } from "next/server"
 import { z } from "zod"
@@ -10,7 +11,12 @@ const campaignSchemaResponse = z.object({
   ...campaignSchemaRaw,
   image: z.string().min(1, {
     message: 'Gambar harus diisi.'
-  })
+  }),
+  imageDetail1: z.string().optional(),
+  imageDetail2: z.string().optional(),
+  imageDetail3: z.string().optional(),
+  imageDetail4: z.string().optional(),
+  imageDetail5: z.string().optional(),
 })
 
 export async function POST(req: Request) {
@@ -22,7 +28,7 @@ export async function POST(req: Request) {
 
     const currentUser = await getUserById(session.user.id!);
 
-    if (!currentUser?.id || !currentUser?.email || currentUser.role !== 'ADMIN') {
+    if (!currentUser?.id || !currentUser?.email || !isAdmin(currentUser.role)) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -40,12 +46,22 @@ export async function POST(req: Request) {
       image,
       phone,
       target,
-      title
+      title,
+      imageDetail1,
+      imageDetail2,
+      imageDetail3,
+      imageDetail4,
+      imageDetail5
     } = validatedFields.data;
 
     const newCampaign = await db.campaign.create({
       data: {
         image,
+        imageDetail1: imageDetail1,
+        imageDetail2: imageDetail2,
+        imageDetail3: imageDetail3,
+        imageDetail4: imageDetail4,
+        imageDetail5: imageDetail5,
         title,
         target: +target,
         category,
@@ -55,6 +71,23 @@ export async function POST(req: Request) {
         creatorId: currentUser.id,
       },
     });
+
+    await db.notification.create({
+      data: {
+        campaignId: newCampaign.id,
+        title: 'Pembuatan kampanye berhasil',
+        type: 'PENDING',
+        role: 'ADMIN',
+        message: `
+          Admin ${currentUser.name} telah membuat kampanye dengan judul 
+          <b>${newCampaign.title}</b> dengan target sebesar ${formatRupiah(newCampaign.target)}. 
+          Kampanye sedang berjalan dan anda dapat melihat detail kampanye tersebut di  
+          <a href="/dashboard/campaign/${newCampaign.id}" target="_blank" rel="noopener noreferrer">
+            halaman detail
+          </a>.
+        `
+      }
+    })
 
     return NextResponse.json(newCampaign, {
       status: 201
@@ -75,7 +108,7 @@ export async function PUT(req: Request) {
 
     const currentUser = await getUserById(session.user.id!);
 
-    if (!currentUser?.id || !currentUser?.email || currentUser.role !== 'ADMIN') {
+    if (!currentUser?.id || !currentUser?.email || !isAdmin(currentUser.role)) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -94,6 +127,11 @@ export async function PUT(req: Request) {
       phone,
       target,
       title,
+      imageDetail1,
+      imageDetail2,
+      imageDetail3,
+      imageDetail4,
+      imageDetail5
     } = validatedFields.data;
 
     const campaign = await db.campaign.findUnique({
@@ -110,6 +148,11 @@ export async function PUT(req: Request) {
       },
       data: {
         image,
+        imageDetail1,
+        imageDetail2,
+        imageDetail3,
+        imageDetail4,
+        imageDetail5,
         title,
         target: +target,
         category,
@@ -144,7 +187,7 @@ export async function GET(req: Request) {
 
     const currentUser = await getUserById(session.user.id!);
 
-    if (!currentUser?.id || !currentUser?.email || currentUser.role !== 'ADMIN') {
+    if (!currentUser?.id || !currentUser?.email || !isAdmin(currentUser.role)) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 

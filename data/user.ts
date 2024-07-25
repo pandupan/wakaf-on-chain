@@ -19,3 +19,33 @@ export const getUserById = async (id: string) => {
     return null;
   }
 };
+
+export const get5UsersByEmailKeyword = async (search: string) => {
+  try {
+    const users = await db.user.findMany({
+      where: {
+        AND: [
+          {
+            email: {
+              contains: search,
+              mode: 'insensitive'
+            }
+          },
+          {
+            role: 'USER'
+          }
+        ]
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+      take: 5
+    });
+
+    return users
+  } catch {
+    return null;
+  }
+}

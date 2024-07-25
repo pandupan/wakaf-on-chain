@@ -62,6 +62,17 @@ function DataTable({ data, limit }: IProps) {
     fetch(search, 'reset', value === 'all' ? undefined : value);
   }
 
+  const handleSuccessVerify = (id: string) => {
+    setTransactions((prev) => {
+      const updatedTransactions = [...prev];
+      const transactionIndex = updatedTransactions.findIndex(trans => trans.id === id);
+      if (transactionIndex !== -1) {
+        updatedTransactions[transactionIndex].statementVerified = true;
+      }
+      return updatedTransactions;
+    })
+  }
+
   const fetch = useCallback((
     keyword: string,
     type: 'reset' | 'pagination',
@@ -178,6 +189,7 @@ function DataTable({ data, limit }: IProps) {
                         setMessageWakif(message);
                         setMessageDisplay(true);
                       }}
+                      onSuccessVerify={handleSuccessVerify}
                     />
                   </TableRow>
                 )
@@ -189,6 +201,7 @@ function DataTable({ data, limit }: IProps) {
                         setMessageWakif(message);
                         setMessageDisplay(true);
                       }}
+                      onSuccessVerify={handleSuccessVerify}
                     />
                   </TableRow>
                 )

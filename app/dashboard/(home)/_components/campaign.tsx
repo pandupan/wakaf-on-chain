@@ -23,6 +23,11 @@ async function Campaign() {
           />
         ))}
       </div>
+      {campaigns.length === 0 && (
+        <div className="h-[90px] p-4 text-center text-xs sm:text-sm text-gray-500">
+          Kampanye masih kosong!
+        </div>
+      )}
       {campaigns.length === LIMIT && (
         <div className="text-center pt-2">
           <Button size="sm" variant="secondary" className="text-xs">
