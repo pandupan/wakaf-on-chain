@@ -3,6 +3,7 @@ import React from 'react'
 import RowAction from './row-action'
 import { AdminListType } from './data-table';
 import { formatIndonesianDate } from '@/lib/utils';
+import { ADMIN_EMAIL } from '@/lib/constants';
 
 interface IProps {
   data: AdminListType;
@@ -35,7 +36,7 @@ function DataTableRow({ data, onClickDelete }: IProps) {
       <TableCell>Rp. 9.000.000</TableCell>
       <TableCell className="text-center rounded-r-lg">
         <RowAction
-          disabled={data.email === 'webppmalihsan@gmail.com'}
+          disabled={data.email === ADMIN_EMAIL}
           onClickDelete={() => {
             onClickDelete(data.id)
           }}

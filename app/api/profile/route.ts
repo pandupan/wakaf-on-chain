@@ -31,7 +31,8 @@ export async function PUT(req: Request) {
       institution,
       name,
       phoneNumber,
-      image
+      image,
+      profession
     } = validatedFields.data;
 
     const currentData = await db.user.update({
@@ -43,7 +44,8 @@ export async function PUT(req: Request) {
         institution,
         name,
         phoneNumber,
-        image: image as string
+        image: image as string,
+        profession
       },
     });
 

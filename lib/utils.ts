@@ -61,6 +61,7 @@ export function getInitials(fullName: string): string {
 
 export function formatIndonesianDate(date: Date, config?: {
   withoutDayName?: boolean;
+  withoutTime?: boolean;
 }): string {
   // Days of the week in Indonesian
   const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
@@ -84,7 +85,11 @@ export function formatIndonesianDate(date: Date, config?: {
     result = `${dayName}, `
   }
 
-  result += `${day.toString().padStart(2, '0')} ${month} ${year} ${hours}:${minutes}`
+  result += `${day.toString().padStart(2, '0')} ${month} ${year}`
+
+  if (!config?.withoutTime) {
+    result += ` ${hours}:${minutes}`
+  }
 
   return result;
 }

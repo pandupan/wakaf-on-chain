@@ -45,7 +45,8 @@ const Profile: React.FC<IProps> = ({ data }) => {
       email: "",
       address: "",
       institution: "",
-      phoneNumber: ''
+      phoneNumber: "",
+      profession: ""
     },
   })
 
@@ -227,9 +228,28 @@ const Profile: React.FC<IProps> = ({ data }) => {
                   <SelectContent>
                     <SelectItem value="masyarakat">Masyarakat</SelectItem>
                     <SelectItem value="mahasiswa">Mahasiswa</SelectItem>
-                    <SelectItem value="pengurus">Pengurus Pondok Pesantren</SelectItem>
+                    <SelectItem value="pengurus" disabled={data.role === 'USER'}>
+                      Pengurus Pondok Pesantren
+                    </SelectItem>
                   </SelectContent>
                 </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="profession"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormLabel>Pekerjaan</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder="Masukan pekerjaan"
+                    disabled={loading}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

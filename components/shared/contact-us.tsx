@@ -1,12 +1,12 @@
 'use client'
 
-import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { MdOutlineMail, MdOutlinePhone } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
 import { Label } from "@/components/ui/label";
+import { ADMIN_EMAIL } from "@/lib/constants";
 
 const ContactUs = () => {
   const contactMethods = [
@@ -14,7 +14,7 @@ const ContactUs = () => {
       icon:
         <MdOutlineMail fontSize={24} />
       ,
-      contact: "ppm.alihsan.tasik@gmail.com"
+      contact: ADMIN_EMAIL
     },
     {
       icon:
@@ -26,7 +26,7 @@ const ContactUs = () => {
       icon:
         <CiLocationOn fontSize={24} />
       ,
-      contact: "Jl. R.E. Martadinata Panyingkiran No.224"
+      contact: "Jl. R.E. Martadinata Panyingkiran No.224 Kota Tasikmalaya"
     },
   ]
 

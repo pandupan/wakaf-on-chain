@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { getUserById } from '@/data/user'
 import AdminLayout from './_layouts/admin-layout'
 import UserLayout from './_layouts/user-layout'
+import { isAdmin } from '@/lib/utils'
 
 const HomeDashboardPage = async () => {
   const session = await auth();
@@ -16,7 +17,7 @@ const HomeDashboardPage = async () => {
     role = user.role;
   }
 
-  if (role === 'ADMIN') return <AdminLayout />
+  if (isAdmin(role!)) return <AdminLayout />
 
   return <UserLayout userId={session?.user.id!} />
 }

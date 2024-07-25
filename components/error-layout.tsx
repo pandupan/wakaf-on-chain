@@ -3,6 +3,8 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
 import { auth } from '@/auth';
+import { Separator } from './ui/separator';
+import { logout } from '@/actions/logout';
 
 interface IProps {
   title: string;
@@ -54,6 +56,21 @@ async function ErrorLayout({ description, title }: IProps) {
               </Link>
             )}
           </div>
+          {session?.user && (
+            <div className="mt-3">
+              <div className="relative py-3 mb-2">
+                <span className="absolute top-[50%] -translate-y-[50%] left-[50%] -translate-x-[50%] block bg-background px-4 text-sm">
+                  ATAU
+                </span>
+                <Separator />
+              </div>
+              <form action={logout}>
+                <Button type="submit" size="sm" variant="destructive" className="font-normal">
+                  Logout
+                </Button>
+              </form>
+            </div>
+          )}
         </div>
       </div>
     </main>

@@ -92,6 +92,9 @@ export const profileSchema = z.object({
   address: z.string().min(1, {
     message: 'Alamat harus diisi.'
   }),
+  profession: z.string().min(1, {
+    message: 'Pekerjaan harus diisi.'
+  }),
   institution: z.string().min(1, {
     message: 'Instansi harus diisi.'
   }),

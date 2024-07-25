@@ -41,6 +41,7 @@ model User {
   phoneNumber      String?
   institution      String?
   address          String?
+  profession       String?
   role             UserRole  @default(USER)
   berwakafTotal    Int       @default(0)
   berwakafCount    Int       @default(0)

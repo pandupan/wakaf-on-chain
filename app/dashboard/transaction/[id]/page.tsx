@@ -40,6 +40,7 @@ async function TransactionPage({ params }: { params: IParams }) {
             createdAt={transaction.createdAt}
             id={transaction.id}
             status={transaction.status}
+            statementVerified={transaction.statementVerified}
           />
           <OverviewCampaign data={transaction.campaign} />
           <div className="p-4 rounded-md bg-muted">
