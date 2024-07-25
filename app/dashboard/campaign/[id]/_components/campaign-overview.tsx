@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Progress } from "../../../../../components/ui/progress";
 import { cn, formatIndonesianDate, formatRupiah } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Campaign, User, UserRole } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import ShareContent from "@/components/shared/share-content";
 
 interface IProps {
   className?: string;
@@ -21,16 +22,16 @@ interface IProps {
 function CampaignOverview({ className, data, role }: IProps) {
   const navigate = useRouter();
 
-  const detailImages = [
-    data.image,
-    data.imageDetail1,
-    data.imageDetail2,
-    data.imageDetail3,
-    data.imageDetail4,
-    data.imageDetail5,
-  ];
+  const detailImages = [data.image];
 
   const [mainImage, setMainImage] = useState(data.image);
+  const [urlShare, setUrlShare] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUrlShare(window.location.href);
+    }
+  }, []);
 
   return (
     <>
@@ -63,16 +64,16 @@ function CampaignOverview({ className, data, role }: IProps) {
                     data.status === "RUNNING"
                       ? "info"
                       : data.status === "CLOSED"
-                        ? "destructive"
-                        : "success"
+                      ? "destructive"
+                      : "success"
                   }
                   className="text-[10px] sm:text-xs"
                 >
                   {data.status === "RUNNING"
                     ? "Berjalan"
                     : data.status === "CLOSED"
-                      ? "Ditutup"
-                      : "Selesai"}
+                    ? "Ditutup"
+                    : "Selesai"}
                 </Badge>
               </div>
             </div>
@@ -155,9 +156,7 @@ function CampaignOverview({ className, data, role }: IProps) {
               />
             </div>
             <div className="flex gap-2 mt-4">
-              <Button size="sm" variant="outline">
-                <IoMdShare className="text-xs" />
-              </Button>
+              <ShareContent urlShare={urlShare} />
               {role === "USER" && data.status === "RUNNING" ? (
                 <Link
                   href={`/dashboard/berwakaf?campaign_id=${data.id}`}
