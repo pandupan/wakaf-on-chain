@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Campaign, User, UserRole } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import ShareContent from "@/components/shared/share-content";
 
 interface IProps {
   className?: string;
@@ -152,9 +153,9 @@ function CampaignOverview({ className, data, role }: IProps) {
               />
             </div>
             <div className="flex gap-2 mt-4">
-              <Button size="sm" variant="outline">
-                <IoMdShare className="text-xs" />
-              </Button>
+              
+              <ShareContent/>
+
               {role === "USER" && data.status === "RUNNING" ? (
                 <Link
                   href={`/dashboard/berwakaf?campaign_id=${data.id}`}
