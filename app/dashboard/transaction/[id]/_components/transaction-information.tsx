@@ -1,3 +1,6 @@
+'use client'
+
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { formatIndonesianDate } from "@/lib/utils";
 import { TransactionStatus } from "@prisma/client";
@@ -12,6 +15,8 @@ import {
 import { FaClock } from "react-icons/fa6";
 import { IoMdShare } from "react-icons/io";
 import { RiFileList2Fill } from "react-icons/ri";
+import ShareCardSertificate from "@/components/shared/share-card-sertificate";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   id: string;
@@ -21,6 +26,13 @@ interface IProps {
 }
 
 function TransactionInformation({ createdAt, id, status, statementVerified }: IProps) {
+  const navigate = useRouter();
+  const [urlShare, setUrlShare] = useState("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUrlShare(window.location.href);
+    }
+  }, []); 
   return (
     <>
       <div className="flex justify-between items-center text-sm sm:text-base">
@@ -73,9 +85,7 @@ function TransactionInformation({ createdAt, id, status, statementVerified }: IP
       )}
       {statementVerified && (
         <div className="w-full flex gap-2">
-          <Button variant="outline">
-            <IoMdShare />
-          </Button>
+          <ShareCardSertificate id={id} />
           <Link href={`/wakaf-statement/${id}`} className="w-full" target="_blank" rel="noopener noreferrer">
             <Button className="w-full">
               Lihat surat pernyataan

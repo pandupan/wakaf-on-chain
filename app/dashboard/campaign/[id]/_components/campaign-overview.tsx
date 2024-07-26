@@ -31,7 +31,7 @@ function CampaignOverview({ className, data, role }: IProps) {
     if (typeof window !== "undefined") {
       setUrlShare(window.location.href);
     }
-  }, []);
+  }, []); 
 
   return (
     <>
