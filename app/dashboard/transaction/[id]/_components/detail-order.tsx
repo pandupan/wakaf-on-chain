@@ -1,5 +1,6 @@
 'use client'
 
+import ShareContent from "@/components/shared/share-content";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,18 +11,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import useAxiosErrorToast from "@/hooks/useAxiosErrorToast"
-import { formatRupiah } from "@/lib/utils"
-import { TransactionStatus, User } from "@prisma/client"
-import axios, { AxiosError } from "axios"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import React, { useState } from "react"
-import { VscLoading } from "react-icons/vsc"
-import { toast } from "sonner"
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import useAxiosErrorToast from "@/hooks/useAxiosErrorToast";
+import { formatRupiah } from "@/lib/utils";
+import { TransactionStatus, User } from "@prisma/client";
+import axios, { AxiosError } from "axios";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { VscLoading } from "react-icons/vsc";
+import { toast } from "sonner";
 
 interface IProps {
   id: string;
@@ -46,29 +47,36 @@ function DetailOrder({
   status,
   isHiddenName
 }: IProps) {
-  const [cancelDisplay, setCancelDisplay] = useState(false)
-  const [canceling, setCanceling] = useState(false)
+  const [cancelDisplay, setCancelDisplay] = useState(false);
+  const [canceling, setCanceling] = useState(false);
   const [paying, setPaying] = useState(false);
-  const navigate = useRouter()
+  const router = useRouter();
+  const [urlShare, setUrlShare] = useState("");
 
-  const { handleAxiosErrorToast } = useAxiosErrorToast()
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUrlShare(window.location.href);
+    }
+  }, []);
+
+  const { handleAxiosErrorToast } = useAxiosErrorToast();
 
   const handleCancelTransaction = () => {
     setCanceling(true);
 
     axios.post(`/api/user/transaction/${id}/failed`)
       .then(() => {
-        navigate.refresh();
+        router.refresh();
       })
       .catch((error: AxiosError) => {
         setCanceling(false);
         if (error.response) {
-          handleAxiosErrorToast(error.response!.status);
+          handleAxiosErrorToast(error.response.status);
         } else {
           toast.error('Internal Error');
         }
       });
-  }
+  };
 
   const handlePay = () => {
     setPaying(true);
@@ -77,7 +85,7 @@ function DetailOrder({
       axios.post(`/api/user/transaction/${id}/completed`)
         .then(() => {
           setTimeout(() => {
-            navigate.refresh();
+            router.refresh();
           }, 2000);
           resolve('Anda berhasil melakukan serah terima!');
         })
@@ -85,8 +93,8 @@ function DetailOrder({
           setPaying(false);
           reject(error);
         });
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -108,21 +116,15 @@ function DetailOrder({
         <h1 className="font-bold">Detail Wakaf</h1>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Atas Nama</span>
-          <span className="font-bold text-right">
-            {user.name}
-          </span>
+          <span className="font-bold text-right">{user.name}</span>
         </div>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Metode Transaksi</span>
-          <span className="text-right">
-            {paymentLabel}
-          </span>
+          <span className="text-right">{paymentLabel}</span>
         </div>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Nominal</span>
-          <span className="font-bold text-right">
-            {formatRupiah(amount)}
-          </span>
+          <span className="font-bold text-right">{formatRupiah(amount)}</span>
         </div>
       </div>
       <Separator />
@@ -134,67 +136,70 @@ function DetailOrder({
           </p>
         </div>
       </div>
-      {status !== 'PENDING' && (
-        <Link href="/dashboard/campaign" className="block">
-          <Button variant="secondary" className="w-full">
-            Berwakaf lagi
-          </Button>
-        </Link>
-      )}
-      {status === 'PENDING' && (
-        <div className="w-full flex justify-between gap-2">
-          <AlertDialog open={cancelDisplay} onOpenChange={setCancelDisplay}>
-            <AlertDialogTrigger asChild>
-              <Button
-                variant="destructive"
-                className="w-full gap-2"
-                disabled={canceling || paying}
-              >
-                Batalkan
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Apakah anda yakin?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Aksi ini akan membatalkan transaksi serah terima wakaf yang telah anda lakukan.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel disabled={canceling}>
-                  Cancel
-                </AlertDialogCancel>
+      <div className="flex min-w-full justify-between gap-4 items-center">
+        <ShareContent urlShare={urlShare} />
+        {status !== 'PENDING' && (
+          <Link href="/dashboard/campaign" className="w-full block">
+            <Button variant="secondary" className="w-full">
+              Berwakaf lagi
+            </Button>
+          </Link>
+        )}
+        {status === 'PENDING' && (
+          <div className="w-full flex justify-between gap-2">
+            <AlertDialog open={cancelDisplay} onOpenChange={setCancelDisplay}>
+              <AlertDialogTrigger asChild>
                 <Button
-                  onClick={handleCancelTransaction}
                   variant="destructive"
-                  className="gap-2"
-                  disabled={canceling}
+                  className="w-full gap-2"
+                  disabled={canceling || paying}
                 >
-                  {canceling && <VscLoading className="animate-spin" />}
-                  Konfirmasi
+                  Batalkan
                 </Button>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          <Button
-            variant="secondary"
-            className="w-full gap-2"
-            disabled={canceling || paying}
-            onClick={() => {
-              toast.promise(handlePay, {
-                loading: 'Sedang membayar...',
-                success: (message) => {
-                  return `${message}`;
-                },
-                error: 'Terjadi kesalahan! Coba lagi nanti.'
-              });
-            }}
-          >
-            {paying && <VscLoading className="animate-spin" />}
-            Bayar
-          </Button>
-        </div>
-      )}
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Apakah anda yakin?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Aksi ini akan membatalkan transaksi serah terima wakaf yang telah anda lakukan.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel disabled={canceling}>
+                    Cancel
+                  </AlertDialogCancel>
+                  <Button
+                    onClick={handleCancelTransaction}
+                    variant="destructive"
+                    className="gap-2"
+                    disabled={canceling}
+                  >
+                    {canceling && <VscLoading className="animate-spin" />}
+                    Konfirmasi
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <Button
+              variant="secondary"
+              className="w-full gap-2"
+              disabled={canceling || paying}
+              onClick={() => {
+                toast.promise(handlePay, {
+                  loading: 'Sedang membayar...',
+                  success: (message) => {
+                    return `${message}`;
+                  },
+                  error: 'Terjadi kesalahan! Coba lagi nanti.'
+                });
+              }}
+            >
+              {paying && <VscLoading className="animate-spin" />}
+              Bayar
+            </Button>
+          </div>
+        )}
+      </div>
     </>
   );
 };
