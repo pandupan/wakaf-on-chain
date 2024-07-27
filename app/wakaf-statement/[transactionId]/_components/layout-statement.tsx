@@ -7,10 +7,6 @@ import Header from "./header";
 import HeaderBody from "./header-body";
 import Content from "./content";
 import { Button } from "@/components/ui/button";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import { useRef, useState } from "react";
-import { VscLoading } from "react-icons/vsc";
 import { Campaign, Transaction, User } from "@prisma/client";
 
 const merriweather = Merriweather({
@@ -27,32 +23,11 @@ interface IProps {
 }
 
 function LayoutStatement({ recipient, transaction }: IProps) {
-  const [printing, setPrinting] = useState(false);
-  const printRef = useRef<HTMLDivElement>(null);
-
-  const handlePrint = () => {
-    if (printRef.current) {
-      setPrinting(true);
-      const input = printRef.current;
-      html2canvas(input).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF();
-        const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-        pdf.save("surat-pernyataan-wakaf.pdf");
-        setPrinting(false);
-      });
-    }
-  };
-
   return (
     <>
       <main
-        ref={printRef}
         className={cn(
-          'max-w-3xl mx-auto bg-white p-6 sm:p-10 md:p-16 pb-20 print:p-4 sm:shadow-md print:shadow-none rounded-lg',
+          'max-w-3xl mx-auto bg-white p-6 sm:p-10 md:p-16 print:px-4 print:py-0 sm:shadow-md print:sm:shadow-none rounded-lg',
           merriweather.className
         )}
       >
@@ -63,11 +38,9 @@ function LayoutStatement({ recipient, transaction }: IProps) {
       </main>
       <div className="fixed bottom-6 sm:bottom-10 right-6 sm:right-10">
         <Button
-          onClick={handlePrint}
-          className="rounded-full shadow-md gap-2"
-          disabled={printing}
+          onClick={() => window.print()}
+          className="rounded-full shadow-md gap-2 print:hidden"
         >
-          {printing && <VscLoading className="animate-spin" />}
           Cetak/Print
         </Button>
       </div>
