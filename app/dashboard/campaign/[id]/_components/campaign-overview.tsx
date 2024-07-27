@@ -31,7 +31,7 @@ function CampaignOverview({ className, data, role }: IProps) {
     if (typeof window !== "undefined") {
       setUrlShare(window.location.href);
     }
-  }, []); 
+  }, []);
 
   return (
     <>
@@ -64,16 +64,16 @@ function CampaignOverview({ className, data, role }: IProps) {
                     data.status === "RUNNING"
                       ? "info"
                       : data.status === "CLOSED"
-                      ? "destructive"
-                      : "success"
+                        ? "destructive"
+                        : "success"
                   }
                   className="text-[10px] sm:text-xs"
                 >
                   {data.status === "RUNNING"
                     ? "Berjalan"
                     : data.status === "CLOSED"
-                    ? "Ditutup"
-                    : "Selesai"}
+                      ? "Ditutup"
+                      : "Selesai"}
                 </Badge>
               </div>
             </div>
@@ -156,7 +156,11 @@ function CampaignOverview({ className, data, role }: IProps) {
               />
             </div>
             <div className="flex gap-2 mt-4">
-              <ShareContent urlShare={urlShare} />
+              <ShareContent
+                urlShare={urlShare}
+                title="Bagikan kampanye"
+                description="Yu ajak yang lain, melakukan kebaikan bersama!"
+              />
               {role === "USER" && data.status === "RUNNING" ? (
                 <Link
                   href={`/dashboard/berwakaf?campaign_id=${data.id}`}

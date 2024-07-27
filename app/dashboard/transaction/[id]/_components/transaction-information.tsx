@@ -13,10 +13,8 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
-import { IoMdShare } from "react-icons/io";
 import { RiFileList2Fill } from "react-icons/ri";
-import ShareCardSertificate from "@/components/shared/share-card-sertificate";
-import { useRouter } from "next/navigation";
+import ShareContent from "@/components/shared/share-content";
 
 interface IProps {
   id: string;
@@ -26,13 +24,13 @@ interface IProps {
 }
 
 function TransactionInformation({ createdAt, id, status, statementVerified }: IProps) {
-  const navigate = useRouter();
   const [urlShare, setUrlShare] = useState("");
   useEffect(() => {
     if (typeof window !== "undefined") {
       setUrlShare(window.location.href);
     }
-  }, []); 
+  }, []);
+
   return (
     <>
       <div className="flex justify-between items-center text-sm sm:text-base">
@@ -85,7 +83,11 @@ function TransactionInformation({ createdAt, id, status, statementVerified }: IP
       )}
       {statementVerified && (
         <div className="w-full flex gap-2">
-          <ShareCardSertificate id={id} />
+          <ShareContent
+            urlShare={urlShare}
+            title="Bagikan surat pernyataan wakaf"
+            description="Ayo ajak rekan atau keluarga anda untuk berwakaf dengan membagikan surat pernyataan yang telah didapatkan!"
+          />
           <Link href={`/wakaf-statement/${id}`} className="w-full" target="_blank" rel="noopener noreferrer">
             <Button className="w-full">
               Lihat surat pernyataan
