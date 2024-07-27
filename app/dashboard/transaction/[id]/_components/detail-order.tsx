@@ -51,13 +51,6 @@ function DetailOrder({
   const [canceling, setCanceling] = useState(false);
   const [paying, setPaying] = useState(false);
   const router = useRouter();
-  const [urlShare, setUrlShare] = useState("");
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrlShare(window.location.href);
-    }
-  }, []);
 
   const { handleAxiosErrorToast } = useAxiosErrorToast();
 
@@ -137,7 +130,6 @@ function DetailOrder({
         </div>
       </div>
       <div className="flex min-w-full justify-between gap-4 items-center">
-        <ShareContent urlShare={urlShare} />
         {status !== 'PENDING' && (
           <Link href="/dashboard/campaign" className="w-full block">
             <Button variant="secondary" className="w-full">
