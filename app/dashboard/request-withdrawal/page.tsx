@@ -3,9 +3,9 @@ import DataTable from './_components/data-table'
 
 const page = () => {
   return (
-    <div>
-      <DataTable/>
-    </div>
+    <>
+      <DataTable />
+    </>
   )
 }
 

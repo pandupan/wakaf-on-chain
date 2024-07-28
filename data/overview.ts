@@ -54,6 +54,7 @@ export const getAdminOverview = async () => {
   return {
     usersCount,
     income: income._sum.amount,
+    balance: income._sum.amount,
     berwakafCount,
     activeCampaign,
     disabledCampaign,

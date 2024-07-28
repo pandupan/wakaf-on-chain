@@ -31,7 +31,7 @@ async function AdminOverview() {
       <CardOverview
         Icon={BsCurrencyDollar}
         title="Wakaf tersedia"
-        value="Rp200.000"
+        value={formatRupiah(data.balance || 0)}
       />
       <CardOverview
         Icon={MdCampaign}

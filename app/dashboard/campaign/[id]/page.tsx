@@ -10,14 +10,24 @@ import { getCampaignById } from '@/data/campaign'
 import { auth } from '@/auth'
 import ContactCampaign from '../../../../components/shared/contact-campaign'
 import WakifListContainer from './_components/wakif-list-container'
+import CommentSection from './_components/comment-section'
+import { getCampaignCommentsByCampaignId } from '@/data/comment'
+import { User } from '@prisma/client'
+import { getUserById } from '@/data/user'
 
 interface IParams {
   id: string;
 };
 
+const COMMENT_LIMIT = 10;
+
 const CampaignDetailPage = async ({ params }: { params: IParams }) => {
   const session = await auth();
-  const role = session?.user.role || null;
+  let user: User | null = null;
+
+  if (session?.user) {
+    user = await getUserById(session.user.id!);
+  }
 
   if (isNaN(+params.id)) redirect('/404');
 
@@ -27,10 +37,14 @@ const CampaignDetailPage = async ({ params }: { params: IParams }) => {
 
   if (campaign === null) redirect('/404');
 
+  const comments = await getCampaignCommentsByCampaignId(campaign.id, {
+    limit: COMMENT_LIMIT
+  });
+
   return (
     <div className="grid grid-cols-12 gap-4">
       <div className="col-span-12 md:col-span-7">
-        <CampaignOverview data={campaign} role={role} />
+        <CampaignOverview data={campaign} role={user?.role || null} />
         <div className="bg-background rounded-md shadow-sm p-4 space-y-2 mt-4">
           <Tabs defaultValue="description">
             <TabsList>
@@ -51,6 +65,12 @@ const CampaignDetailPage = async ({ params }: { params: IParams }) => {
             </TabsContent>
           </Tabs>
         </div>
+        <CommentSection
+          campaignId={campaign.id}
+          data={comments}
+          user={user}
+          limit={COMMENT_LIMIT}
+        />
       </div>
       <div className="col-span-12 md:col-span-5 space-y-4">
         <ContactCampaign phone={campaign.phone} />

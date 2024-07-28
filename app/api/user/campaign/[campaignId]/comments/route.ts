@@ -1,3 +1,4 @@
+import { getCampaignCommentsByCampaignId } from "@/data/comment";
 import { getWakifListTransaction } from "@/data/wakif";
 import { NextResponse } from "next/server";
 
@@ -17,19 +18,19 @@ export async function GET(req: Request, { params }: { params: IParams }) {
   }
 
   try {
-    const parsedCursor = cursor || '';
+    const parsedCursor = cursor && !isNaN(+cursor) ? parseInt(cursor, 10) : undefined;
     const parsedLimit = limit && !isNaN(+limit) ? parseInt(limit, 10) : 9;
 
-    const wakifList = await getWakifListTransaction(+campaignId, {
+    const comments = await getCampaignCommentsByCampaignId(+campaignId, {
       cursor: parsedCursor,
       limit: parsedLimit,
     });
 
-    return NextResponse.json(wakifList, {
+    return NextResponse.json(comments, {
       status: 200
     })
   } catch (error: any) {
-    console.log('GET WAKIF LIST ERROR: ', error);
+    console.log('GET CAMPAIGN COMMENTS ERROR: ', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }

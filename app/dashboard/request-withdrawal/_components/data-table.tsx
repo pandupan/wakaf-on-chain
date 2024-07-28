@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import React from "react";
 import { FaEllipsis } from "react-icons/fa6";
-import { FiEye, FiCheck, FiX, FiTrash2 } from "react-icons/fi";
+import { FiEye, FiCheck, FiX } from "react-icons/fi";
 
 const DataTable = () => {
   return (

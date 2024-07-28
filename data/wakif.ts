@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { db } from "@/lib/db"
 
 export const getWakifListTransaction = async (campaignId: number, config?: {
@@ -12,41 +11,37 @@ export const getWakifListTransaction = async (campaignId: number, config?: {
     }
   })
 
-  const wakifList = await db.campaign.findUnique({
-    where: { id: campaignId },
+  const wakifList = await db.transaction.findMany({
+    where: {
+      campaignId,
+      status: 'COMPLETED'
+    },
+    take: config?.limit || 10,
+    skip: config?.cursor ? 1 : 0,
+    cursor: config?.cursor ? { id: config.cursor } : undefined,
+    orderBy: {
+      createdAt: 'desc'
+    },
     select: {
-      transaction: {
-        where: {
-          status: 'COMPLETED'
-        },
-        take: config?.limit || 10,
-        skip: config?.cursor ? 1 : 0,
-        cursor: config?.cursor ? { id: config.cursor } : undefined,
-        orderBy: {
-          createdAt: 'desc'
-        },
+      id: true,
+      updatedAt: true,
+      amount: true,
+      name: true,
+      isHiddenName: true,
+      message: true,
+      user: {
         select: {
           id: true,
-          updatedAt: true,
-          amount: true,
-          name: true,
-          isHiddenName: true,
-          message: true,
-          user: {
-            select: {
-              id: true,
-              image: true,
-              name: true
-            }
-          }
+          image: true,
+          name: true
         }
       }
-    },
+    }
   });
 
   return {
     count: wakifCount,
-    wakif: !wakifList ? [] : wakifList.transaction
+    wakif: wakifList
   }
 }
 

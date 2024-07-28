@@ -167,8 +167,6 @@ function FormCampaign(props: PropTypes) {
         });
       }
 
-      console.log(images)
-
       axios('/api/admin/campaign', {
         method: 'PUT',
         data: {

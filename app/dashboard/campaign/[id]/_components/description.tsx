@@ -7,12 +7,9 @@ interface IProps {
 
 function Description({ data }: IProps) {
   return (
-    <>
-      <h2 className="text-lg sm:text-xl font-bold">Deskripsi</h2>
-      <div id="campaign-detail">
-        <HTMLRenderer htmlString={data} />
-      </div>
-    </>
+    <div id="campaign-detail">
+      <HTMLRenderer htmlString={data} />
+    </div>
   )
 }
 

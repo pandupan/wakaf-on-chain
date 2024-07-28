@@ -31,6 +31,15 @@ enum TransactionStatus {
   FAILED
 }
 
+enum NotificationType {
+  SUCCESS
+  PENDING
+  WARNING
+  ERROR
+  VERIFIED
+  GENERAL
+}
+
 model User {
   id               String    @id @default(cuid())
   name             String?
@@ -48,10 +57,11 @@ model User {
   largestWakaf     Int       @default(0)
   adminRecruitedAt DateTime?
 
-  accounts     Account[]
-  campaigns    Campaign[]
-  transaction  Transaction[]
-  Notification Notification[]
+  accounts        Account[]
+  campaigns       Campaign[]
+  transaction     Transaction[]
+  Notification    Notification[]
+  CampaignComment CampaignComment[]
 }
 
 model Account {
@@ -94,15 +104,6 @@ model Notification {
   @@index([transactionId])
 }
 
-enum NotificationType {
-  SUCCESS
-  PENDING
-  WARNING
-  ERROR
-  VERIFIED
-  GENERAL
-}
-
 model Campaign {
   id            Int            @id @default(autoincrement())
   image         String         @db.Text
@@ -124,10 +125,23 @@ model Campaign {
 
   creator User @relation(fields: [creatorId], references: [id])
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  transaction  Transaction[]
-  Notification Notification[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  transaction     Transaction[]
+  Notification    Notification[]
+  CampaignComment CampaignComment[]
+}
+
+model CampaignComment {
+  id         Int      @id @default(autoincrement())
+  comment    String   @db.Text
+  userId     String
+  campaignId Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id])
+  campaign Campaign @relation(fields: [campaignId], references: [id])
 }
 
 model Transaction {
