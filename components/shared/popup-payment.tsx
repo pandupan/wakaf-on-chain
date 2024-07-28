@@ -16,7 +16,7 @@ const PopupPayment = () => {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="secondary" className="w-full gap-2">
-          <FaCheckCircle className="mr-1" /> Terima
+          <FaCheckCircle className="mr-1" /> Selesai
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md p-4">
