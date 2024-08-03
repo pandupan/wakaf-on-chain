@@ -1,8 +1,9 @@
 import { auth } from "@/auth"
 import { getAllCampaigns } from "@/data/campaign"
 import { getUserById } from "@/data/user"
+import { cloudinary, preset, uploadImage } from "@/lib/cloudinary"
 import { db } from "@/lib/db"
-import { formatRupiah, isAdmin } from "@/lib/utils"
+import { formatRupiah, getPublicIdFromUrl, isAdmin } from "@/lib/utils"
 import { campaignSchemaRaw } from "@/schemas"
 import { NextResponse } from "next/server"
 import { z } from "zod"
@@ -43,10 +44,10 @@ export async function POST(req: Request) {
     const {
       category,
       description,
-      image,
       phone,
       target,
       title,
+      image,
       imageDetail1,
       imageDetail2,
       imageDetail3,
@@ -54,14 +55,35 @@ export async function POST(req: Request) {
       imageDetail5
     } = validatedFields.data;
 
+    const images = [
+      image,
+      imageDetail1,
+      imageDetail2,
+      imageDetail3,
+      imageDetail4,
+      imageDetail5
+    ].filter((image) => typeof image === 'string')
+
+    const uploadPromises = images.map(file => {
+      return cloudinary.uploader.unsigned_upload(
+        file,
+        preset.default,
+        { folder: 'campaigns' }
+      );
+    });
+
+    const results = await Promise.all(uploadPromises);
+
+    const resultImages = results.map(result => result.secure_url);
+
     const newCampaign = await db.campaign.create({
       data: {
-        image,
-        imageDetail1: imageDetail1,
-        imageDetail2: imageDetail2,
-        imageDetail3: imageDetail3,
-        imageDetail4: imageDetail4,
-        imageDetail5: imageDetail5,
+        image: resultImages[0],
+        imageDetail1: resultImages[1],
+        imageDetail2: resultImages[2],
+        imageDetail3: resultImages[3],
+        imageDetail4: resultImages[4],
+        imageDetail5: resultImages[5],
         title,
         target: +target,
         category,
@@ -139,20 +161,54 @@ export async function PUT(req: Request) {
     });
 
     if (!campaign) {
-      return new NextResponse('Data not found', { status: 404 });
+      return new NextResponse('Invalid inputs', { status: 400 });
     }
 
-    const newCampaign = await db.campaign.update({
+    const images = [
+      campaign.image,
+      campaign.imageDetail1,
+      campaign.imageDetail2,
+      campaign.imageDetail3,
+      campaign.imageDetail4,
+      campaign.imageDetail5,
+    ]
+
+    const currentImages: (string | null | undefined)[] = [
+      image,
+      imageDetail1,
+      imageDetail2,
+      imageDetail3,
+      imageDetail4,
+      imageDetail5,
+    ]
+
+    for (let i = 0; i < currentImages.length; i++) {
+      if (!!currentImages[i] && currentImages[i]!.includes('data:image/png;base64,')) {
+        const result: any = await uploadImage(currentImages[i]!, preset.default, 'campaigns');
+        currentImages[i] = result.secure_url;
+
+        if (!!images[i] && images[i]!.includes('res.cloudinary.com')) {
+          const id = `campaigns/${getPublicIdFromUrl(images[i]!)}`
+          await cloudinary.uploader.destroy(id, { resource_type: 'image' })
+        }
+      } else if (!currentImages[i] && images[i]?.includes('res.cloudinary.com')) {
+        const id = `campaigns/${getPublicIdFromUrl(images[i]!)}`
+        await cloudinary.uploader.destroy(id, { resource_type: 'image' })
+        currentImages[i] = null;
+      }
+    }
+
+    const updatedCampaign = await db.campaign.update({
       where: {
         id: body.id,
       },
       data: {
-        image,
-        imageDetail1,
-        imageDetail2,
-        imageDetail3,
-        imageDetail4,
-        imageDetail5,
+        image: currentImages[0]!,
+        imageDetail1: currentImages[1],
+        imageDetail2: currentImages[2],
+        imageDetail3: currentImages[3],
+        imageDetail4: currentImages[4],
+        imageDetail5: currentImages[5],
         title,
         target: +target,
         category,
@@ -162,12 +218,11 @@ export async function PUT(req: Request) {
       },
     });
 
-    return NextResponse.json(newCampaign, {
-      status: 201
+    return NextResponse.json(updatedCampaign, {
+      status: 200
     });
-
   } catch (error: any) {
-    console.log('CREATE CAMPAIGN ERROR: ', error);
+    console.log('EDIT CAMPAIGN ERROR: ', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }

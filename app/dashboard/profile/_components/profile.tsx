@@ -57,7 +57,7 @@ const Profile: React.FC<IProps> = ({ data }) => {
   const onSubmit: SubmitHandler<z.infer<typeof profileSchema>> = async (data) => {
     setLoading(true);
     const { image } = data;
-    const compressImage = typeof image === 'string' ? image : await uploadAndCompressImage(image!, 100, 100);
+    const compressImage = typeof image === 'string' ? null : await uploadAndCompressImage(image!, 100, 100);
 
     axios('/api/profile', {
       method: 'PUT',
@@ -86,6 +86,7 @@ const Profile: React.FC<IProps> = ({ data }) => {
     form.setValue('email', data.email || '');
     form.setValue('phoneNumber', data.phoneNumber || '');
     form.setValue('institution', data.institution || '');
+    form.setValue('profession', data.profession || '');
     form.setValue('address', data.address || '');
   }, []);
 

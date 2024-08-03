@@ -22,7 +22,14 @@ interface IProps {
 function CampaignOverview({ className, data, role }: IProps) {
   const navigate = useRouter();
 
-  const detailImages = [data.image];
+  const detailImages = [
+    data.image,
+    data.imageDetail1,
+    data.imageDetail2,
+    data.imageDetail3,
+    data.imageDetail4,
+    data.imageDetail5,
+  ];
 
   const [mainImage, setMainImage] = useState(data.image);
   const [urlShare, setUrlShare] = useState("");
