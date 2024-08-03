@@ -66,7 +66,7 @@ export async function POST(req: Request) {
 
     const uploadPromises = images.map(file => {
       return cloudinary.uploader.unsigned_upload(
-        file,
+        file as string,
         preset.default,
         { folder: 'campaigns' }
       );
