@@ -77,7 +77,7 @@ export function NonactiveCampaignAlert({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Batal</AlertDialogCancel>
+          <AlertDialogCancel disabled={loading}>Batal</AlertDialogCancel>
           <Button
             variant="secondary"
             onClick={handleNonactiveCampaign}

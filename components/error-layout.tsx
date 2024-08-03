@@ -4,7 +4,7 @@ import React from 'react'
 import { Button } from './ui/button'
 import { auth } from '@/auth';
 import { Separator } from './ui/separator';
-import { logout } from '@/actions/logout';
+import { logout } from '@/actions/authentication';
 
 interface IProps {
   title: string;

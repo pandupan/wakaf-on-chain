@@ -128,3 +128,11 @@ export const transactionSchema = z.object({
   }),
   campaignId: z.number().min(1),
 });
+
+export const accountSchema = z.object({
+  bankName: z.string().min(1, { message: "Nama Bank/Wallet tidak boleh kosong" }),
+  accountNumber: z.string()
+    .min(1, { message: "No Rek/Telepon tidak boleh kosong" })
+    .min(6, { message: "No Rek/Telepon harus memiliki minimal 6 karakter" }),
+  accountHolder: z.string().min(1, { message: "Atas Nama tidak boleh kosong" }),
+});

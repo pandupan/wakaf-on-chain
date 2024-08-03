@@ -8,8 +8,8 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { IoIosLogOut } from 'react-icons/io'
 import useSidebarStore from '../_stores/useSidebarStore'
-import { User, UserRole } from '@prisma/client'
-import { logout } from '@/actions/logout'
+import { UserRole } from '@prisma/client'
+import { logout } from '@/actions/authentication'
 
 interface IProps {
   role: UserRole | null;

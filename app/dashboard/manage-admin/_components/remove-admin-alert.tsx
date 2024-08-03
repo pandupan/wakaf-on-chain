@@ -64,7 +64,7 @@ function RemoveAdminAlert({ adminId, onCancel, onOpenChange, open }: IProps) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Batal</AlertDialogCancel>
+          <AlertDialogCancel disabled={loading}>Batal</AlertDialogCancel>
           <Button
             variant="destructive"
             onClick={handleNonactiveCampaign}

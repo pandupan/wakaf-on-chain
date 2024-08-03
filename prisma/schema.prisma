@@ -57,11 +57,12 @@ model User {
   largestWakaf     Int       @default(0)
   adminRecruitedAt DateTime?
 
-  accounts        Account[]
-  campaigns       Campaign[]
-  transaction     Transaction[]
-  Notification    Notification[]
-  CampaignComment CampaignComment[]
+  accounts          Account[]
+  campaigns         Campaign[]
+  transaction       Transaction[]
+  notification      Notification[]
+  campaignComment   CampaignComment[]
+  withdrawalAccount WithdrawalAccount[]
 }
 
 model Account {
@@ -128,8 +129,8 @@ model Campaign {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   transaction     Transaction[]
-  Notification    Notification[]
-  CampaignComment CampaignComment[]
+  notification    Notification[]
+  campaignComment CampaignComment[]
 }
 
 model CampaignComment {
@@ -163,8 +164,21 @@ model Transaction {
 
   user         User?          @relation(fields: [userId], references: [id])
   campaign     Campaign       @relation(fields: [campaignId], references: [id])
-  Notification Notification[]
+  notification Notification[]
 
   @@index([userId])
   @@index([campaignId])
+}
+
+model WithdrawalAccount {
+  id            String   @id @default(cuid())
+  userId        String
+  bankName      String
+  accountNumber String
+  accountHolder String
+  createdAt     DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }

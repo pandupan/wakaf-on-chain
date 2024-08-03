@@ -74,7 +74,7 @@ export function FinishCampaignAlert({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Batal</AlertDialogCancel>
+          <AlertDialogCancel disabled={loading}>Batal</AlertDialogCancel>
           <Button
             variant="success"
             onClick={handleNonactiveCampaign}

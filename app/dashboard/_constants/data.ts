@@ -8,6 +8,7 @@ import { BiNotepad, BiUser, BiWallet } from 'react-icons/bi'
 import { IoWalletOutline } from 'react-icons/io5'
 
 import { SidebarNavItems } from '@/lib/types'
+import { BsCashCoin } from 'react-icons/bs'
 
 export const sidebarNavItems: SidebarNavItems[] = [
   {
@@ -42,8 +43,14 @@ export const sidebarNavItems: SidebarNavItems[] = [
   },
   {
     href: "/dashboard/withdraw",
-    icon: IoWalletOutline,
+    icon: BsCashCoin,
     text: "Saldo Wakaf",
+    role: 'ADMIN'
+  },
+  {
+    href: "/dashboard/account",
+    icon: IoWalletOutline,
+    text: "Akun Penarikan",
     role: 'ADMIN'
   },
   {
