@@ -1,9 +1,11 @@
+'use client'
+
 import React from "react";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { FaCheckCircle, FaTimesCircle, FaClock } from "react-icons/fa";
+import PopupPayment from "@/components/shared/popup-payment";
 
 function DetailWithdraw() {
+
   return (
     <>
       <div className="space-y-2 text-sm sm:text-base">
@@ -25,6 +27,10 @@ function DetailWithdraw() {
           <span className="text-right">DANA</span>
         </div>
         <div className="flex items-center justify-between gap-2">
+          <span className="font-semibold text-gray-400">No. Rek/Telepon</span>
+          <span className="text-right">081395123421</span>
+        </div>
+        <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-gray-400">Jumlah</span>
           <span className="font-bold text-right">Rp2.500.000</span>
         </div>
@@ -38,14 +44,7 @@ function DetailWithdraw() {
           </p>
         </div>
       </div>
-      <div className="w-full flex justify-between gap-2">
-        <Button variant="destructive" className="w-full gap-2">
-          <FaTimesCircle className="mr-1" /> Tolak
-        </Button>
-        <Button variant="secondary" className="w-full gap-2">
-          <FaCheckCircle className="mr-1" /> Terima
-        </Button>
-      </div>
+      <PopupPayment/>
     </>
   );
 }
