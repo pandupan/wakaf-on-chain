@@ -40,6 +40,12 @@ enum NotificationType {
   GENERAL
 }
 
+enum WithdrawalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
   id               String    @id @default(cuid())
   name             String?
@@ -63,6 +69,7 @@ model User {
   notification      Notification[]
   campaignComment   CampaignComment[]
   withdrawalAccount WithdrawalAccount[]
+  WithdrawalRequest WithdrawalRequest[]
 }
 
 model Account {
@@ -106,31 +113,33 @@ model Notification {
 }
 
 model Campaign {
-  id            Int            @id @default(autoincrement())
-  image         String         @db.Text
-  imageDetail1  String?        @db.Text
-  imageDetail2  String?        @db.Text
-  imageDetail3  String?        @db.Text
-  imageDetail4  String?        @db.Text
-  imageDetail5  String?        @db.Text
-  title         String
-  status        CampaignStatus @default(RUNNING)
-  numberOfWakif Int            @default(0)
-  target        Float
-  category      String
-  description   String
-  phone         String
-  creatorId     String
-  remaining     Float
-  collected     Float          @default(0)
+  id               Int            @id @default(autoincrement())
+  image            String         @db.Text
+  imageDetail1     String?        @db.Text
+  imageDetail2     String?        @db.Text
+  imageDetail3     String?        @db.Text
+  imageDetail4     String?        @db.Text
+  imageDetail5     String?        @db.Text
+  title            String
+  status           CampaignStatus @default(RUNNING)
+  numberOfWakif    Int            @default(0)
+  target           Float
+  category         String
+  description      String
+  phone            String
+  creatorId        String
+  remaining        Float
+  collected        Float          @default(0)
+  availableBalance Float          @default(0)
 
   creator User @relation(fields: [creatorId], references: [id])
 
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  transaction     Transaction[]
-  notification    Notification[]
-  campaignComment CampaignComment[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  transaction       Transaction[]
+  notification      Notification[]
+  campaignComment   CampaignComment[]
+  WithdrawalRequest WithdrawalRequest[]
 }
 
 model CampaignComment {
@@ -181,4 +190,25 @@ model WithdrawalAccount {
   user User @relation(fields: [userId], references: [id])
 
   @@index([userId])
+}
+
+model WithdrawalRequest {
+  id                  String           @id @default(cuid())
+  campaignId          Int
+  amount              Float
+  methodBankName      String
+  methodAccountNumber String
+  methodAccountHolder String
+  description         String?          @db.Text
+  status              WithdrawalStatus @default(PENDING)
+  proofPayment        String?          @db.Text
+  userId              String
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id])
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+
+  @@index([userId])
+  @@index([campaignId])
 }

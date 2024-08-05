@@ -70,7 +70,7 @@ const CardCampaign = forwardRef<HTMLDivElement, IProps>(({ className, data, only
           <div className="text-right">
             <h4 className="text-xs leading-3">Sisa</h4>
             <span className="block font-semibold text-xs sm:text-sm text-red-500">
-              {formatRupiah(data.remaining)}
+              {formatRupiah(data.remaining > 0 ? data.remaining : 0)}
             </span>
           </div>
         </div>

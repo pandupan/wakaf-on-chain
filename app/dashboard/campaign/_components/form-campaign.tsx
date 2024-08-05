@@ -30,7 +30,7 @@ import { MdAdd, MdDelete } from 'react-icons/md'
 import Image from 'next/image'
 import { campaignSchemaRaw } from '@/schemas'
 import { addThousandSeparatorNumber, formatRupiah } from '@/lib/utils'
-import { wakafCategories } from '@/app/dashboard/_constants/data'
+import { wakafCategories, WITHDRAW_MINIMAL } from '@/app/dashboard/_constants/data'
 import { toast } from 'sonner'
 import axios, { AxiosError } from "axios"
 import { useRouter } from 'next/navigation'
@@ -60,14 +60,23 @@ function FormCampaign(props: PropTypes) {
       .transform((price) => price.replace(/[^0-9]/g, ''))
       .refine((price) => {
         const numericValue = parseFloat(price);
-        return !isNaN(numericValue) && numericValue >= 100000;
+        return !isNaN(numericValue) && numericValue >= WITHDRAW_MINIMAL;
       }, {
         message: "Target wakaf harus sama dengan atau lebih dari Rp100.000.",
       })
       .refine((price) => {
-        return +price > (mode === 'create' ? 0 : props.data.collected);
+        return (mode === 'create') || (+price >= props.data.collected);
       }, {
         message: "Target wakaf harus lebih dari wakaf terkumpul",
+      })
+      .refine((price) => {
+        if (mode === 'create' || props.data.availableBalance >= WITHDRAW_MINIMAL) return true;
+        const { collected, availableBalance } = props.data;
+        return +price >= collected + (WITHDRAW_MINIMAL - availableBalance);
+      }, {
+        message: mode === 'edit' ?
+          `Target wakaf harus lebih dari ${formatRupiah(props.data.collected + (WITHDRAW_MINIMAL - props.data.availableBalance) - 1)}`
+          : 'Invalid input',
       })
   });
 

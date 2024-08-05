@@ -76,6 +76,9 @@ export async function POST(req: Request, { params }: { params: IParams }) {
         collected: {
           increment: amount
         },
+        availableBalance: {
+          increment: amount
+        },
         remaining: {
           decrement: amount
         }

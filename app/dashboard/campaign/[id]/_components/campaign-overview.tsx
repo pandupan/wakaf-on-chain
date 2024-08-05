@@ -149,7 +149,7 @@ function CampaignOverview({ className, data, role }: IProps) {
               <div className="text-right">
                 <h4 className="text-xs sm:text-sm">Kekurangan</h4>
                 <span className="block font-bold text-sm sm:text-lg text-red-500">
-                  {formatRupiah(data.remaining)}
+                  {formatRupiah(data.remaining > 0 ? data.remaining : 0)}
                 </span>
               </div>
             </div>

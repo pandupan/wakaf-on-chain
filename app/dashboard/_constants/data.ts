@@ -10,6 +10,8 @@ import { IoWalletOutline } from 'react-icons/io5'
 import { SidebarNavItems } from '@/lib/types'
 import { BsCashCoin } from 'react-icons/bs'
 
+export const WITHDRAW_MINIMAL = 100000;
+
 export const sidebarNavItems: SidebarNavItems[] = [
   {
     href: "/dashboard",

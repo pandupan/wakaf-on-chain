@@ -1,3 +1,4 @@
+import { WITHDRAW_MINIMAL } from "@/app/dashboard/_constants/data"
 import { auth } from "@/auth"
 import { getAllCampaigns } from "@/data/campaign"
 import { getUserById } from "@/data/user"
@@ -142,6 +143,14 @@ export async function PUT(req: Request) {
       return new NextResponse('Invalid inputs', { status: 400 })
     }
 
+    const campaign = await db.campaign.findUnique({
+      where: { id: body.id }
+    });
+
+    if (!campaign) {
+      return new NextResponse('Invalid inputs', { status: 400 });
+    }
+
     const {
       category,
       description,
@@ -156,12 +165,11 @@ export async function PUT(req: Request) {
       imageDetail5
     } = validatedFields.data;
 
-    const campaign = await db.campaign.findUnique({
-      where: { id: body.id }
-    });
+    const { availableBalance, collected } = campaign;
+    const targetMinimal = collected + (WITHDRAW_MINIMAL - availableBalance);
 
-    if (!campaign) {
-      return new NextResponse('Invalid inputs', { status: 400 });
+    if ((availableBalance < WITHDRAW_MINIMAL) && (+target < targetMinimal)) {
+      return new NextResponse(`Target minimal is ${formatRupiah(targetMinimal)}`, { status: 400 });
     }
 
     const images = [

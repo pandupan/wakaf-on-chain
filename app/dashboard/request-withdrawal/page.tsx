@@ -1,12 +1,10 @@
 import React from 'react'
 import DataTable from './_components/data-table'
 
-const page = () => {
+const RequestWithdrawalPage = () => {
   return (
-    <>
-      <DataTable />
-    </>
+    <DataTable />
   )
 }
 
-export default page
+export default RequestWithdrawalPage

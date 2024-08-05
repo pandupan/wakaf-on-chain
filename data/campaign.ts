@@ -1,3 +1,4 @@
+import { WITHDRAW_MINIMAL } from "@/app/dashboard/_constants/data";
 import { db } from "@/lib/db"
 
 export const getAllCampaigns = async (
@@ -45,6 +46,7 @@ export const getAllCampaigns = async (
         collected: true,
         createdAt: true,
         updatedAt: true,
+        availableBalance: true
       },
       take: config?.limit || 9,
       skip: config?.cursor ? 1 : 0,
@@ -107,6 +109,30 @@ export const getCampaignById = async (
 
     return campaign;
   } catch {
+    return null;
+  }
+};
+
+export const getWithdrawListCampaigns = async () => {
+  try {
+    const campaigns = await db.campaign.findMany({
+      where: {
+        availableBalance: {
+          gte: WITHDRAW_MINIMAL,
+        }
+      },
+      select: {
+        id: true,
+        title: true,
+        target: true,
+        collected: true,
+        remaining: true,
+        availableBalance: true,
+      },
+    });
+
+    return campaigns;
+  } catch (error) {
     return null;
   }
 };
