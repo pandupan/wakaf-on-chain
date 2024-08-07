@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { HiOutlineChevronDown } from 'react-icons/hi'
 import { Separator } from '@/components/ui/separator'
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 import { formatRupiah } from '@/lib/utils'
 import { CampaignItem, WithdrawalAccountItem } from '../_types'
 
@@ -10,13 +10,15 @@ interface IProps {
   withdrawAccount?: WithdrawalAccountItem;
   description: string;
   amount: number;
+  onChangeStep: (step: number) => void;
 }
 
 const WithdrawStep5 = forwardRef<HTMLDivElement, IProps>(({
   amount,
   campaign,
   description,
-  withdrawAccount
+  withdrawAccount,
+  onChangeStep
 }, ref) => {
   return (
     <div className="w-full space-y-4" ref={ref}>
@@ -46,7 +48,12 @@ const WithdrawStep5 = forwardRef<HTMLDivElement, IProps>(({
               </h5>
             </div>
           </div>
-          <Button size="sm" variant="outline" className="text-xs w-full rounded-full h-auto py-1.5 mt-2">
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-xs w-full rounded-full h-auto py-1.5 mt-2"
+            onClick={(() => onChangeStep(1))}
+          >
             Ubah
           </Button>
         </div>

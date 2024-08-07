@@ -11,6 +11,11 @@ import WithdrawStep4 from './withdraw-step-4'
 import WithdrawStep5 from './withdraw-step-5'
 import { CampaignItem, FormTypes, WithdrawalAccountItem } from '../_types'
 import { WITHDRAW_MINIMAL } from '../../_constants/data'
+import { VscLoading } from 'react-icons/vsc'
+import axios, { AxiosError } from 'axios'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import useAxiosErrorToast from '@/hooks/useAxiosErrorToast'
 
 interface IProps {
   campaigns: CampaignItem[];
@@ -19,6 +24,7 @@ interface IProps {
 }
 
 function FormWithdraw({ campaigns, withdrawalAccounts, initialValues }: IProps) {
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState(initialValues);
   const [steps, setStep] = useState({
     stepsCount: [1, 2, 3, 4, 5],
@@ -31,6 +37,9 @@ function FormWithdraw({ campaigns, withdrawalAccounts, initialValues }: IProps) 
   const step3Ref = useRef<HTMLDivElement>(null);
   const step4Ref = useRef<HTMLDivElement>(null);
   const step5Ref = useRef<HTMLDivElement>(null);
+
+  const navigate = useRouter();
+  const { handleAxiosErrorToast } = useAxiosErrorToast();
 
   const handleNextStep = () => {
     setStep((prev) => ({
@@ -102,6 +111,27 @@ function FormWithdraw({ campaigns, withdrawalAccounts, initialValues }: IProps) 
     }
   }, [steps.currentStep, form]);
 
+  const handleSubmit = () => {
+    setLoading(true);
+
+    axios.post('/api/admin/withdraw', {
+      ...form
+    })
+      .then((res) => {
+        setTimeout(() => {
+          navigate.push(`/dashboard/request-withdrawal/${res.data.id}`);
+        }, 1000);
+      })
+      .catch((error: AxiosError) => {
+        setLoading(false);
+        if (error.response) {
+          handleAxiosErrorToast(error.response!.status);
+        } else {
+          toast.error('Internal Error');
+        }
+      });
+  }
+
   useEffect(() => {
     updateFormWrapperHeight();
 
@@ -162,6 +192,7 @@ function FormWithdraw({ campaigns, withdrawalAccounts, initialValues }: IProps) 
             description={form.description}
             campaign={campaigns.find((item) => item.id === form.campaignId)}
             withdrawAccount={withdrawalAccounts.find((item) => item.id === form.withdrawAccountId)}
+            onChangeStep={(step) => setStep((prev) => ({ ...prev, currentStep: step }))}
           />
         </div>
       </div>
@@ -169,7 +200,12 @@ function FormWithdraw({ campaigns, withdrawalAccounts, initialValues }: IProps) 
         <Separator />
         <div className="flex gap-4">
           {steps.currentStep > 1 && (
-            <Button onClick={handlePrevStep} variant="outline" className="w-full flex-1">
+            <Button
+              onClick={handlePrevStep}
+              variant="outline"
+              className="w-full flex-1"
+              disabled={loading}
+            >
               Kembali
             </Button>
           )}
@@ -183,7 +219,13 @@ function FormWithdraw({ campaigns, withdrawalAccounts, initialValues }: IProps) 
               Lanjutkan
             </Button>
           ) : (
-            <Button variant="secondary" className="w-full flex-1">
+            <Button
+              variant="secondary"
+              className="w-full flex-1 gap-2"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              {loading && <VscLoading className="animate-spin" />}
               Konfirmasi
             </Button>
           )}

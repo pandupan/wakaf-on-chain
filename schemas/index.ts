@@ -1,3 +1,5 @@
+import { WITHDRAW_MINIMAL } from "@/app/dashboard/_constants/data";
+import { formatRupiah } from "@/lib/utils";
 import { z } from "zod"
 
 const phoneRegex = /^08[0-9]{9,11}$/;
@@ -136,3 +138,16 @@ export const accountSchema = z.object({
     .min(6, { message: "No Rek/Telepon harus memiliki minimal 6 karakter" }),
   accountHolder: z.string().min(1, { message: "Atas Nama tidak boleh kosong" }),
 });
+
+export const withdrawSchema = z.object({
+  campaignId: z.number().min(1),
+  amount: z.number().min(WITHDRAW_MINIMAL, {
+    message: `Jumlah penarikan minimal ${formatRupiah(WITHDRAW_MINIMAL)}.`
+  }),
+  withdrawAccountId: z.string().min(1, {
+    message: "Id akun penarikan harus diisi."
+  }),
+  description: z.string().min(50, {
+    message: "Deskripsi minimal 50 karakter."
+  })
+})
