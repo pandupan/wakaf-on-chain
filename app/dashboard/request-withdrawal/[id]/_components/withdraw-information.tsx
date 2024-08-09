@@ -40,7 +40,7 @@ function WithdrawInformation({ createdAt, id, status }: IProps) {
         </div>
         {status === 'APPROVED' && (
           <span className="text-green-500 flex items-center font-semibold">
-            <FaCheckCircle className="mr-1" /> Diterima
+            <FaCheckCircle className="mr-1" /> Disetujui
           </span>
         )}
         {status === 'PENDING' && (

@@ -50,14 +50,24 @@ export const getAdminOverview = async () => {
   const reachedCampaign = await db.campaign.count({
     where: { status: 'REACHED' },
   });
+  const availableBalance = await db.campaign.aggregate({
+    where: {
+      availableBalance: {
+        gt: 0
+      }
+    },
+    _sum: {
+      availableBalance: true
+    }
+  });
 
   return {
     usersCount,
     income: income._sum.amount,
-    balance: income._sum.amount,
     berwakafCount,
     activeCampaign,
     disabledCampaign,
-    reachedCampaign
+    reachedCampaign,
+    availableBalance: availableBalance._sum.availableBalance || 0
   }
 }
