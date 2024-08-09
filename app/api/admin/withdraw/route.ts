@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { getUserById } from "@/data/user";
 import { db } from "@/lib/db";
 import { formatRupiah, isAdmin } from "@/lib/utils";
-import { transactionSchema, withdrawSchema } from "@/schemas";
+import { withdrawSchema } from "@/schemas";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
     }
 
     await db.campaign.update({
-      where: { id: campaign.id },
+      where: { id: newWithdrawal.campaignId },
       data: {
         availableBalance: {
           decrement: newWithdrawal.amount

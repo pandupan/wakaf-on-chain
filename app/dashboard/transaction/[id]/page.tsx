@@ -26,10 +26,10 @@ async function TransactionPage({ params }: { params: IParams }) {
     <div className="space-y-4">
       {transaction.status === 'COMPLETED' && (
         <div className="bg-gradient-to-r from-secondary to-emerald-400 p-10 text-center rounded-lg">
-          <h1 className="text-2xl font-bold text-white mb-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-white mb-2">
             Terima kasih!
           </h1>
-          <p className="text-white">
+          <p className="text-sm sm:text-base text-white">
             Donasimu telah diterima dan akan segera disalurkan.
           </p>
         </div>

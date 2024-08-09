@@ -46,7 +46,7 @@ function TransactionInformation({ createdAt, id, status, statementVerified }: IP
           <span className="text-gray-500 font-medium">Tanggal</span>
         </div>
         <span className="text-gray-800 font-semibold">
-          {formatIndonesianDate(createdAt)}
+          {formatIndonesianDate(new Date(createdAt))}
         </span>
       </div>
       <div className="flex justify-between items-center text-sm sm:text-base">

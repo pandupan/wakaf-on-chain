@@ -21,9 +21,9 @@ function generateBreadcrumbs(pathname: string) {
       <div key={href} className="flex items-center gap-2">
         <BreadcrumbItem>
           {isLast ? (
-            <BreadcrumbPage>{segment}</BreadcrumbPage>
+            <BreadcrumbPage>{segment.replaceAll('-', ' ')}</BreadcrumbPage>
           ) : (
-            <BreadcrumbLink href={href}>{segment}</BreadcrumbLink>
+            <BreadcrumbLink href={href}>{segment.replaceAll('-', ' ')}</BreadcrumbLink>
           )}
         </BreadcrumbItem>
         {!isLast && <BreadcrumbSeparator />}
