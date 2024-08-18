@@ -1,4 +1,4 @@
-import { getCampaignCommentsByCampaignId } from "@/data/comment";
+import { getAllWithdrawalRequestsByCampaignId } from "@/data/withdrawal-request";
 import { NextResponse } from "next/server";
 
 interface IParams {
@@ -9,7 +9,7 @@ export async function GET(req: Request, { params }: { params: IParams }) {
   const { campaignId } = params;
   const url = new URL(req.url);
   const searchParams = url.searchParams;
-  const cursor = searchParams.get('cursor');
+  const cursor = searchParams.get('cursor') || undefined;
   const limit = searchParams.get('limit');
 
   if (!campaignId || isNaN(+campaignId)) {
@@ -17,19 +17,20 @@ export async function GET(req: Request, { params }: { params: IParams }) {
   }
 
   try {
-    const parsedCursor = cursor && !isNaN(+cursor) ? parseInt(cursor, 10) : undefined;
     const parsedLimit = limit && !isNaN(+limit) ? parseInt(limit, 10) : 9;
 
-    const comments = await getCampaignCommentsByCampaignId(+campaignId, {
-      cursor: parsedCursor,
+    const withdrawRequests = await getAllWithdrawalRequestsByCampaignId(+campaignId, {
+      cursor: cursor,
       limit: parsedLimit,
     });
 
-    return NextResponse.json(comments, {
+    if (!withdrawRequests) throw new Error('Error in getAllWithdrawalRequestsByCampaignId function.')
+
+    return NextResponse.json(withdrawRequests.data, {
       status: 200
     })
   } catch (error: any) {
-    console.log('GET CAMPAIGN COMMENTS ERROR: ', error);
+    console.log('GET CAMPAIGN WITHDRAW REQUESTS ERROR: ', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }

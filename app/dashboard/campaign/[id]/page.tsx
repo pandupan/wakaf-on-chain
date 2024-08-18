@@ -61,7 +61,7 @@ const CampaignDetailPage = async ({ params }: { params: IParams }) => {
               <Description data={campaign.description} />
             </TabsContent>
             <TabsContent value="balance-flow">
-              <WakafFlowWithdraw />
+              <WakafFlowWithdraw campaignId={campaign.id} />
             </TabsContent>
           </Tabs>
         </div>

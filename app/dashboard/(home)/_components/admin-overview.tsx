@@ -25,13 +25,15 @@ async function AdminOverview() {
       />
       <CardOverview
         Icon={BsCashCoin}
-        title="Total Pemasukan"
-        value={formatRupiah(data.income || 0)}
+        title="Pemasukan bulan ini"
+        value={formatRupiah(data.monthlyIncome.amount)}
+        percentage={data.monthlyIncome.percentageChange}
+        percentageLabel="dari bulan kemarin"
       />
       <CardOverview
         Icon={BsCurrencyDollar}
         title="Wakaf tersedia"
-        value={formatRupiah(data.availableBalance || 0)}
+        value={`Rp ${numberPrefixer(data.availableBalance || 0, 2)}`}
       />
       <CardOverview
         Icon={MdCampaign}

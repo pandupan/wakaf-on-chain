@@ -118,3 +118,10 @@ export const getPublicIdFromUrl = (secureUrl: string) => {
   // If a match is found, return the publicId, otherwise return an empty string or handle the error as needed
   return match ? match[1] : '';
 };
+
+export function calculatePercentageChange(current: number, previous: number): number {
+  if (previous === 0) {
+    return current > 0 ? 100 : 0;
+  }
+  return ((current - previous) / previous) * 100;
+}

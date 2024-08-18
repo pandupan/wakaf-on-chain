@@ -29,16 +29,25 @@ const series = [
   },
 ];
 
-const IncomeChart = () => {
+interface IProps {
+  data: {
+    series: number[];
+    categories: string[];
+  };
+  label: string;
+}
+
+function IncomeChart({ data, label }: IProps) {
   const [loading, setLoading] = useState(false);
 
   const dynamicOptions: ApexOptions = {
     ...chartOptions,
     xaxis: {
       ...chartOptions.xaxis,
-      categories: categories,
+      categories: data.categories,
     },
   };
+
   return (
     <div id="chartOne" className="relative -ml-4">
       {loading && (
@@ -48,7 +57,7 @@ const IncomeChart = () => {
       )}
       <ReactApexcharts
         options={dynamicOptions}
-        series={series}
+        series={[{ name: label, data: data.series }]}
         type="area"
         height={450}
         width="100%"

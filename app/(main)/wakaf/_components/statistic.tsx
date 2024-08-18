@@ -1,10 +1,13 @@
-'use client'
-
 import React from "react";
 import Image from "next/image";
 import IncomeChart from "../../../../components/shared/income-chart";
+import { getWakafIncomeLastYear } from "@/data/overview";
 
-const Statistic = () => {
+const Statistic = async () => {
+  const chartData = await getWakafIncomeLastYear();
+
+  if (!chartData.series.length || !chartData.categories.length) return null;
+
   return (
     <div id="statistic" className="relative py-10 sm:py-20">
       <div className="relative overflow-hidden space-y-4 sm:space-y-8">
@@ -19,7 +22,7 @@ const Statistic = () => {
           </p>
         </div>
         <div className="px-4 sm:container mx-auto">
-          <IncomeChart />
+          <IncomeChart data={chartData} label="Pemasukan" />
         </div>
       </div>
       <div className="absolute -bottom-20 -left-12 -z-[1]">

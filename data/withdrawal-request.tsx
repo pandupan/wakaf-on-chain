@@ -3,16 +3,6 @@ import { WithdrawalStatus } from "@prisma/client";
 
 export const getWithdrawalRequestById = async (id: string) => {
   try {
-    const aggregateData = await db.withdrawalRequest.aggregate({
-      _sum: {
-        amount: true,
-      },
-      where: {
-        status: 'PENDING',
-        id,
-      },
-    });
-
     const data = await db.withdrawalRequest.findUnique({
       where: { id },
       include: {
@@ -35,6 +25,16 @@ export const getWithdrawalRequestById = async (id: string) => {
           }
         }
       }
+    });
+
+    const aggregateData = await db.withdrawalRequest.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where: {
+        status: 'PENDING',
+        campaignId: data?.campaignId,
+      },
     });
 
     if (data?.campaign) {
@@ -121,7 +121,7 @@ export const getAllWithdrawalRequests = async (
         campaign: {
           select: {
             id: true,
-            title: true
+            title: true,
           }
         }
       }
@@ -132,3 +132,100 @@ export const getAllWithdrawalRequests = async (
     return null;
   }
 };
+
+export const getAllWithdrawalRequestsByCampaignId = async (campaignId: number, config?: {
+  limit?: number;
+  cursor?: string | undefined;
+}) => {
+  try {
+    const campaign = await db.campaign.findUnique({
+      where: { id: campaignId },
+      select: { availableBalance: true }
+    });
+
+    if (!campaign) return null;
+
+    const data = await db.withdrawalRequest.findMany({
+      where: { campaignId },
+      take: config?.limit || 10,
+      skip: config?.cursor ? 1 : 0,
+      cursor: config?.cursor ? { id: config.cursor } : undefined,
+      orderBy: {
+        createdAt: 'asc',
+      },
+      include: {
+        campaign: {
+          select: {
+            id: true,
+            title: true,
+            availableBalance: true,
+          }
+        },
+        user: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
+      }
+    });
+
+    const pendingAggregate = await db.withdrawalRequest.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where: {
+        status: 'PENDING',
+        campaignId,
+      },
+    });
+
+    const approvedAggregate = await db.withdrawalRequest.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where: {
+        status: 'APPROVED',
+        campaignId,
+      },
+    });
+
+    return {
+      availableBalance: (pendingAggregate._sum.amount || 0) + campaign.availableBalance,
+      approvedAmount: approvedAggregate._sum.amount || 0,
+      data
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
+export const wakafPageWithdrawRequets = async () => {
+  try {
+    const data = await db.withdrawalRequest.findMany({
+      take: 10,
+      orderBy: {
+        createdAt: 'asc',
+      },
+      include: {
+        campaign: {
+          select: {
+            id: true,
+            title: true,
+            availableBalance: true,
+          }
+        },
+        user: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
+      }
+    });
+
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
