@@ -176,15 +176,15 @@ const DataTable: React.FC<IProps> = ({ data, limit, hiddenFilterAndSearch, title
                 )
               })}
             {(searching || loading) && (
-              <TableRow>
-                <TableCell colSpan={7} className="bg-background hover:bg-background">
+              <TableRow className="bg-background hover:bg-background">
+                <TableCell colSpan={7}>
                   <VscLoading fontSize={20} className="animate-spin mx-auto" />
                 </TableCell>
               </TableRow>
             )}
             {!searching && !hasMore && (
-              <TableRow>
-                <TableCell colSpan={7} className="text-center text-gray-500 bg-background hover:bg-background">
+              <TableRow className="bg-background hover:bg-background">
+                <TableCell colSpan={7} className="text-center text-gray-500">
                   Tidak ada lagi transaksi
                 </TableCell>
               </TableRow>
