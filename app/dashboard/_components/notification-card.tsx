@@ -11,13 +11,23 @@ import { FaCheck, FaExclamation, FaRegClock } from 'react-icons/fa6'
 import { FiAlertTriangle } from 'react-icons/fi'
 import { IoNotifications } from 'react-icons/io5'
 import { GoVerified } from "react-icons/go"
+import { MouseEvent } from 'react'
 
 interface IProps {
   data: Notification;
   onClick: (id: string) => void;
+  onClickLink?: (link: MouseEvent<HTMLAnchorElement>['target']) => void;
 }
 
-const NotificationCard = forwardRef<HTMLDivElement, IProps>(({ data, onClick }, ref) => {
+const NotificationCard = forwardRef<HTMLDivElement, IProps>(({ data, onClick, onClickLink }, ref) => {
+  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+
+    if (target.tagName === 'A' && onClickLink) {
+      onClickLink(target);
+    }
+  };
+
   const renderIcon = () => {
     switch (data.type) {
       case 'VERIFIED':
@@ -91,6 +101,7 @@ const NotificationCard = forwardRef<HTMLDivElement, IProps>(({ data, onClick }, 
           <HTMLRenderer
             htmlString={data.message}
             className="notif-card-message text-xs sm:text-sm text-gray-700 text-justify"
+            onClick={handleClick}
           />
           <span className="block text-xs text-gray-500 text-right">
             {formatIndonesianDate(new Date(data.createdAt))}

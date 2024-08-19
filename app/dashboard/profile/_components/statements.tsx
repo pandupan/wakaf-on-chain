@@ -27,7 +27,7 @@ interface IProps {
   userId: string
 }
 
-function Certifications({ data, limit, userId }: IProps) {
+function Statements({ data, limit, userId }: IProps) {
   const [statementTransactions, setStatementTransactions] = useState(data)
   const [cursor, setCursor] = useState(!!data.length ? data[data.length - 1].id : null)
   const [hasMore, setHasMore] = useState(data.length === limit)
@@ -115,7 +115,7 @@ function Certifications({ data, limit, userId }: IProps) {
               <TableRow className="hover:bg-background">
                 {!hasMore ? (
                   <TableCell colSpan={4} className="text-center text-gray-500">
-                    Tidak ada lagi transaksi
+                    Tidak ada lagi surat pernyataan
                   </TableCell>
                 ) : (
                   <TableCell colSpan={4} className="text-center">
@@ -146,4 +146,4 @@ function Certifications({ data, limit, userId }: IProps) {
   )
 }
 
-export default Certifications
+export default Statements

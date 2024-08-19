@@ -1,8 +1,14 @@
 import parseHtmlStringToHtml, { domToReact } from 'html-react-parser';
 import Link from 'next/link'
-import { useMemo } from 'react'
+import { useMemo, MouseEvent } from 'react'
 
-export const HTMLRenderer = ({ htmlString, className = '' }: { htmlString: string, className?: string }) => {
+interface IProps {
+  htmlString: string,
+  className?: string
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void;
+}
+
+export const HTMLRenderer = ({ htmlString, className = '', onClick }: IProps) => {
   const parsedElement = useMemo(() => {
     return parseHtmlStringToHtml(htmlString, {
       // @eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,5 +21,11 @@ export const HTMLRenderer = ({ htmlString, className = '' }: { htmlString: strin
       },
     });
   }, [htmlString]);
-  return <div className={className}>{parsedElement}</div>;
+  return (
+    <div className={className} onClick={(e) => {
+      if (onClick) onClick(e);
+    }}>
+      {parsedElement}
+    </div>
+  );
 };

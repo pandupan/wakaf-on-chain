@@ -125,6 +125,7 @@ const NotificationSheet: React.FC<IProps> = ({ data, limit }) => {
                     ref={lastDataElementRef}
                     data={item}
                     onClick={handleReadNotification}
+                    onClickLink={() => onOpenNotification(false)}
                   />
                 )
 
@@ -133,6 +134,7 @@ const NotificationSheet: React.FC<IProps> = ({ data, limit }) => {
                     key={`notif-${index}`}
                     data={item}
                     onClick={handleReadNotification}
+                    onClickLink={() => onOpenNotification(false)}
                   />
                 )
               })}

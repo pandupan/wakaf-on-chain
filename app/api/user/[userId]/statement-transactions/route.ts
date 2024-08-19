@@ -25,8 +25,6 @@ export async function GET(req: Request, { params }: { params: IParams }) {
       limit: parsedLimit,
     });
 
-    console.log(statementTransactions)
-
     return NextResponse.json(statementTransactions, {
       status: 200
     })

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import Certifications from "./_components/certifications"
+import Certifications from "./_components/statements"
 import Profile from "./_components/profile"
 import { getUserByEmail } from "@/data/user";
 import { redirect } from "next/navigation";
