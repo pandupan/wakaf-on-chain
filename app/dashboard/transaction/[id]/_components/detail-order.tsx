@@ -1,9 +1,7 @@
 'use client'
 
-import ShareContent from "@/components/shared/share-content";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -20,7 +18,7 @@ import { TransactionStatus, User } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { VscLoading } from "react-icons/vsc";
 import { toast } from "sonner";
 
@@ -54,7 +52,7 @@ function DetailOrder({
 
   const { handleAxiosErrorToast } = useAxiosErrorToast();
 
-  const handleCancelTransaction = () => {
+  const handleCancelTransaction = async () => {
     setCanceling(true);
 
     axios.post(`/api/user/transaction/${id}/failed`)

@@ -35,8 +35,10 @@ export async function POST(req: Request, { params }: { params: IParams }) {
 
     const body = await req.json();
     const proofPayment = body.proofPayment;
+    const signature = body.signature;
+    const walletAddress = body.walletAddress;
 
-    if (!proofPayment) {
+    if (!proofPayment || !signature || !walletAddress) {
       return new NextResponse('Invalid input', { status: 400 });
     }
 
@@ -46,7 +48,9 @@ export async function POST(req: Request, { params }: { params: IParams }) {
       where: { id },
       data: {
         proofPayment: result.secure_url,
-        status: 'APPROVED'
+        status: 'APPROVED',
+        signature,
+        walletAddress
       },
       include: {
         campaign: {

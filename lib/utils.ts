@@ -125,3 +125,7 @@ export function calculatePercentageChange(current: number, previous: number): nu
   }
   return ((current - previous) / previous) * 100;
 }
+
+export function getMessageForSignature(fromId: string, toId: string, amount: number, campaignId: number) {
+  return `Saya dengan ID ${fromId}, menyetujui transaksi sebesar ${amount} dari ID ${toId} pada ID kampanye: ${campaignId}.`;
+}

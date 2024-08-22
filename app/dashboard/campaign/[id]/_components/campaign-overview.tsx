@@ -1,10 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { Progress } from "../../../../../components/ui/progress";
 import { cn, formatIndonesianDate, formatRupiah } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { IoMdShare } from "react-icons/io";
 import { Badge } from "@/components/ui/badge";
 import { Campaign, User, UserRole } from "@prisma/client";
 import Link from "next/link";

@@ -203,6 +203,8 @@ model WithdrawalRequest {
   status              WithdrawalStatus @default(PENDING)
   proofPayment        String?          @db.Text
   rejectedNote        String?
+  signature           String?
+  walletAddress       String?
   userId              String
   createdAt           DateTime         @default(now())
   updatedAt           DateTime         @updatedAt

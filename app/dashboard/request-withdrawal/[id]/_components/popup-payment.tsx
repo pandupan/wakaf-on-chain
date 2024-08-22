@@ -18,13 +18,26 @@ import axios, { AxiosError } from "axios";
 import useAxiosErrorToast from "@/hooks/useAxiosErrorToast";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
+import { getMessageForSignature } from "@/lib/utils";
+import { ethers } from 'ethers';
 
 interface IProps {
   paymentData: Pick<WithdrawalRequest, 'methodAccountHolder' | 'methodAccountNumber' | 'methodBankName'>
   withdrawalRequestId: string
+  currentUserId: string;
+  userId: string;
+  amount: number;
+  campaignId: number;
 }
 
-function PopupPayment({ paymentData, withdrawalRequestId }: IProps) {
+function PopupPayment({
+  paymentData,
+  withdrawalRequestId,
+  currentUserId,
+  userId,
+  amount,
+  campaignId
+}: IProps) {
   const [proofUploadDisplay, setProofUploadDisplay] = useState(false);
   const [cancelWithdrawalDisplay, setCancelWithdrawalDisplay] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -56,39 +69,64 @@ function PopupPayment({ paymentData, withdrawalRequestId }: IProps) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (selectedFile) {
-      setLoading(true);
-      const reader = new FileReader();
+      const message = getMessageForSignature(currentUserId, userId, amount, campaignId);
 
-      reader.onloadend = () => {
-        const base64Image = reader.result as string;
+      // @ts-expect-error
+      if (window.ethereum) {
+        try {
+          // @ts-expect-error
+          const provider = new ethers.BrowserProvider(window.ethereum);
+          const signer = await provider.getSigner();
 
-        axios.post(`/api/admin/withdraw/${withdrawalRequestId}/approve`, {
-          proofPayment: base64Image
-        })
-          .then(() => {
-            window.location.reload();
-          })
-          .catch((error: AxiosError) => {
-            setLoading(false);
-            if (error.response) {
-              handleAxiosErrorToast(error.response!.status);
-            } else {
-              toast.error('Internal Error');
-            }
-          })
-      };
+          try {
+            const signature = await signer.signMessage(message);
+            const walletAddress = await signer.getAddress();
 
-      reader.onerror = () => {
-        setLoading(false);
-        setError("Gagal mengkonversi file menjadi base64.");
-      };
+            setLoading(true);
+            const reader = new FileReader();
 
-      reader.readAsDataURL(selectedFile);
+            reader.onloadend = () => {
+              const base64Image = reader.result as string;
+
+              axios.post(`/api/admin/withdraw/${withdrawalRequestId}/approve`, {
+                proofPayment: base64Image,
+                signature,
+                walletAddress
+              })
+                .then(() => {
+                  window.location.reload();
+                })
+                .catch((error: AxiosError) => {
+                  setLoading(false);
+                  if (error.response) {
+                    handleAxiosErrorToast(error.response!.status);
+                  } else {
+                    toast.error('Internal Error');
+                  }
+                })
+            };
+
+            reader.onerror = () => {
+              setLoading(false);
+              setError("Gagal mengkonversi file menjadi base64.");
+            };
+
+            reader.readAsDataURL(selectedFile);
+          } catch (error) {
+            toast.error('Gagal menandatangi pesan, coba kembali!');
+          }
+        } catch (error) {
+          toast.error('Gagal terhubung ke wallet, coba kembali!');
+        }
+      } else {
+        toast.error('Wallet tidak ditemukan.');
+      }
     } else {
       setError("Anda harus mengunggah file gambar.");
     }
+
   };
 
   const handleReject = () => {

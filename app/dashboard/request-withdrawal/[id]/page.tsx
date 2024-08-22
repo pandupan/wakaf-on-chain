@@ -55,17 +55,16 @@ async function WithdrawPage({ params }: { params: IParams }) {
           {withdrawalRequest.proofPayment && (
             <div className="relative">
               <h1 className="font-bold">Bukti Transfer</h1>
-              <div className="border rounded-lg h-[200px]">
+              <div className="relative border rounded-lg h-[200px]">
                 <img
                   src={withdrawalRequest.proofPayment}
                   alt="proof payment image"
                   className="w-full h-full object-contain"
                 />
-              </div>
-              <a
-                href={withdrawalRequest.proofPayment}
-                download={`bukti_transfer_${withdrawalRequest.id}.jpg`}
-                className="
+                <a
+                  href={withdrawalRequest.proofPayment}
+                  download={`bukti_transfer_${withdrawalRequest.id}.jpg`}
+                  className="
                   absolute 
                   bottom-3 
                   right-3 
@@ -76,9 +75,23 @@ async function WithdrawPage({ params }: { params: IParams }) {
                   text-background 
                   hover:shadow-md 
                 "
-              >
-                <IoMdDownload />
-              </a>
+                >
+                  <IoMdDownload />
+                </a>
+              </div>
+
+              <div className="mt-4">
+                <h4 className="font-semibold">Alamat Metamask</h4>
+                <p className="text-sm text-gray-500 break-all">
+                  {withdrawalRequest.walletAddress || 'Alamat tidak ditemukan'}
+                </p>
+              </div>
+              <div className="mt-2">
+                <h4 className="text-base font-semibold">Signature</h4>
+                <p className="text-sm text-gray-500 break-all">
+                  {withdrawalRequest.signature || 'Tidak ada signature'}
+                </p>
+              </div>
             </div>
           )}
           {withdrawalRequest.rejectedNote && (
@@ -91,7 +104,11 @@ async function WithdrawPage({ params }: { params: IParams }) {
           )}
           {(withdrawalRequest.status === 'PENDING') && (user!.role === 'SUPER_ADMIN') && (
             <PopupPayment
+              currentUserId={user!.id}
+              userId={withdrawalRequest.userId}
               withdrawalRequestId={withdrawalRequest.id}
+              amount={withdrawalRequest.amount}
+              campaignId={withdrawalRequest.campaignId}
               paymentData={{
                 methodAccountHolder: withdrawalRequest.methodAccountHolder,
                 methodAccountNumber: withdrawalRequest.methodAccountNumber,

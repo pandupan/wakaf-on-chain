@@ -1,3 +1,5 @@
+'use client'
+
 import { HTMLRenderer } from '@/components/core/html-renderer';
 import React from 'react'
 
