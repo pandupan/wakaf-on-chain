@@ -113,7 +113,7 @@ function FormCampaign(props: PropTypes) {
         data.imageDetail3,
         data.imageDetail4,
         data.imageDetail5,
-      ].filter((img) => typeof img === 'object');
+      ].filter((img) => img !== null && typeof img === 'object');
 
       const compressedImages = (await bulkCompressImages(images as File[], 400, 300)) as (string)[];
 
@@ -147,7 +147,7 @@ function FormCampaign(props: PropTypes) {
       const { data: { id } } = props;
       setLoading(true);
 
-      let images: (string | File | undefined)[] = [
+      let images: (string | File | undefined | null)[] = [
         data.image,
         data.imageDetail1,
         data.imageDetail2,
@@ -156,7 +156,7 @@ function FormCampaign(props: PropTypes) {
         data.imageDetail5,
       ]
 
-      const fileImages = images.filter((img) => typeof img === 'object');
+      const fileImages = images.filter((img) => img !== null && typeof img === 'object');
 
       // Cek jika ada gambar yang diubah
       if (fileImages.length > 0) {

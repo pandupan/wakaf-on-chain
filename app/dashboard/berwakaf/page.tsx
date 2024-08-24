@@ -30,6 +30,7 @@ async function BerwakafPage({ searchParams }: IProps) {
     step2: {
       paymentMethodId: null,
       paymentMethodLabel: null,
+      paymentLogo: '',
     },
     step3: {
       name: session?.user.name || '',

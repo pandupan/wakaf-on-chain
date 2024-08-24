@@ -37,7 +37,13 @@ const Step4 = forwardRef<HTMLDivElement, IProps>(({ data, user, onChangeStep }, 
         <div className="cursor-pointer rounded-lg border">
           <div className="flex items-center justify-between gap-2 p-2 shadow-sm text-sm">
             <div className="flex items-center gap-2">
-              <div className="w-[80px] aspect-[4/3] text-lg rounded-md bg-muted"></div>
+              <div className="w-[80px] aspect-[4/3] text-lg rounded-md">
+                <img
+                  src={data.step2.paymentLogo}
+                  alt="payment logo"
+                  className="w-full h-full object-contain text-xs"
+                />
+              </div>
               {data.step2.paymentMethodLabel}
             </div>
             <Button

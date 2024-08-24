@@ -1,5 +1,6 @@
 'use client'
 
+import SnapPayment from "@/components/shared/snap-payment";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -18,7 +19,7 @@ import { TransactionStatus, User } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { VscLoading } from "react-icons/vsc";
 import { toast } from "sonner";
 
@@ -32,6 +33,8 @@ interface IProps {
   amount: number;
   paymentLabel: string;
   status: TransactionStatus;
+  snapToken: string | null;
+  snapRedirectUrl: string | null;
 }
 
 function DetailOrder({
@@ -43,7 +46,9 @@ function DetailOrder({
   amount,
   paymentLabel,
   status,
-  isHiddenName
+  isHiddenName,
+  snapRedirectUrl,
+  snapToken
 }: IProps) {
   const [cancelDisplay, setCancelDisplay] = useState(false);
   const [canceling, setCanceling] = useState(false);
@@ -70,25 +75,35 @@ function DetailOrder({
   };
 
   const handlePay = () => {
-    setPaying(true);
+    // setPaying(true);
 
-    return new Promise((resolve, reject) => {
-      axios.post(`/api/user/transaction/${id}/completed`)
-        .then(() => {
-          setTimeout(() => {
-            router.refresh();
-          }, 2000);
-          resolve('Anda berhasil melakukan serah terima!');
-        })
-        .catch((error) => {
-          setPaying(false);
-          reject(error);
-        });
-    });
+    // return new Promise((resolve, reject) => {
+    //   axios.post(`/api/user/transaction/${id}/completed`)
+    //     .then(() => {
+    //       setTimeout(() => {
+    //         router.refresh();
+    //       }, 2000);
+    //       resolve('Anda berhasil melakukan serah terima!');
+    //     })
+    //     .catch((error) => {
+    //       setPaying(false);
+    //       reject(error);
+    //     });
+    // });
+    if (!snapRedirectUrl || !snapToken) {
+      toast.error('Terjadi kesalahan ketika melakukan pembayaran');
+    } else {
+      setPaying(true);
+    }
   };
 
   return (
     <>
+      <SnapPayment
+        open={paying}
+        onOpenChange={setPaying}
+        snapToken={snapToken!}
+      />
       <div className="space-y-2 text-sm sm:text-base">
         <h1 className="font-bold">Detail Informasi</h1>
         <div className="flex items-center justify-between gap-2">
@@ -173,18 +188,9 @@ function DetailOrder({
             <Button
               variant="secondary"
               className="w-full gap-2"
-              disabled={canceling || paying}
-              onClick={() => {
-                toast.promise(handlePay, {
-                  loading: 'Sedang membayar...',
-                  success: (message) => {
-                    return `${message}`;
-                  },
-                  error: 'Terjadi kesalahan! Coba lagi nanti.'
-                });
-              }}
+              disabled={canceling}
+              onClick={handlePay}
             >
-              {paying && <VscLoading className="animate-spin" />}
               Bayar
             </Button>
           </div>

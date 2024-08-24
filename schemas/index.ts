@@ -14,7 +14,7 @@ const dynamicImageSchema = ({
   optional?: boolean;
 }) => {
   return z
-    .custom<FileList[0] | undefined | string>()
+    .custom<FileList[0] | undefined | null | string>()
     .refine((file) => (!file && optional) || file, {
       message: requiredMessage,
     })
@@ -110,6 +110,7 @@ export const profileSchema = z.object({
   image: dynamicImageSchema({
     requiredMessage: 'Poto profil harus diisi',
     sizeMessage: 'Poto profil maksimal 3MB',
+    optional: true
   }),
 });
 

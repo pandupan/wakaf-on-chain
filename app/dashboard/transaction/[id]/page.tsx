@@ -3,7 +3,6 @@ import DetailOrder from "./_components/detail-order";
 import ContactCampaign from "@/components/shared/contact-campaign";
 import OverviewCampaign from "./_components/overview-campaign";
 import { auth } from "@/auth";
-import { User } from "@prisma/client";
 import { getUserByEmail } from "@/data/user";
 import { redirect } from "next/navigation";
 import { getTransactionById } from "@/data/transaction";
@@ -64,6 +63,8 @@ async function TransactionPage({ params }: { params: IParams }) {
             paymentLabel={transaction.paymentMethodLabel}
             user={transaction.user!}
             status={transaction.status}
+            snapToken={transaction.snapToken}
+            snapRedirectUrl={transaction.snapRedirectUrl}
           />
           <ContactCampaign
             phone={transaction.campaign.phone}

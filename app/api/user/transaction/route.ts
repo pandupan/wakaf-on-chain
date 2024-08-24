@@ -6,6 +6,9 @@ import { formatRupiah } from "@/lib/utils";
 import { transactionSchema } from "@/schemas";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { nanoid } from 'nanoid';
+
+const MIDTRANS_APP_URL = process.env.MIDTRANS_APP_URL;
 
 export async function POST(req: Request) {
   try {
@@ -48,8 +51,49 @@ export async function POST(req: Request) {
       return new NextResponse('Campaign not found', { status: 404 })
     }
 
+    const transactionId = `TRX-${nanoid(4)}-${nanoid(8)}`;
+    const authString = btoa(`${process.env.MIDTRANS_SERVER_KEY}:`);
+
+    const nameToArray = (currentUser.name || 'Anonim').split(' ');
+    const callbackUrl = new URL(req.url).origin;
+
+    const payload = {
+      transaction_details: {
+        order_id: transactionId,
+        gross_amount: +amount,
+      },
+      customer_details: {
+        first_name: nameToArray[0],
+        last_name: nameToArray.length === 1 ? '' : nameToArray.slice(1).join(' '),
+        email: currentUser.email,
+        phone: currentUser.phoneNumber || currentUser.email
+      },
+      callbacks: {
+        finish: `${callbackUrl}/dashboard/transaction/${transactionId}`,
+        error: `${callbackUrl}/dashboard/transaction/${transactionId}`,
+        pending: `${callbackUrl}/dashboard/transaction/${transactionId}`,
+      }
+    }
+
+    const resMidtransApp = await fetch(`${MIDTRANS_APP_URL}/snap/v1/transactions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Basic ${authString}`
+      },
+      body: JSON.stringify(payload)
+    })
+
+    const data = await resMidtransApp.json();
+
+    if (resMidtransApp.status !== 201) {
+      return new NextResponse('Failed to create transaction', { status: 500 })
+    }
+
     const newTransaction = await db.transaction.create({
       data: {
+        id: transactionId,
         amount: +amount,
         email,
         paymentMethodId,
@@ -58,7 +102,9 @@ export async function POST(req: Request) {
         userId,
         message: message || null,
         name: name,
-        isHiddenName
+        isHiddenName,
+        snapRedirectUrl: data.redirect_url,
+        snapToken: data.token,
       },
     });
 

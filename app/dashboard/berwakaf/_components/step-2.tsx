@@ -2,26 +2,26 @@ import { forwardRef } from 'react'
 import { FaCheck } from 'react-icons/fa6'
 
 interface IProps {
-  onChange: (payment: { value: string, label: string }) => void;
+  onChange: (payment: {
+    value: string,
+    label: string,
+    logo: string
+  }) => void;
 }
 
 const paymentMethods = [
   {
-    category: "E-Wallet dan QRIS",
+    category: "All in One",
     methods: [
-      { id: 'wallet-1', value: 'QRIS', label: 'QRIS' },
-      { id: 'wallet-2', value: 'LinkAja', label: 'LinkAja' },
-      { id: 'wallet-3', value: 'ShoopePay', label: 'ShoopePay' },
-      { id: 'wallet-4', value: 'Dana', label: 'Dana' }
+      {
+        id: 'midtrans-1',
+        value: 'Midtrans',
+        label: 'Midtrans',
+        logo: '/images/midtrans-logo.png',
+        description: 'Semua metode pembayaran ada disini.'
+      },
     ]
   },
-  {
-    category: "Virtual Account",
-    methods: [
-      { id: 'va-1', value: 'BRIVA', label: 'BRIVA' },
-      { id: 'va-2', value: 'BCA VA', label: 'BCA VA' }
-    ]
-  }
 ];
 
 const Step2 = forwardRef<HTMLDivElement, IProps>(({ onChange }, ref) => {
@@ -46,7 +46,8 @@ const Step2 = forwardRef<HTMLDivElement, IProps>(({ onChange }, ref) => {
                   onChange={() => {
                     onChange({
                       value: method.value,
-                      label: method.label
+                      label: method.label,
+                      logo: method.logo
                     })
                   }}
                 />
@@ -55,10 +56,17 @@ const Step2 = forwardRef<HTMLDivElement, IProps>(({ onChange }, ref) => {
                   className="block cursor-pointer rounded-lg border peer-checked:border-secondary"
                 >
                   <div className="flex items-center gap-2 p-2 shadow-sm text-sm">
-                    <div className="w-[80px] aspect-[4/3] text-lg rounded-md bg-muted"></div>
+                    <div className="w-[80px] aspect-[4/3] text-lg rounded-md">
+                      <img
+                        src={method.logo}
+                        alt="payment logo"
+                        className="w-full h-full object-contain text-xs"
+                      />
+                    </div>
                     {method.label}
                   </div>
                 </label>
+                <p className="text-xs mt-1">{method.description}</p>
                 <FaCheck
                   className="
                     hidden

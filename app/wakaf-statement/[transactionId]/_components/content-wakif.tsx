@@ -1,6 +1,5 @@
-import QRCodeComponent from '@/components/shared/QRComponent';
+import QRCodeComponent from '@/components/shared/qr-component';
 import { User } from '@prisma/client'
-import QRCode from 'qrcode.react'
 
 interface IProps {
   data: User;

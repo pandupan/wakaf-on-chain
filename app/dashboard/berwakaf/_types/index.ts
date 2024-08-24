@@ -5,6 +5,7 @@ export interface FormTypes {
   step2: {
     paymentMethodId: null | string;
     paymentMethodLabel: null | string;
+    paymentLogo: string;
   };
   step3: {
     name: string;

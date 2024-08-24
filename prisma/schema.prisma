@@ -170,6 +170,8 @@ model Transaction {
   userId             String
   campaignId         Int
   statementVerified  Boolean           @default(false)
+  snapToken          String?
+  snapRedirectUrl    String?
 
   user         User?          @relation(fields: [userId], references: [id])
   campaign     Campaign       @relation(fields: [campaignId], references: [id])

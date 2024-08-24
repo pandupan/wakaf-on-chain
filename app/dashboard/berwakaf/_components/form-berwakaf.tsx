@@ -68,9 +68,14 @@ function FormBerwakaf({ data, initialForm, user, campaignId }: IProps) {
         campaignId
       })
         .then((res) => {
-          setTimeout(() => {
-            navigate.push(`/dashboard/transaction/${res.data.id}`);
-          }, 1000);
+          if (res.status === 201) {
+            setTimeout(() => {
+              navigate.push(`/dashboard/transaction/${res.data.id}`);
+            }, 500);
+          } else {
+            setLoading(false);
+            toast.error('Terjadi kesalahan di server');
+          }
         })
         .catch((error: AxiosError) => {
           setLoading(false);
@@ -181,7 +186,8 @@ function FormBerwakaf({ data, initialForm, user, campaignId }: IProps) {
                 step2: {
                   ...prev.step2,
                   paymentMethodId: payment.value,
-                  paymentMethodLabel: payment.label
+                  paymentMethodLabel: payment.label,
+                  paymentLogo: payment.logo
                 }
               }))
             }}
@@ -242,7 +248,7 @@ function FormBerwakaf({ data, initialForm, user, campaignId }: IProps) {
               onClick={handleSubmit}
             >
               {loading && <VscLoading className="animate-spin" />}
-              Serah Terima
+              Konfirmasi
             </Button>
           )}
         </div>
